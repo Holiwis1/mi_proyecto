@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-#from core.forms import EmpleadoSignUpForm
+from core.forms import EmpleadoSignUpForm
 from .models import Empleado, Cliente, Tareas, Proyecto
 from django.contrib.auth import login
 
@@ -16,7 +16,7 @@ def home(request):
     return render(request, 'core/home.html')
 
 #registro de usuario/empleados
-#def registro_empleado(request):
+def registro_empleado(request):
     if request.method == 'POST':
         form = EmpleadoSignUpForm(request.POST)
         if form.is_valid():
