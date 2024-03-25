@@ -53,10 +53,10 @@ class Cliente(models.Model):
 
 class Proyecto(models.Model):
     nombre = models.CharField(max_length=120)
-    descripcion = models.TextField()
-    fecha_inicio = models.DateField()
-    fecha_fin = models.DateField()
-    num_acuerdo = models.IntegerField()
+    descripcion = models.TextField(null=True)
+    fecha_inicio = models.DateField(null=True)
+    fecha_fin = models.DateField(null=True)
+    num_acuerdo = models.IntegerField(null=True)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     empleados = models.ManyToManyField(Empleado)
 
@@ -72,12 +72,12 @@ class Tareas(models.Model):
         ('muy_baja', 'Muy Baja')
     ]
     nombre = models.CharField(max_length=120)
-    descripcion = models.TextField()
-    fecha_inicio = models.DateField()
-    fecha_fin = models.DateField()
+    descripcion = models.TextField(null=True)
+    fecha_inicio = models.DateField(null=True)
+    fecha_fin = models.DateField(null=True)
     Cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True)
     empleado = models.ManyToManyField(Empleado)
-    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE)
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, null=True)
     prioridad = models.CharField(max_length=120, choices=PRIORIDAD_CHOICES, default='media', null=True)
 
     def __str__(self):
