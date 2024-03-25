@@ -58,6 +58,7 @@ class Proyecto(models.Model):
     descripcion = models.TextField()
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
+    num_acuerdo = models.IntegerField()
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     empleados = models.ManyToManyField(Empleado)
 
