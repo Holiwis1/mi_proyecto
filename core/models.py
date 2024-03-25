@@ -16,7 +16,7 @@ class Empleado(AbstractUser):
         ('desarrollo', 'Desarrollo')
     ]
 
-    rol = models.CharField(max_length=120, choices=ROL_CHOICES, default='admin')
+    rol = models.CharField(max_length=120, choices=ROL_CHOICES, default='admin', null=True)
     fecha_nacimiento = models.DateField(null=True)
     telefono = models.IntegerField(null=True)
     direccion = models.CharField(max_length=120, null=True)
