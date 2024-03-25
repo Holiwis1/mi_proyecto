@@ -1,0 +1,17 @@
+
+{% extends "base.html" %}
+
+{% block navegar %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'login' %}">Cerrar sesión</a>
+</li>
+{% endblock %}
+
+{% block content %}
+<h2>Registrar Empleado</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Registrar</button>
+</form>
+{% endblock %}
