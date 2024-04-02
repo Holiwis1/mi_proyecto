@@ -1,14 +1,98 @@
-
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Iniciar Sesión</h2>
+<style>
+    .login-container {
+        background-color: #ffffff;
+        border-radius: 8px;
+        padding: 40px; 
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        max-width: 400px; 
+        width: 100%;
+    }
+
+    .logo {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .logo img {
+        max-width: 180px;
+    }
+
+    .form-group {
+        margin-bottom: 20px; 
+    }
+
+    .form-group label {
+        display: block;
+        color: #ccc;
+        margin-bottom: 8px; 
+    }
+
+    .form-group input {
+        width: 90%;
+        padding: 10px; 
+        border: 1px solid #ccc;
+        border-radius: 6px; 
+        font-size: 16px; 
+    }
+
+    .form-group input:focus {
+        border-color: #007bff; 
+        outline: none; 
+    }
+
+    .forgot-password {
+        text-align: right;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .login-button {
+        width: 90%;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .login-button:hover {
+        background-color: #0767ce; 
+    }
+
+    .create-account {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #666;
+    }
+</style>
+
+<div class="container mt-4 login-container">
+    <div class="logo">
+        <img src="https://navegatel.org/wp-content/uploads/2022/08/logo-navegatel-grande.webp" alt="Logo">
+    
+    </div>
+   
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+        <div class="form-group">
+            <label for="id_username">Usuario</label>
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            <label for="id_password">Contraseña</label>
+            {{ form.password }}
+        </div>
+        <button type="submit" class="btn btn-primary login-button">Iniciar Sesión</button>
     </form>
-    <p>¿No tienes una cuenta? <a href="{% url 'registro_empleado' %}">Regístrate aquí</a></p>
+    <p class="forgot-password">¿Olvidaste tu contraseña? <a href="https://www.youtube.com/watch?v=pBn5g314d5g&t=7s" target="_blank">Recuperar contraseña</a></p>
+    <p class="create-account">¿No tienes una cuenta? <a href="{% url 'registro_empleado' %}">Regístrate aquí</a></p>
 </div>
 {% endblock %}

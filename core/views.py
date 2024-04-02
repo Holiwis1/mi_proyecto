@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from core.forms import EmpleadoSignUpForm
 from .models import Empleado, Cliente, Tareas, Proyecto
 from django.contrib.auth import login
+from django.shortcuts import render
 
 # mostrar la lista de empleados
 def lista_empleados(request):
@@ -14,6 +15,9 @@ def indice(request):
 
 def home(request):
     return render(request, 'core/home.html')
+#ruta no encontrada errores
+def handler404(request, exception):
+    return render(request, 'core/error.html')
 
 #registro de usuario/empleados
 def registro_empleado(request):

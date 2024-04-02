@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^x-_^33b%!1ua8*&(74t30n+p!+z1^gngxx1t&mz%9%eng2rf8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -127,3 +127,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Configuración de la autentificacion
 LOGIN_REDIRECT_URL = 'indice'
 LOGOUT_REDIRECT_URL = 'login'
+STATIC_ROOT = BASE_DIR / 'staticfiles'

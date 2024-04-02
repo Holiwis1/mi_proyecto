@@ -5,7 +5,7 @@ from .models import Empleado
 class EmpleadoSignUpForm(UserCreationForm):
     class Meta:
         model = Empleado
-        fields = ['username', 'first_name', 'last_name', 'email', 'telefono', 'rol']
+        fields = ['username', 'first_name', 'last_name', 'email', 'telefono', 'rol','password']
 
         labels = {
             'username': 'Nombre de usuario',
@@ -14,6 +14,8 @@ class EmpleadoSignUpForm(UserCreationForm):
             'email': 'Correo electrónico',
             'telefono': 'Teléfono',
             'rol': 'Rol',
+            'password': 'Contraseña',
+            
         }
         error_messages = {
             'username': {

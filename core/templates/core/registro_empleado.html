@@ -1,5 +1,6 @@
+{% extends 'base.html' %}
 
-{% extends "base.html" %}
+{% load static %}
 
 {% block navegar %}
 <li class="nav-item">
@@ -8,10 +9,121 @@
 {% endblock %}
 
 {% block content %}
-<h2>Registrar Empleado</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Registrar</button>
-</form>
+<style>
+    .login-container {
+        background-color: #ffffff;
+        border-radius: 8px;
+        padding: 40px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        max-width: 350px;
+        width: 100%;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    
+    .logo {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .logo img {
+        max-width: 180px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        display: block;
+        color: #ccc;
+        margin-bottom: 8px;
+    }
+    
+    .form-group input,
+    .form-group select {
+        width: calc(300px - 24px); /* Ajusta el ancho de los inputs y select */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+        margin: 0 auto; /* Centra los inputs y select */
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+    
+    .login-button {
+        width: 100%;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    .login-button:hover {
+        background-color: #0767ce;
+    }
+    
+    .create-account {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #666;
+    }
+</style>
+
+<div class="login-container">
+    <div class="logo">
+        <img src="https://navegatel.org/wp-content/uploads/2022/08/logo-navegatel-grande.webp" alt="Logo">
+    
+    </div>
+   
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_username">Nombre de usuario:</label>
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            <label for="id_nombre">Nombre:</label>
+            {{ form.first_name }}
+        </div>
+        <div class="form-group">
+            <label for="id_apellidos">Apellidos:</label>
+            {{ form.last_name }}
+        </div>
+        <div class="form-group">
+            <label for="id_email">Correo electrónico:</label>
+            {{ form.email }}
+        </div>
+        <div class="form-group">
+            <label for="id_telefono">Teléfono:</label>
+            {{ form.telefono }}
+        </div>
+        <div class="form-group">
+            <label for="id_rol">Rol:</label>
+            {{ form.rol }}
+        </div>
+        <div class="form-group">
+            <label for="id_password">Contraseña:</label>
+            {{ form.password }}
+        </div>
+        <div class="form-group">
+            <label for="confirmPassword">Confirma tu contraseña:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Repita su contraseña">
+        </div>
+        <button type="submit" class="login-button">Registrar</button>
+    </form>
+</div>
 {% endblock %}

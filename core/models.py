@@ -19,6 +19,7 @@ class Empleado(AbstractUser):
     telefono = models.IntegerField(null=True)
     direccion = models.CharField(max_length=120, null=True)
     num_seguridad_social = models.IntegerField(null=True)
+    
     #me falta foto de la persona y foto dni
 
     def __str__(self):

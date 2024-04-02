@@ -19,8 +19,11 @@ from django.urls import path, include
 from core.views import indice, home
 
 urlpatterns = [
-    path('admin/', admin.site.urls), #http://127.0.0.1:8000/admin/
-    path('', indice, name='indice'), #http://127.0.0.1:8000
-    path('home/', home, name='home'), #http://127.0.0.1:8000/home
-    path('', include('core.urls')), #URLs de lo que haya en el archivo urls de la app core -> core/urls.py
+    path('admin/', admin.site.urls),
+    path('', indice, name='indice'),
+    path('home/', home, name='home'),
+    path('', include('core.urls')),  # Incluye las URLs de la app core
+    
 ]
+
+handler404 = 'core.views.handler404'
