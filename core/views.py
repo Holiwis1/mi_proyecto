@@ -26,7 +26,7 @@ def lista_empleados(request):
 
 def lista_clientes(request):
     clientes = Cliente.objects.all().order_by('id')
-    paginator = Paginator(clientes, 10)
+    paginator = Paginator(clientes, 2)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
     return render(request, 'core/lista_clientes.html', {'page_obj': page_obj})
