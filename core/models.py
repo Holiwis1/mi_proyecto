@@ -20,6 +20,8 @@ class Empleado(AbstractUser):
     direccion = models.CharField(max_length=120, null=True)
     num_seguridad_social = models.IntegerField(null=True)
     telefono = models.IntegerField(null=True)
+    foto = models.ImageField(upload_to='imagenes_empleados/', null=True, blank=True)
+    foto_dni = models.ImageField(upload_to='imagenes_empleados/', null=True, blank=True)
     
     #me falta foto de la persona y foto dni
 

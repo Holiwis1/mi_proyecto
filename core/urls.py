@@ -1,4 +1,6 @@
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from .views import lista_empleados, registro_empleado
 from django.contrib.auth.views import LoginView, LogoutView
 from . import views
@@ -9,4 +11,4 @@ urlpatterns = [
     path('iniciar-sesion/', LoginView.as_view(template_name='core/login.html'), name='login'), #http://127.0.0.1:8000/iniciar-sesion/
     path('clientes/', views.lista_clientes, name='lista_clientes'),
     path('perfil/<int:empleado_id>/', views.perfil_empleado, name='perfil_empleado'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
