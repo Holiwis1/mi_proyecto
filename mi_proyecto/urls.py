@@ -23,6 +23,7 @@ urlpatterns = [
     path('', indice, name='indice'),
     path('home/', home, name='home'),
     path('', include('core.urls')),  # Incluye las URLs de la app core
+  
     
 ]
 

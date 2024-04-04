@@ -1,13 +1,35 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from core.forms import EmpleadoSignUpForm
 from .models import Empleado, Cliente, Tareas, Proyecto
 from django.contrib.auth import login
 from django.shortcuts import render
+from django.core.paginator import Paginator
+
 
 # mostrar la lista de empleados
 def lista_empleados(request):
-    empleados = Empleado.objects.all()
-    return render(request, 'core/lista_empleados.html', {'empleados': empleados})
+    # Obtener todos los empleados y ordenarlos por un campo (por ejemplo, id)
+    empleados = Empleado.objects.order_by('id')
+
+    # Crear un objeto Paginator con los empleados y mostrar 10 por página
+    paginator = Paginator(empleados, 10)
+    
+    # Obtener el número de página desde la URL, por defecto es 1
+    page_number = request.GET.get('page', 1)
+
+    # Obtener la página actual
+    page_obj = paginator.get_page(page_number)
+
+    # Renderizar la plantilla con la página actual de empleados
+    return render(request, 'core/lista_empleados.html', {'page_obj': page_obj})
+
+
+def lista_clientes(request):
+    clientes = Cliente.objects.all().order_by('id')
+    paginator = Paginator(clientes, 10)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'core/lista_clientes.html', {'page_obj': page_obj})
 
 #mostrar pagina indice
 def indice(request):
@@ -30,3 +52,4 @@ def registro_empleado(request):
     else:
         form = EmpleadoSignUpForm()
     return render(request, 'core/registro_empleado.html', {'form': form})
+
