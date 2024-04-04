@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="text-center">Perfil de Empleado</h1>
+    <div class="empleado-profile">
+        <div class="profile-header">
+            <img src="{% if empleado.imagen %}{{ empleado.imagen.url }}{% else %}/ruta/a/imagen/por/defecto.jpg{% endif %}" alt="Foto de perfil">
+            <!-- Opción para cambiar la imagen de perfil -->
+        </div>
+        <div class="profile-info">
+            {{ empleado.get_full_name }}
+            {{ empleado.rol }}
+            {{ empleado.email }}
+            {{ empleado.telefono }}
+           
+        </div>
+    </div>
+{% endblock %}

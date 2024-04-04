@@ -53,3 +53,11 @@ def registro_empleado(request):
         form = EmpleadoSignUpForm()
     return render(request, 'core/registro_empleado.html', {'form': form})
 
+def perfil_empleado(request, empleado_id):
+    empleado = get_object_or_404(Empleado, pk=empleado_id)
+
+    context = {
+        'empleado': empleado
+    }
+
+    return render(request, 'core/perfil_empleado.html', context)
