@@ -48,7 +48,7 @@ def registro_empleado(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('empleados')
+            return redirect('lista_empleados')
     else:
         form = EmpleadoSignUpForm()
     return render(request, 'core/registro_empleado.html', {'form': form})
@@ -62,13 +62,6 @@ def perfil_empleado(request, empleado_id):
 
     return render(request, 'core/perfil_empleado.html', context)
 
-def registro_empleados(request):
-    if request.method == 'POST':
-        form = EmpleadoSignUpForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('indice')
-    else:
-        form = EmpleadoSignUpForm()
-    return render(request, 'core/registro_empleados.html', {'form': form})
+
+    
 
