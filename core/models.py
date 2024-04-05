@@ -48,7 +48,7 @@ class Cliente(models.Model):
     notas = models.TextField(null=True, blank=True)
     descripcion = models.TextField(null=True, blank=True)
     web = models.URLField(null=True, blank=True)
-    fecha_alta = models.DateField(auto_now_add=True, blank=True)
+    fecha_alta = models.DateTimeField(auto_now_add=True, blank=True)
 
     def __str__(self):
         return self.nombre + ' ' + self.nif
@@ -82,7 +82,7 @@ class Tareas(models.Model):
     Cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True, blank=True)
     empleado = models.ManyToManyField(Empleado)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, null=True, blank=True)
-    prioridad = models.CharField(max_length=120, choices=PRIORIDAD_CHOICES, default='media', null=True, blank=True)
+    prioridad = models.CharField(max_length=120, choices=PRIORIDAD_CHOICES, default='sin_prioridad', null=True, blank=True)
 
     def __str__(self):
         return self.nombre
