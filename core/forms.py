@@ -8,7 +8,7 @@ User = get_user_model()
 class EmpleadoSignUpForm(UserCreationForm):
     class Meta:
         model = User
-        fields = UserCreationForm.Meta.fields + ('email', 'rol', 'telefono', 'fecha_nacimiento', 'direccion', 'num_seguridad_social', 'foto', 'foto_dni', 'fecha_alta')
+        fields = UserCreationForm.Meta.fields + ('first_name', 'last_name', 'email', 'rol', 'telefono', 'fecha_nacimiento', 'direccion', 'num_seguridad_social', 'foto', 'foto_dni', 'fecha_alta')
 
         labels = {
             'username': 'Nombre de usuario',
