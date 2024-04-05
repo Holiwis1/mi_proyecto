@@ -62,7 +62,7 @@ class Proyecto(models.Model):
     fecha_fin = models.DateField(null=True, blank=True)
     num_acuerdo = models.IntegerField(null=True, blank=True)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True, blank=True)
-    empleados = models.ManyToManyField(Empleado, null=True, blank=True)
+    empleados = models.ManyToManyField(Empleado)
 
     def __str__(self):
         return self.nombre 
@@ -81,7 +81,7 @@ class Tareas(models.Model):
     fecha_inicio = models.DateField(null=True, blank=True)
     fecha_fin = models.DateField(null=True, blank=True)
     Cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True, blank=True)
-    empleado = models.ManyToManyField(Empleado, null=True, blank=True)
+    empleado = models.ManyToManyField(Empleado)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, null=True, blank=True)
     prioridad = models.CharField(max_length=120, choices=PRIORIDAD_CHOICES, default='media', null=True, blank=True)
 
