@@ -15,11 +15,11 @@ class Empleado(AbstractUser):
     ]
 
     rol = models.CharField(max_length=120, choices=ROL_CHOICES, default='admin', null=True)
-    fecha_nacimiento = models.DateField(null=True)
-    telefono = models.IntegerField(null=True)
-    direccion = models.CharField(max_length=120, null=True)
-    num_seguridad_social = models.IntegerField(null=True)
-    telefono = models.IntegerField(null=True)
+    fecha_nacimiento = models.DateField(null=True, blank=True)
+    telefono = models.IntegerField(null=True, blank=True)
+    direccion = models.CharField(max_length=120, null=True, blank=True)
+    num_seguridad_social = models.IntegerField(null=True, blank=True)
+    telefono = models.IntegerField(null=True, blank=True)
     foto = models.ImageField(upload_to='imagenes_empleados/', null=True, blank=True)
     foto_dni = models.ImageField(upload_to='imagenes_empleados/', null=True, blank=True)
     
@@ -39,17 +39,17 @@ class Cliente(models.Model):
     ]
 
     nombre = models.CharField(max_length=120)
-    nombre_comercial = models.CharField(max_length=120)
-    nif = models.CharField(max_length=9)
-    tipo = models.CharField(max_length=120, choices=TIPO_CHOICES, default='empresa', null=True)
-    razon_social = models.CharField(max_length=120, null=True)
-    telefono = models.IntegerField(null=True)
-    direccion = models.CharField(max_length=120, null=True)
-    email = models.EmailField(null=True)
-    notas = models.TextField(null=True)
-    descripcion = models.TextField(null=True)
-    web = models.URLField(null=True)
-    fecha_alta = models.DateField(auto_now_add=True)
+    nombre_comercial = models.CharField(max_length=120, null=True, blank=True)
+    nif = models.CharField(max_length=9, null=True, blank=True)
+    tipo = models.CharField(max_length=120, choices=TIPO_CHOICES, default='empresa', null=True, blank=True)
+    razon_social = models.CharField(max_length=120, null=True, blank=True)
+    telefono = models.IntegerField(null=True, blank=True)
+    direccion = models.CharField(max_length=120, null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
+    notas = models.TextField(null=True, blank=True)
+    descripcion = models.TextField(null=True, blank=True)
+    web = models.URLField(null=True, blank=True)
+    fecha_alta = models.DateField(auto_now_add=True, blank=True)
 
     def __str__(self):
         return self.nombre + ' ' + self.nif
@@ -57,12 +57,12 @@ class Cliente(models.Model):
 
 class Proyecto(models.Model):
     nombre = models.CharField(max_length=120)
-    descripcion = models.TextField(null=True)
-    fecha_inicio = models.DateField(null=True)
-    fecha_fin = models.DateField(null=True)
-    num_acuerdo = models.IntegerField(null=True)
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    empleados = models.ManyToManyField(Empleado)
+    descripcion = models.TextField(null=True, blank=True)
+    fecha_inicio = models.DateField(null=True, blank=True)
+    fecha_fin = models.DateField(null=True, blank=True)
+    num_acuerdo = models.IntegerField(null=True, blank=True)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True, blank=True)
+    empleados = models.ManyToManyField(Empleado, null=True, blank=True)
 
     def __str__(self):
         return self.nombre 
@@ -73,16 +73,17 @@ class Tareas(models.Model):
         ('muy_alta', 'Muy Alta'),
         ('media', 'Media'),
         ('baja', 'Baja'),
-        ('muy_baja', 'Muy Baja')
+        ('muy_baja', 'Muy Baja'),
+        ('sin_prioridad', 'Sin Prioridad')
     ]
     nombre = models.CharField(max_length=120)
-    descripcion = models.TextField(null=True)
-    fecha_inicio = models.DateField(null=True)
-    fecha_fin = models.DateField(null=True)
-    Cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True)
-    empleado = models.ManyToManyField(Empleado)
-    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, null=True)
-    prioridad = models.CharField(max_length=120, choices=PRIORIDAD_CHOICES, default='media', null=True)
+    descripcion = models.TextField(null=True, blank=True)
+    fecha_inicio = models.DateField(null=True, blank=True)
+    fecha_fin = models.DateField(null=True, blank=True)
+    Cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True, blank=True)
+    empleado = models.ManyToManyField(Empleado, null=True, blank=True)
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, null=True, blank=True)
+    prioridad = models.CharField(max_length=120, choices=PRIORIDAD_CHOICES, default='media', null=True, blank=True)
 
     def __str__(self):
         return self.nombre
