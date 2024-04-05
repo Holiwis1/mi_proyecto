@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from core.forms import EmpleadoSignUpForm
+from core.forms import ClienteForm, EmpleadoSignUpForm
 from .models import Empleado, Cliente, Tareas, Proyecto
 from django.contrib.auth import login
 from django.shortcuts import render
@@ -61,6 +61,19 @@ def perfil_empleado(request, empleado_id):
     }
 
     return render(request, 'core/perfil_empleado.html', context)
+
+def registro_cliente(request):
+    if request.method == 'POST':
+        form = ClienteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Redirigir a una página de éxito o donde desees
+            return redirect('lista_empleados')
+    else:
+        form = ClienteForm()
+    
+    return render(request, 'core/registro_cliente.html', {'form': form})
+
 
 
     

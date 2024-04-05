@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import Empleado
 from django.contrib.auth import get_user_model
+from .models import Cliente
 
 User = get_user_model()
 
@@ -46,3 +47,10 @@ class EmpleadoSignUpForm(UserCreationForm):
             self.fields['foto'].required = False
             self.fields['foto_dni'].required = False
             self.fields['fecha_alta'].required = False
+
+
+
+class ClienteForm(forms.ModelForm):
+    class Meta:
+        model = Cliente
+        fields = '__all__'  # O lista los campos que deseas incluir en el formulario
