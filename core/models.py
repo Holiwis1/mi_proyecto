@@ -22,7 +22,7 @@ class Empleado(AbstractUser):
     telefono = models.IntegerField(null=True, blank=True)
     foto = models.ImageField(upload_to='imagenes_empleados/', null=True, blank=True)
     foto_dni = models.ImageField(upload_to='dni_empleados/', null=True, blank=True)
-    fecha_alta = models.DateField(auto_now_add=True, blank=True, null=True)
+    fecha_alta = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
@@ -48,7 +48,6 @@ class Cliente(models.Model):
     notas = models.TextField(null=True, blank=True)
     descripcion = models.TextField(null=True, blank=True)
     web = models.URLField(null=True, blank=True)
-    fecha_alta = models.DateTimeField(auto_now_add=True, blank=True)
 
     def __str__(self):
         return self.nombre + ' ' + self.nif
