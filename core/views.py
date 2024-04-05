@@ -68,3 +68,7 @@ def registro_empleados(request):
         if form.is_valid():
             form.save()
             return redirect('indice')
+    else:
+        form = EmpleadoSignUpForm()
+    return render(request, 'core/registro_empleados.html', {'form': form})
+
