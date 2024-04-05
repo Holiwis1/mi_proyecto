@@ -21,9 +21,8 @@ class Empleado(AbstractUser):
     num_seguridad_social = models.IntegerField(null=True, blank=True)
     telefono = models.IntegerField(null=True, blank=True)
     foto = models.ImageField(upload_to='imagenes_empleados/', null=True, blank=True)
-    foto_dni = models.ImageField(upload_to='imagenes_empleados/', null=True, blank=True)
-    
-    #me falta foto de la persona y foto dni
+    foto_dni = models.ImageField(upload_to='dni_empleados/', null=True, blank=True)
+    fecha_alta = models.DateField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
