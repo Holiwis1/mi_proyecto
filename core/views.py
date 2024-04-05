@@ -61,3 +61,10 @@ def perfil_empleado(request, empleado_id):
     }
 
     return render(request, 'core/perfil_empleado.html', context)
+
+def registro_empleados(request):
+    if request.method == 'POST':
+        form = EmpleadoSignUpForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('indice')
