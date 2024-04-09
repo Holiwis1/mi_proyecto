@@ -96,7 +96,7 @@ def descargar_pdf(request, empleado_id):
     # Agregar la imagen al PDF
     if empleado.foto_dni:
         image_data = ImageReader(empleado.foto_dni.path)
-        pdf.drawImage(image_data, 100, 500, width=200, height=200)
+        pdf.drawImage(image_data, 150, 300, width=300, height=250)
 
     pdf.setTitle(f"Foto DNI - {empleado.get_full_name()}")
     pdf.showPage()
