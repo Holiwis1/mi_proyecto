@@ -5,7 +5,7 @@
         <div class="profile-card">
             <div class="profile-header">
                 <label for="imagen-upload" class="profile-img">
-                    <img id="profile-img" src="{% if empleado.imagen %}{{ empleado.imagen.url }}{% else %}https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s{% endif %}" alt="Foto de perfil">
+                    <img id="profile-img" src="{% if empleado.foto %}{{ empleado.foto.url }}{% else %}https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s{% endif %}" alt="Foto de perfil">
                     <input type="file" id="imagen-upload" style="display: none;">
                     <div class="edit-profile-img">
                         <img src="https://cdn.icon-icons.com/icons2/1518/PNG/512/pencilmono_105944.png" alt="Editar perfil">
