@@ -12,5 +12,6 @@ urlpatterns = [
     path('clientes/', views.lista_clientes, name='lista_clientes'), #http://127.0.0.1:8000/lista_clientes
     path('perfil/<int:empleado_id>/', views.perfil_empleado, name='perfil_empleado'), #http://127.0.0.1:8000/perfil
     path('registrarme2/', registro_cliente, name='registro_cliente'), #http://127.0.0.1:8000/registrarme2/
+    path('descargar-pdf/<int:empleado_id>/', views.descargar_pdf, name='descargar_pdf'),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

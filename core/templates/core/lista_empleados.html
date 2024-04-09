@@ -124,7 +124,10 @@
                     <td>{{ empleado.rol }}</td>
                     <td>{{ empleado.email }}</td>
                     <td>{{ empleado.telefono }}</td>
-                    <td>{{ empleado.foto_dni }} <a href="#" download><i class="fas fa-download"></i></a></td>
+                    <td>
+                        {{ empleado.foto_dni }}
+                        <a href="{% url 'descargar_pdf' empleado.id %}" download><i class="fas fa-download"></i></a>
+                    </td>
                     <td>
                         <div class="dropdown">
                             <img src="https://e7.pngegg.com/pngimages/402/481/png-clipart-hamburger-button-drop-down-list-computer-icons-navigation-bars-and-page-menu-templates-text-rectangle.png" alt="Icon" class="dropdown-icon">

@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from core.forms import ClienteForm, EmpleadoSignUpForm
 from .models import Empleado, Cliente, Tareas, Proyecto
@@ -5,6 +6,11 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.shortcuts import render
 from django.core.paginator import Paginator
+import io
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.utils import ImageReader
 
 
 # mostrar la lista de empleados
@@ -71,7 +77,6 @@ def registro_cliente(request):
         form = ClienteForm(request.POST)
         if form.is_valid():
             form.save()
-            # Redirigir a una página de éxito o donde desees
             return redirect('lista_empleados')
     else:
         form = ClienteForm()
@@ -79,6 +84,25 @@ def registro_cliente(request):
     return render(request, 'core/registro_cliente.html', {'form': form})
 
 
-
     
 
+def descargar_pdf(request, empleado_id):
+    empleado = Empleado.objects.get(pk=empleado_id)
+
+    # Crear un archivo PDF en memoria
+    buffer = io.BytesIO()
+    pdf = canvas.Canvas(buffer, pagesize=letter)
+
+    # Agregar la imagen al PDF
+    if empleado.foto_dni:
+        image_data = ImageReader(empleado.foto_dni.path)
+        pdf.drawImage(image_data, 100, 500, width=200, height=200)
+
+    pdf.setTitle(f"Foto DNI - {empleado.get_full_name()}")
+    pdf.showPage()
+    pdf.save()
+
+    # Configurar la respuesta para descargar el PDF
+    buffer.seek(0)
+    response = FileResponse(buffer, as_attachment=True, filename=f"foto_dni_{empleado.get_full_name()}.pdf")
+    return response
