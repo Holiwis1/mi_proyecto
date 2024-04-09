@@ -1,6 +1,7 @@
+from multiprocessing import context
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from core.forms import ClienteForm, EmpleadoSignUpForm
+from core.forms import ClienteForm, EmpleadoSignUpForm, EmpleadoCambiarFoto
 from .models import Empleado, Cliente, Tareas, Proyecto
 from django.contrib import messages
 from django.contrib.auth import login
@@ -66,12 +67,19 @@ def registro_empleado(request):
 def perfil_empleado(request, empleado_id):
     empleado = get_object_or_404(Empleado, pk=empleado_id)
 
-    context = {
-        'empleado': empleado
-    }
+    if request.method == 'POST':
+        form = EmpleadoCambiarFoto(request.POST, request.FILES, instance=empleado)
+        if form.is_valid():
+            form.save()
+            # Aquí, puedes redirigir a alguna página, por ejemplo, la página de perfil del empleado.
+            return redirect('perfil_empleado', empleado_id=empleado.id)
+    else:
+        # Inicializa el formulario con la instancia de 'empleado' para los casos GET.
+        form = EmpleadoCambiarFoto(instance=empleado)
+    return render(request, 'core/perfil_empleado.html', context={'empleado': empleado, 'form': form})
 
-    return render(request, 'core/perfil_empleado.html', context)
 
+#Registrar un cliente
 def registro_cliente(request):
     if request.method == 'POST':
         form = ClienteForm(request.POST)
@@ -82,8 +90,6 @@ def registro_cliente(request):
         form = ClienteForm()
     
     return render(request, 'core/registro_cliente.html', {'form': form})
-
-
     
 
 def descargar_pdf(request, empleado_id):

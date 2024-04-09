@@ -27,6 +27,7 @@
                 <!-- Contenedor para cargar el perfil del empleado -->
                 <div id="perfil-empleado-container"></div>
             </div>
+            <button type="submit" class="btn btn-primary">Actualizar Foto</button>
         </form>
     </div>
 
@@ -188,5 +189,32 @@
                     });
             });
         });
+
+        document.getElementById('imagen-upload').addEventListener('change', function(event) {
+            var file = event.target.files[0];
+            var formData = new FormData();
+            formData.append('foto', file); // 'foto' es el nombre del campo en el modelo y en la etiqueta input arriba
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}'); // Asegúrate de incluir el token CSRF para seguridad.
+        
+            fetch(window.location.href, { //Usa la URL actual de la página
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin',
+            })
+
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Procesa la respuesta del servidor.
+                if(data.success) {
+                    var img = document.getElementById('profile-img');
+                    img.src = URL.createObjectURL(file); // Actualiza la imagen mostrada con la nueva imagen seleccionada.
+                } else {
+                    alert('Error al subir la imagen.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+        
+
     </script>
 {% endblock %}
