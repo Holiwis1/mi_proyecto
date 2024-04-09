@@ -93,42 +93,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         
-        <div class="form-group">
-            <label for="id_username">Nombre de usuario:</label>
-            {{ form.username }}
-        </div>
-        <div class="form-group">
-            <label for="id_nombre">Nombre:</label>
-            {{ form.first_name }}
-        </div>
-        <div class="form-group">
-            <label for="id_apellidos">Apellidos:</label>
-            {{ form.last_name }}
-        </div>
-        <div class="form-group">
-            <label for="id_email">Correo electrónico:</label>
-            {{ form.email }}
-        </div>
-        <div class="form-group">
-            <label for="id_telefono">Teléfono:</label>
-            {{ form.telefono }}
-        </div>
-        <div class="form-group">
-            <label for="id_rol">Rol:</label>
-            {{ form.rol }}
-        </div>
-        <div class="form-group">
-            <label for="id_password">Contraseña:</label>
-            {{ form.password1 }}
-        </div>
-        <div class="form-group">
-            <label for="id_password"> Repite tu Contraseña:</label>
-            {{ form.password2 }}
-        </div>
-        <div class="form-group">
-            <label for="id_foto"> Foto:</label>
-            {{ form.foto }}
-        </div>
+    
         <button type="submit" class="login-button">Registrar</button>
     </form>
 </div>
