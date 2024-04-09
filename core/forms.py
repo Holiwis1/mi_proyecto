@@ -21,7 +21,7 @@ class EmpleadoSignUpForm(UserCreationForm):
             'fecha_nacimiento': 'Fecha de nacimiento',
             'direccion': 'Dirección',
             'num_seguridad_social': 'Número de seguridad social',
-            'foto': 'Foto',
+            'foto': 'Foto de perfil',
             'foto_dni': 'Foto del DNI',
             'fecha_alta': 'Fecha de alta'
         }
