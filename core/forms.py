@@ -9,7 +9,7 @@ User = get_user_model()
 class EmpleadoSignUpForm(UserCreationForm):
     class Meta:
         model = User
-        fields = UserCreationForm.Meta.fields + ('first_name', 'last_name', 'email', 'rol', 'telefono', 'fecha_nacimiento', 'direccion', 'num_seguridad_social', 'foto', 'foto_dni', 'fecha_alta')
+        fields = UserCreationForm.Meta.fields + ('first_name', 'last_name', 'email', 'rol', 'telefono', 'fecha_nacimiento', 'direccion', 'num_seguridad_social', 'foto', 'foto_dni','foto_dni', 'foto_dni2', 'fecha_alta')
 
         labels = {
             'username': 'Nombre de usuario',
@@ -21,8 +21,9 @@ class EmpleadoSignUpForm(UserCreationForm):
             'fecha_nacimiento': 'Fecha de nacimiento',
             'direccion': 'Dirección',
             'num_seguridad_social': 'Número de seguridad social',
-            'foto': 'Foto de perfil',
-            'foto_dni': 'Foto del DNI',
+            'foto': 'Foto',
+            'foto_dni': 'Foto del por delante',
+            'foto_dni2': 'Foto del dni por detras',
             'fecha_alta': 'Fecha de alta'
         }
         error_messages = {

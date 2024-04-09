@@ -12,7 +12,7 @@ from django.http import FileResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.utils import ImageReader
-
+from reportlab.lib.units import inch
 
 # mostrar la lista de empleados
 def lista_empleados(request):
@@ -99,10 +99,19 @@ def descargar_pdf(request, empleado_id):
     buffer = io.BytesIO()
     pdf = canvas.Canvas(buffer, pagesize=letter)
 
-    # Agregar la imagen al PDF
+    # Agregar imagen en el header
+    header_image_path = 'https://navegatel.org/wp-content/uploads/2022/08/logo-navegatel-grande.webp'
+    pdf.drawImage(header_image_path, 0, letter[1] - (0.5 * inch), width=letter[0], height=0.5 * inch, preserveAspectRatio=True, anchor='sw')
+
+    # Agregar la primera imagen al PDF
     if empleado.foto_dni:
         image_data = ImageReader(empleado.foto_dni.path)
-        pdf.drawImage(image_data, 150, 300, width=300, height=250)
+        pdf.drawImage(image_data, 150, 400, width=300, height=250)
+
+    # Agregar la segunda imagen al PDF
+    if empleado.foto_dni2:
+        image_data2 = ImageReader(empleado.foto_dni2.path)
+        pdf.drawImage(image_data2, 150, 100, width=300, height=250)
 
     pdf.setTitle(f"Foto DNI - {empleado.get_full_name()}")
     pdf.showPage()

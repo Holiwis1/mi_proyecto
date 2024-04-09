@@ -22,6 +22,7 @@ class Empleado(AbstractUser):
     telefono = models.IntegerField(null=True, blank=True)
     foto = models.ImageField(upload_to='images/', null=True, blank=True)
     foto_dni = models.ImageField(upload_to='dnis/', null=True, blank=True)
+    foto_dni2 = models.ImageField(upload_to='dnis/', null=True, blank=True)
     fecha_alta = models.DateField(blank=True, null=True)
 
     def __str__(self):
