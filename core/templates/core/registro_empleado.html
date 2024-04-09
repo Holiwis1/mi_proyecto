@@ -89,8 +89,10 @@
     
     </div>
    
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
+        {{ form.as_p }}
+        
         <div class="form-group">
             <label for="id_username">Nombre de usuario:</label>
             {{ form.username }}
