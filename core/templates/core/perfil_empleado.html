@@ -2,34 +2,35 @@
 
 {% block content %}
     <div class="container">
-        <div class="profile-card">
-            <div class="profile-header">
-                <label for="imagen-upload" class="profile-img">
-                    <img id="profile-img" src="{% if empleado.foto %}{{ empleado.foto.url }}{% else %}https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s{% endif %}" alt="Foto de perfil">
-                    <input type="file" id="imagen-upload" style="display: none;">
-                    <div class="edit-profile-img">
-                        <img src="https://cdn.icon-icons.com/icons2/1518/PNG/512/pencilmono_105944.png" alt="Editar perfil">
-                    </div>
-                    <div class="edit-profile-hover">
-                        <img src="https://cdn.icon-icons.com/icons2/1518/PNG/512/pencilmono_105944.png" alt="Editar perfil" class="hover-icon">
-                    </div>
-                </label>
+        <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+            <div class="profile-card">
+                <div class="profile-header">
+                    <label for="imagen-upload" class="profile-img">
+                        <img id="profile-img" src="{% if empleado.foto %}{{ empleado.foto.url }}{% else %}https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s{% endif %}" alt="Foto de perfil">
+                        <input type="file" id="imagen-upload" name="foto" style="display: none;">
+                        <div class="edit-profile-img">
+                            <img src="https://cdn.icon-icons.com/icons2/1518/PNG/512/pencilmono_105944.png" alt="Editar perfil">
+                        </div>
+                        <div class="edit-profile-hover">
+                            <img src="https://cdn.icon-icons.com/icons2/1518/PNG/512/pencilmono_105944.png" alt="Editar perfil" class="hover-icon">
+                        </div>
+                    </label>
+                </div>
+                <div class="profile-info">
+                    <h2 class="profile-name">{{ empleado.get_full_name }}</h2>
+                    <p class="profile-role">{{ empleado.rol }}</p>
+                    <p class="profile-email">{{ empleado.email }}</p>
+                    <p class="profile-phone">{{ empleado.telefono }}</p>
+                    <!-- Se agregaran otros campos mas adelante -->
+                </div>
+                <!-- Contenedor para cargar el perfil del empleado -->
+                <div id="perfil-empleado-container"></div>
             </div>
-            <div class="profile-info">
-                <h2 class="profile-name">{{ empleado.get_full_name }}</h2>
-                <p class="profile-role">{{ empleado.rol }}</p>
-                <p class="profile-email">{{ empleado.email }}</p>
-                <p class="profile-phone">{{ empleado.telefono }}</p>
-                <!-- Otros campos del perfil si los tienes -->
-            </div>
-            <!-- Contenedor para cargar el perfil del empleado -->
-            <div id="perfil-empleado-container"></div>
-        </div>
+        </form>
     </div>
 
-
     <style>
-
         /* Estilos anteriores aquí */
 
         /* Estilos para el contenedor del perfil del empleado */
@@ -172,9 +173,6 @@
             }
             reader.readAsDataURL(event.target.files[0]);
         });
-
-       
-   
 
         // Función para manejar los clics en los enlaces perfil-link
         document.querySelectorAll('.perfil-link').forEach(link => {

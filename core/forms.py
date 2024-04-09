@@ -54,3 +54,8 @@ class ClienteForm(forms.ModelForm):
     class Meta:
         model = Cliente
         fields = '__all__'  #O lista los campos que deseas incluir en el formulario
+
+class EmpleadoCambiarFoto(forms.ModelForm):
+    class Meta:
+        model = Empleado
+        fields = ['foto'] #Cambiar la foto de perfil
