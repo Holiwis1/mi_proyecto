@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from core.forms import ClienteForm, EmpleadoSignUpForm
 from .models import Empleado, Cliente, Tareas, Proyecto
+from django.contrib import messages
 from django.contrib.auth import login
 from django.shortcuts import render
 from django.core.paginator import Paginator
@@ -44,11 +45,14 @@ def handler404(request, exception):
 #registro de usuario/empleados
 def registro_empleado(request):
     if request.method == 'POST':
-        form = EmpleadoSignUpForm(request.POST)
+        form = EmpleadoSignUpForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
             login(request, user)
+            messages.success(request, '¡Registro exitoso!')
             return redirect('lista_empleados')
+        else:
+            messages.error(request, 'Error al registrar el usuario')
     else:
         form = EmpleadoSignUpForm()
     return render(request, 'core/registro_empleado.html', {'form': form})

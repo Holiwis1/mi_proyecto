@@ -49,9 +49,8 @@ class EmpleadoSignUpForm(UserCreationForm):
             self.fields['fecha_alta'].required = False
 
 
-# Cambiarlo y dejarlo como arriba paa poder editar en html
-
+# Cambiarlo y dejarlo como arriba para poder editar en html
 class ClienteForm(forms.ModelForm):
     class Meta:
         model = Cliente
-        fields = '__all__'  # O lista los campos que deseas incluir en el formulario
+        fields = '__all__'  #O lista los campos que deseas incluir en el formulario
