@@ -20,8 +20,8 @@ class Empleado(AbstractUser):
     direccion = models.CharField(max_length=120, null=True, blank=True)
     num_seguridad_social = models.IntegerField(null=True, blank=True)
     telefono = models.IntegerField(null=True, blank=True)
-    foto = models.ImageField(upload_to='imagenes_empleados/', null=True, blank=True)
-    foto_dni = models.ImageField(upload_to='dni_empleados/', null=True, blank=True)
+    foto = models.ImageField(upload_to='images/', null=True, blank=True)
+    foto_dni = models.ImageField(upload_to='dnis/', null=True, blank=True)
     fecha_alta = models.DateField(blank=True, null=True)
 
     def __str__(self):
