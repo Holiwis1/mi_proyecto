@@ -1,7 +1,7 @@
 from multiprocessing import context
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from core.forms import ClienteForm, EmpleadoSignUpForm, EmpleadoCambiarFoto
+from core.forms import ClienteForm, EmpleadoSignUpForm, EmpleadoCambiarFoto, EmpleadoEditarForm
 from .models import Empleado, Cliente, Tareas, Proyecto
 from django.contrib import messages
 from django.contrib.auth import login
@@ -145,12 +145,14 @@ def eliminar_empleado(request, empleado_id):
 
 #Editar información de empleado
 def editar_empleado(request, empleado_id):
-    empleado = Empleado.objects.get(pk=empleado_id)
+    empleado = get_object_or_404(Empleado, pk=empleado_id)
     if request.method == 'POST':
-        form = EmpleadoSignUpForm(request.POST, request.FILES, instance=empleado)
+        form = EmpleadoEditarForm(request.POST, instance=empleado)
         if form.is_valid():
             form.save()
-            return redirect('lista_empleados')
+            messages.success(request, 'Empleado actualizado con éxito.')
+            return redirect('lista_empleados')  # Asume que tienes una URL nombrada 'lista_empleados'
     else:
-        form = EmpleadoSignUpForm(instance=empleado)
+        form = EmpleadoEditarForm(instance=empleado)
+    
     return render(request, 'core/editar_empleado.html', {'form': form})

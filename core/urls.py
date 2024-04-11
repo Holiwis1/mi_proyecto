@@ -13,7 +13,7 @@ urlpatterns = [
     path('perfil/<int:empleado_id>/', views.perfil_empleado, name='perfil_empleado'), #http://127.0.0.1:8000/perfil
     path('registrarme2/', registro_cliente, name='registro_cliente'), #http://127.0.0.1:8000/registrarme2/
     path('descargar-pdf/<int:empleado_id>/', views.descargar_pdf, name='descargar_pdf'),
-    path('editar/<int:empleado_id>/', views.editar_empleado, name='editar_empleado'), #http://127.0.0.1:8000/perfil
+    path('editar/<int:empleado_id>/', views.editar_empleado, name='editar_empleado'), #http://127.0.0.1:8000/editar
     path('eliminar_empleado/<int:empleado_id>/', views.eliminar_empleado, name='eliminar_empleado'), #para llamar a eliminar empleado
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
