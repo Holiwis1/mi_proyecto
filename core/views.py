@@ -13,11 +13,23 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.utils import ImageReader
 from reportlab.lib.units import inch
+from django.db.models import Q
 
 # mostrar la lista de empleados
 def lista_empleados(request):
     # Obtener todos los empleados y ordenarlos por un campo (por ejemplo, id)
     empleados = Empleado.objects.order_by('id')
+
+    # Obtener el nombre ingresado en el formulario de búsqueda
+    nombre_busqueda = request.GET.get('search')
+
+    # Filtrar empleados por nombre si se ingresó un valor en el formulario
+    if nombre_busqueda:
+        # Utilizando Q para hacer la consulta con OR lógico
+        empleados = empleados.filter(
+            Q(first_name__icontains=nombre_busqueda) |  # Buscar por primer nombre
+            Q(last_name__icontains=nombre_busqueda)    # Buscar por apellido
+        )
 
     # Crear un objeto Paginator con los empleados y mostrar 10 por página
     paginator = Paginator(empleados, 10)
@@ -30,7 +42,6 @@ def lista_empleados(request):
 
     # Renderizar la plantilla con la página actual de empleados
     return render(request, 'core/lista_empleados.html', {'page_obj': page_obj})
-
 
 def lista_clientes(request):
     clientes = Cliente.objects.all().order_by('id')

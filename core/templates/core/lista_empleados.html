@@ -105,6 +105,13 @@
 
 {% block content %}
     <h1 class="text-center">Lista de Empleados</h1>
+    <form method="GET" class="mb-4">
+        <div class="form-group">
+            <label for="search">Buscar por nombre:</label>
+            <input type="text" class="form-control" id="search" name="search" placeholder="Nombre...">
+        </div>
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
     <div class="empleados-lista">
         <table class="empleados-table">
             <thead>
