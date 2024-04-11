@@ -111,6 +111,7 @@
             <input type="text" class="form-control" id="search" name="search" placeholder="Nombre...">
         </div>
         <button type="submit" class="btn btn-primary">Buscar</button>
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'lista_empleados' %}'">Limpiar</button>
     </form>
     <div class="empleados-lista">
         <table class="empleados-table">
@@ -121,7 +122,6 @@
                     <th>Email</th>
                     <th>Teléfono</th>
                     <th>Foto de DNI</th>
-                    
                 </tr>
             </thead>
             <tbody>
@@ -142,6 +142,9 @@
                             <div class="dropdown-content">
                                <a href="{% url 'perfil_empleado' empleado.id %}">Perfil</a>
                                 <a href="#">Mensajes</a>
+                                <a href="#">Editar</a>
+                                
+                                <a href="{% url 'eliminar_empleado' empleado.id %}">Eliminar</a> 
                             </div>
                         </div>
                     </td>
@@ -162,6 +165,5 @@
            
         </div>
     </div>
-  
     {% endif %}
 {% endblock %}

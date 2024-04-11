@@ -136,3 +136,21 @@ def descargar_pdf(request, empleado_id):
     buffer.seek(0)
     response = FileResponse(buffer, as_attachment=True, filename=f"foto_dni_{empleado.get_full_name()}.pdf")
     return response
+
+#Eliminar empleado, recibo su id, elimino y refresco pagina
+def eliminar_empleado(request, empleado_id):
+    empleado = Empleado.objects.get(pk=empleado_id)
+    empleado.delete()
+    return redirect('lista_empleados')
+
+#Editar información de empleado
+def editar_empleado(request, empleado_id):
+    empleado = Empleado.objects.get(pk=empleado_id)
+    if request.method == 'POST':
+        form = EmpleadoSignUpForm(request.POST, request.FILES, instance=empleado)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_empleados')
+    else:
+        form = EmpleadoSignUpForm(instance=empleado)
+    return render(request, 'core/editar_empleado.html', {'form': form})
