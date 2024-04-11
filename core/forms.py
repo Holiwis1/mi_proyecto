@@ -9,7 +9,7 @@ User = get_user_model()
 class EmpleadoSignUpForm(UserCreationForm):
     class Meta:
         model = User
-        fields = UserCreationForm.Meta.fields + ('first_name', 'last_name', 'email', 'rol', 'telefono', 'fecha_nacimiento', 'direccion', 'num_seguridad_social', 'foto', 'foto_dni','foto_dni', 'foto_dni2', 'fecha_alta')
+        fields = UserCreationForm.Meta.fields + ('first_name', 'last_name', 'email', 'rol', 'telefono', 'telefono2', 'fecha_nacimiento', 'direccion', 'num_seguridad_social', 'foto', 'foto_dni','foto_dni', 'foto_dni2', 'fecha_alta')
 
         labels = {
             'username': 'Nombre de usuario',
@@ -17,6 +17,7 @@ class EmpleadoSignUpForm(UserCreationForm):
             'last_name': 'Apellidos',
             'email': 'Correo electrónico',
             'telefono': 'Teléfono',
+            'telefono2': 'Móvil', 
             'rol': 'Rol',
             'fecha_nacimiento': 'Fecha de nacimiento',
             'direccion': 'Dirección',
@@ -72,13 +73,14 @@ class EmpleadoEditarForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'rol', 'telefono', 'fecha_nacimiento', 'direccion', 'num_seguridad_social', 'foto_dni', 'foto_dni2', 'fecha_alta')
+        fields = ('first_name', 'last_name', 'email', 'rol', 'telefono','telefono2', 'fecha_nacimiento', 'direccion', 'num_seguridad_social', 'foto_dni', 'foto_dni2', 'fecha_alta')
         labels = {
             'username': 'Nombre de usuario',
             'first_name': 'Nombre',
             'last_name': 'Apellidos',
             'email': 'Correo electrónico',
             'telefono': 'Teléfono',
+            'telefono2': 'Móvil',
             'rol': 'Rol',
             'fecha_nacimiento': 'Fecha de nacimiento',
             'direccion': 'Dirección',
@@ -100,6 +102,7 @@ class EmpleadoEditarForm(forms.ModelForm):
         self.fields['foto_dni'].required = False
         self.fields['foto_dni2'].required = False
         self.fields['fecha_alta'].required = False
+        self.fields['telefono2'].required = False
 
     def clean(self):
         cleaned_data = super().clean()

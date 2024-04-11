@@ -15,6 +15,8 @@ from reportlab.lib.utils import ImageReader
 from reportlab.lib.units import inch
 from django.db.models import Q
 
+
+
 # mostrar la lista de empleados
 def lista_empleados(request):
     # Obtener todos los empleados y ordenarlos por un campo (por ejemplo, id)
@@ -28,7 +30,15 @@ def lista_empleados(request):
         # Utilizando Q para hacer la consulta con OR lógico
         empleados = empleados.filter(
             Q(first_name__icontains=nombre_busqueda) |  # Buscar por primer nombre
-            Q(last_name__icontains=nombre_busqueda)    # Buscar por apellido
+            Q(last_name__icontains=nombre_busqueda) |   # Buscar por apellido
+            Q(rol__icontains=nombre_busqueda) |         # Buscar por rol
+            Q(telefono__icontains=nombre_busqueda) |    # Buscar por teléfono
+            Q(fecha_nacimiento__icontains=nombre_busqueda) |  # Buscar por fecha de nacimiento
+            Q(direccion__icontains=nombre_busqueda) |   # Buscar por dirección
+            Q(num_seguridad_social__icontains=nombre_busqueda) | # Buscar por número de seguridad social
+            Q(fecha_alta__icontains=nombre_busqueda) | # Buscar por fecha de alta
+            Q(email__icontains=nombre_busqueda) | # Buscar por email
+            Q(username__icontains=nombre_busqueda)  # Buscar por nombre completo (primer nombre + apellido)
         )
 
     # Crear un objeto Paginator con los empleados y mostrar 10 por página
@@ -43,6 +53,8 @@ def lista_empleados(request):
     # Renderizar la plantilla con la página actual de empleados
     return render(request, 'core/lista_empleados.html', {'page_obj': page_obj})
 
+
+
 #listado de clientes ordenado por id
 def lista_clientes(request):
     clientes = Cliente.objects.all().order_by('id')
@@ -51,17 +63,25 @@ def lista_clientes(request):
     page_obj = paginator.get_page(page_number)
     return render(request, 'core/lista_clientes.html', {'page_obj': page_obj})
 
+
+
 #mostrar pagina indice
 def indice(request):
     return render(request, 'core/indice.html')
+
+
 
 #mostrar pagina home
 def home(request):
     return render(request, 'core/home.html')
 
+
+
 #ruta no encontrada errores
 def handler404(request, exception):
     return render(request, 'core/error.html')
+
+
 
 #registro de usuario/empleados
 def registro_empleado(request):
@@ -77,6 +97,9 @@ def registro_empleado(request):
     else:
         form = EmpleadoSignUpForm()
     return render(request, 'core/registro_empleado.html', {'form': form})
+
+
+
 
 #mostrar el perfil de un empleado, con informacion como imagen, nombre, apellido, email, etc
 def perfil_empleado(request, empleado_id):
@@ -94,6 +117,8 @@ def perfil_empleado(request, empleado_id):
     return render(request, 'core/perfil_empleado.html', context={'empleado': empleado, 'form': form})
 
 
+
+
 #Registrar un cliente
 def registro_cliente(request):
     if request.method == 'POST':
@@ -107,6 +132,8 @@ def registro_cliente(request):
     return render(request, 'core/registro_cliente.html', {'form': form})
     
 
+
+#Descargar PDF con la foto del DNI de un empleado
 def descargar_pdf(request, empleado_id):
     empleado = Empleado.objects.get(pk=empleado_id)
 
@@ -137,11 +164,15 @@ def descargar_pdf(request, empleado_id):
     response = FileResponse(buffer, as_attachment=True, filename=f"foto_dni_{empleado.get_full_name()}.pdf")
     return response
 
+
+
 #Eliminar empleado, recibo su id, elimino y refresco pagina
 def eliminar_empleado(request, empleado_id):
     empleado = Empleado.objects.get(pk=empleado_id)
     empleado.delete()
     return redirect('lista_empleados')
+
+
 
 #Editar información de empleado
 def editar_empleado(request, empleado_id):
