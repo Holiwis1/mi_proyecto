@@ -43,6 +43,7 @@ def lista_empleados(request):
     # Renderizar la plantilla con la página actual de empleados
     return render(request, 'core/lista_empleados.html', {'page_obj': page_obj})
 
+#listado de clientes ordenado por id
 def lista_clientes(request):
     clientes = Cliente.objects.all().order_by('id')
     paginator = Paginator(clientes, 2)
@@ -54,8 +55,10 @@ def lista_clientes(request):
 def indice(request):
     return render(request, 'core/indice.html')
 
+#mostrar pagina home
 def home(request):
     return render(request, 'core/home.html')
+
 #ruta no encontrada errores
 def handler404(request, exception):
     return render(request, 'core/error.html')
@@ -75,6 +78,7 @@ def registro_empleado(request):
         form = EmpleadoSignUpForm()
     return render(request, 'core/registro_empleado.html', {'form': form})
 
+#mostrar el perfil de un empleado, con informacion como imagen, nombre, apellido, email, etc
 def perfil_empleado(request, empleado_id):
     empleado = get_object_or_404(Empleado, pk=empleado_id)
 
