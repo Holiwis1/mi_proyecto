@@ -1,7 +1,7 @@
 from multiprocessing import context
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from core.forms import ClienteForm, EmpleadoSignUpForm, EmpleadoCambiarFoto, EmpleadoEditarForm
+from core.forms import ClienteEditarForm, ClienteForm, EmpleadoSignUpForm, EmpleadoCambiarFoto, EmpleadoEditarForm
 from .models import Empleado, Cliente, Tareas, Proyecto
 from django.contrib import messages
 from django.contrib.auth import login
@@ -187,3 +187,26 @@ def editar_empleado(request, empleado_id):
         form = EmpleadoEditarForm(instance=empleado)
     
     return render(request, 'core/editar_empleado.html', {'form': form})
+
+
+#Editar información de cliente
+def editar_cliente(request, cliente_id):
+    cliente = get_object_or_404(Cliente, pk=cliente_id)
+    if request.method == 'POST':
+        form = ClienteEditarForm(request.POST, instance=cliente)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Cliente actualizado con éxito.')
+            return redirect('lista_clientes')  
+    else:
+        form = ClienteEditarForm(instance=cliente)
+    
+    return render(request, 'core/editar_cliente.html', {'form': form})
+
+
+
+#Eliminar cliente, recibo su id, elimino y refresco pagina
+def eliminar_cliente(request, cliente_id):
+    cliente = Cliente.objects.get(pk=cliente_id)
+    cliente.delete()
+    return redirect('lista_clientes')

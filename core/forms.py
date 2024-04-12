@@ -121,3 +121,41 @@ class EmpleadoEditarForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+#Modelo para cambiar cualquier campo del cliente
+class ClienteEditarForm(forms.ModelForm):
+    class Meta:
+        model = Cliente
+        fields = ('nombre', 'nombre_comercial', 'nif', 'tipo', 'razon_social', 'telefono', 'telefono2', 'direccion', 'email', 'notas', 'descripcion', 'web')
+        labels = {
+            'nombre': 'Nombre',
+            'nombre_comercial': 'Nombre Comercial',
+            'nif': 'NIF',
+            'tipo': 'Tipo',
+            'razon_social': 'Razón Social',
+            'telefono': 'Teléfono',
+            'telefono2': 'Móvil',
+            'direccion': 'Dirección',
+            'email': 'Correo electrónico',
+            'notas': 'Notas',
+            'descripcion': 'Descripción',
+            'web': 'Web'
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(ClienteEditarForm, self).__init__(*args, **kwargs)
+        # Ajustar la obligatoriedad de los campos según sea necesario
+        self.fields['nombre_comercial'].required = False
+        self.fields['telefono'].required = False
+        self.fields['telefono2'].required = False
+        self.fields['direccion'].required = False
+        self.fields['nif'].required = False
+        self.fields['tipo'].required = False
+        self.fields['razon_social'].required = False
+        self.fields['email'].required = False
+        self.fields['notas'].required = False
+        self.fields['descripcion'].required = False
+        self.fields['web'].required = False
+
+    
