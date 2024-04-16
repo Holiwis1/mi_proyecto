@@ -132,9 +132,11 @@
                     <td>{{ empleado.email }}</td>
                     <td>{{ empleado.telefono }}</td>
                     <td>
-                        {{ empleado.foto_dni }}
-                        {{ empleado.foto_dni2 }}
-                        <a href="{% url 'descargar_pdf' empleado.id %}" download><i class="fas fa-download"></i></a>
+                        {% if empleado.foto_dni and empleado.foto_dni2 %}
+                            <a href="{% url 'descargar_pdf' empleado.id %}" download><i class="fas fa-download"></i></a>
+                        {% else %}
+                            NO HAY DNI
+                        {% endif %}                       
                     </td>
                     <td>
                         <div class="dropdown">
