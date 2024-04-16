@@ -57,7 +57,29 @@ def lista_empleados(request):
 
 #listado de clientes ordenado por id
 def lista_clientes(request):
+    #Ordenar clientes por id
     clientes = Cliente.objects.all().order_by('id')
+    
+    #Obtener el nombre ingresado en el formulario de búsqueda
+    cliente_busqueda = request.GET.get('search')
+    
+    #Filtracion de clientes por lo que se ingrese
+    if cliente_busqueda:
+        clientes = clientes.filter(
+            Q(nombre__icontains=cliente_busqueda) |  # Buscar por nombre
+            Q(nombre_comercial__icontains=cliente_busqueda) |   # Buscar por nombre comercial
+            Q(nif__icontains=cliente_busqueda) |   # Buscar por NIF
+            Q(razon_social__icontains=cliente_busqueda) |   # Buscar por razón social
+            Q(tipo__icontains=cliente_busqueda) |   # Buscar por tipo
+            Q(telefono__icontains=cliente_busqueda) |   # Buscar por teléfono
+            Q(direccion__icontains=cliente_busqueda) |   # Buscar por dirección
+            Q(email__icontains=cliente_busqueda) |   # Buscar por email
+            Q(notas__icontains=cliente_busqueda) |   # Buscar por notas
+            Q(descripcion__icontains=cliente_busqueda) |   # Buscar por descripción
+            Q(web__icontains=cliente_busqueda) |  # Buscar por web
+            Q(telefono2__icontains=cliente_busqueda)  # Buscar por segundo teléfono
+        )
+
     paginator = Paginator(clientes, 2)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
