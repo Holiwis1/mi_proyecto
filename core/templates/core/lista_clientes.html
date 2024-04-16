@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% block navegar %}
 <style>
     /* Estilos para la tabla de clientes */
@@ -32,7 +33,7 @@
     .pagination {
         margin-top: 20px;
         text-align: center;
-        margin-left:45%;
+        margin-left: 45%;
     }
 
     .pagination a {
@@ -94,6 +95,11 @@
         cursor: pointer;
     }
 
+    .register-btn {
+        float: right;
+        margin-top: 20px;
+        margin-right: 20px;
+    }
 </style>
 
 <li class="nav-item">
@@ -102,8 +108,10 @@
 {% endblock %}
 
 {% block content %}
+<a href="{% url 'registro_cliente' %}" class="btn btn-primary register-btn">Registrar Cliente</a>
     <h1 class="text-center">Lista de Clientes</h1>
     <form method="GET" class="mb-4">
+       
         <div class="form-group">
             <label for="search">Buscar en clientes:</label>
             <input type="text" class="form-control" id="search" name="search" placeholder="Nombre, Razón Social, Correo, ...">
@@ -151,6 +159,7 @@
                 {% endfor %}
             </tbody>
         </table>
+       
         {% if page_obj.has_other_pages %}
         <div class="pagination">
             {% for num in page_obj.paginator.page_range %}
@@ -163,4 +172,5 @@
         </div>
         {% endif %}
     </div>
+   
 {% endblock %}
