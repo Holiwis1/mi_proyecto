@@ -9,10 +9,25 @@
     <style>
         /* Personaliza el estilo si es necesario */
         body {
-            background-color: gray;
+            background-color: #FFFFFF;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
         }
         .card {
-            margin-bottom: 15px;
+            margin-bottom: 30px;
+            width: 300px; /* Ancho máximo de las tarjetas */
+            margin: 0 auto; /* Centrar las tarjetas */
+        }
+        .container {
+            margin-bottom: 30px; /* Espacio inferior */
+            max-width: 800px; /* Ancho máximo del contenedor */
+            width: 80%; /* Porcentaje del ancho disponible */
+            
         }
         .card-header {
             display: flex;
@@ -26,6 +41,7 @@
         }
         .card-body {
             padding: 10px;
+            background-color: transparent; 
         }
         .btn-primary {
             background-color: #0079BF;
@@ -34,12 +50,12 @@
         .scrolling-wrapper {
             overflow-x: auto;
             white-space: nowrap;
-            padding-bottom: 15px; /* Ajusta el espacio inferior */
+            display: flex;
+            justify-content: center; /* Centrar las tarjetas */
         }
         .scrolling-wrapper .card {
             display: inline-block;
-            margin-right: 10px; /* Espacio entre las tarjetas */
-            width: 250px; /* Ancho de cada tarjeta */
+            margin-right: 20px; /* Espacio entre las tarjetas */
         }
     </style>
 </head>
@@ -52,33 +68,34 @@
             {{ form.as_p }}
             <button type="submit" class="btn btn-primary">Crear Tabla</button>
         </form>
-        <!-- Contenedor con desplazamiento horizontal -->
-        <div class="scrolling-wrapper">
-            {% for table in tables %}
-            <div class="card">
-                <div class="card-header">
-                    <span>{{ table.name }}</span>
-                    <a href="#" class="delete-table" data-table-id="{{ table.id }}">
-                        <i class="fas fa-times delete-icon"></i> <!-- Añade la clase delete-icon para cambiar el color -->
-                    </a>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group">
-                        {% for ticket in table.tickets.all %}
-                        <li class="list-group-item">{{ ticket.title }} - {{ ticket.description }}</li>
-                        {% empty %}
-                        <li class="list-group-item">No hay tickets en esta tabla.</li>
-                        {% endfor %}
-                    </ul>
-                    <form method="post" action="{% url 'ticket_create' table.id %}">
-                        {% csrf_token %}
-                        {{ ticket_form.as_p }}
-                        <button type="submit" class="btn btn-primary">Crear Ticket</button>
-                    </form>
-                </div>
+    </div>
+
+    <!-- Contenedor con desplazamiento horizontal -->
+    <div class="scrolling-wrapper">
+        {% for table in tables %}
+        <div class="card">
+            <div class="card-header">
+                <span>{{ table.name }}</span>
+                <a href="#" class="delete-table" data-table-id="{{ table.id }}">
+                    <i class="fas fa-times delete-icon"></i> <!-- Añade la clase delete-icon para cambiar el color -->
+                </a>
             </div>
-            {% endfor %}
+            <div class="card-body">
+                <ul class="list-group">
+                    {% for ticket in table.tickets.all %}
+                    <li class="list-group-item">{{ ticket.title }} - {{ ticket.description }}</li>
+                    {% empty %}
+                    <li class="list-group-item">No hay tickets en esta tabla.</li>
+                    {% endfor %}
+                </ul>
+                <form method="post" action="{% url 'ticket_create' table.id %}">
+                    {% csrf_token %}
+                    {{ ticket_form.as_p }}
+                    <button type="submit" class="btn btn-primary">Crear Ticket</button>
+                </form>
+            </div>
         </div>
+        {% endfor %}
     </div>
 
     <!-- Enlaza Bootstrap JS y Popper.js (para algunos componentes de Bootstrap) -->
