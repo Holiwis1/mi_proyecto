@@ -17,5 +17,13 @@ urlpatterns = [
     path('eliminar_empleado/<int:empleado_id>/', views.eliminar_empleado, name='eliminar_empleado'), #para eliminar empleado
     path('editar_cliente/<int:cliente_id>/', views.editar_cliente, name='editar_cliente'), #http://127.0.0.1:8000/editar (por id de cliente)
     path('eliminar_cliente/<int:cliente_id>/', views.eliminar_cliente, name='eliminar_cliente'), #para eliminar cliente
+    #urls de trello
+   
+    path('table_list/', views.table_list, name='table_list'),
+    path('crear-tabla/', views.crear_tabla, name='crear_tabla'),
+    path('table/<int:table_id>/', views.table_detail, name='table_detail'),
+    path('table/<int:table_id>/ticket/create/', views.ticket_create, name='ticket_create'),
+    path('ticket/<int:ticket_id>/update/', views.ticket_update, name='ticket_update'),
+    path('ticket/<int:ticket_id>/delete/', views.ticket_delete, name='ticket_delete'),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,12 @@
+<h1>{{ table.name }}</h1>
+
+<h2>Tickets</h2>
+<ul>
+  {% for ticket in tickets %}
+    <li>{{ ticket.title }} - {{ ticket.description }}</li>
+  {% empty %}
+    <li>No hay tickets en esta tabla.</li>
+  {% endfor %}
+</ul>
+
+<a href="{% url 'ticket_create' table.id %}">Crear nuevo ticket</a>

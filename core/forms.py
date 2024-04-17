@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import Empleado
 from django.contrib.auth import get_user_model
-from .models import Cliente
+from .models import Cliente, Table, Ticket,Empleado
 
 User = get_user_model()
 
@@ -159,3 +158,12 @@ class ClienteEditarForm(forms.ModelForm):
         self.fields['web'].required = False
 
     
+class TableForm(forms.ModelForm):
+    class Meta:
+        model = Table
+        fields = ['name']
+
+class TicketForm(forms.ModelForm):
+    class Meta:
+        model = Ticket
+        fields = ['title', 'description']

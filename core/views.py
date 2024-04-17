@@ -2,7 +2,7 @@ from multiprocessing import context
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from core.forms import ClienteEditarForm, ClienteForm, EmpleadoSignUpForm, EmpleadoCambiarFoto, EmpleadoEditarForm
-from .models import Empleado, Cliente, Tareas, Proyecto
+from .models import Empleado, Cliente, Tareas, Proyecto, Table, Ticket
 from django.contrib import messages
 from django.contrib.auth import login
 from django.shortcuts import render
@@ -14,6 +14,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.utils import ImageReader
 from reportlab.lib.units import inch
 from django.db.models import Q
+from .forms import TableForm, TicketForm
 
 
 
@@ -232,3 +233,57 @@ def eliminar_cliente(request, cliente_id):
     cliente = Cliente.objects.get(pk=cliente_id)
     cliente.delete()
     return redirect('lista_clientes')
+
+
+
+ #TRELLO
+
+def crear_tabla(request):
+    if request.method == 'POST':
+        form = TableForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('table_list') 
+    else:
+        form = TableForm()
+    
+    tables = Table.objects.all()
+    return render(request, 'core/table_list.html', {'form': form, 'tables': tables})
+def table_list(request):
+    tables = Table.objects.all()
+    return render(request, 'core/table_list.html', {'tables': tables})
+
+def table_detail(request, table_id):
+    table = get_object_or_404(Table, pk=table_id)
+    tickets = Ticket.objects.filter(table=table)
+    return render(request, 'core/table_detail.html', {'table': table, 'tickets': tickets})
+
+def ticket_create(request, table_id):
+    table = get_object_or_404(Table, pk=table_id)
+    if request.method == 'POST':
+        form = TicketForm(request.POST)
+        if form.is_valid():
+            ticket = form.save(commit=False)
+            ticket.table = table
+            ticket.save()
+            return redirect('table_detail', table_id=table.id)
+    else:
+        form = TicketForm()
+    return render(request, 'core/ticket_form.html', {'form': form})
+
+def ticket_update(request, ticket_id):
+    ticket = get_object_or_404(Ticket, pk=ticket_id)
+    if request.method == 'POST':
+        form = TicketForm(request.POST, instance=ticket)
+        if form.is_valid():
+            form.save()
+            return redirect('table_detail', table_id=ticket.table.id)
+    else:
+        form = TicketForm(instance=ticket)
+    return render(request, 'core/ticket_form.html', {'form': form})
+
+def ticket_delete(request, ticket_id):
+    ticket = get_object_or_404(Ticket, pk=ticket_id)
+    table_id = ticket.table.id
+    ticket.delete()
+    return redirect('table_detail', table_id=table_id)

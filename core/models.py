@@ -1,6 +1,7 @@
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 
 # Modelo Empleado
 class Empleado(AbstractUser):
@@ -88,3 +89,17 @@ class Tareas(models.Model):
     def __str__(self):
         return self.nombre
         
+class Table(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+class Ticket(models.Model):
+    table = models.ForeignKey(Table, related_name='tickets', on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    created_at = models.DateTimeField(default=timezone.now)  # Campo auto-completado
+
+    def __str__(self):
+        return self.title
