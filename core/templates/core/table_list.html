@@ -20,14 +20,14 @@
         }
         .card {
             margin-bottom: 30px;
-            width: 300px; /* Ancho máximo de las tarjetas */
-            margin: 0 auto; /* Centrar las tarjetas */
+            max-width: 300px; /* Ancho máximo de las tarjetas */
+            margin: 0 10px; /* Espacio entre las tarjetas */
+            flex: 0 0 auto;
         }
         .container {
             margin-bottom: 30px; /* Espacio inferior */
             max-width: 800px; /* Ancho máximo del contenedor */
-            width: 80%; /* Porcentaje del ancho disponible */
-            
+            width: 90%; /* Porcentaje del ancho disponible */
         }
         .card-header {
             display: flex;
@@ -40,8 +40,8 @@
             color: red; /* Cambia el color del ícono de eliminar a rojo */
         }
         .card-body {
-            padding: 10px;
-            background-color: transparent; 
+           
+            background-color: transparent;
         }
         .btn-primary {
             background-color: #0079BF;
@@ -51,11 +51,12 @@
             overflow-x: auto;
             white-space: nowrap;
             display: flex;
-            justify-content: center; /* Centrar las tarjetas */
-        }
-        .scrolling-wrapper .card {
-            display: inline-block;
-            margin-right: 20px; /* Espacio entre las tarjetas */
+            justify-content: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            width: max-content; /* Ancho basado en el contenido */
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
 </head>
@@ -77,7 +78,7 @@
             <div class="card-header">
                 <span>{{ table.name }}</span>
                 <a href="#" class="delete-table" data-table-id="{{ table.id }}">
-                    <i class="fas fa-times delete-icon"></i> <!-- Añade la clase delete-icon para cambiar el color -->
+                    <i class="fas fa-times delete-icon"></i>
                 </a>
             </div>
             <div class="card-body">
