@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+
 <html>
 <head>
     <title>Lista de Tablas</title>
@@ -9,7 +10,7 @@
     <style>
         /* Personaliza el estilo si es necesario */
         body {
-            background-color: black;
+            background-color: #ffffff;
             margin: 0;
             padding: 0;
             display: flex;
@@ -28,6 +29,7 @@
             margin-bottom: 30px; /* Espacio inferior */
             max-width: 800px; /* Ancho máximo del contenedor */
             width: 90%; /* Porcentaje del ancho disponible */
+            
         }
         .card-header {
             display: flex;
@@ -40,7 +42,7 @@
             color: red; /* Cambia el color del ícono de eliminar a rojo */
         }
         .card-body {
-           
+            
             background-color: transparent;
         }
         .btn-primary {
@@ -58,9 +60,14 @@
             margin-left: auto;
             margin-right: auto;
         }
+        .prueba{
+            background-color: red;
+        }
     </style>
 </head>
+
 <body>
+   
     <div class="container">
         <h1>Lista de Tablas</h1>
         <!-- Formulario para crear nueva tabla -->
@@ -132,6 +139,18 @@
                 });
             });
         });
+         // Botón para redirigir a la página ''
+         const redirectButton = document.createElement('button');
+         redirectButton.textContent = 'pagina de inicio';
+         redirectButton.classList.add('btn', 'btn-primary', 'prueba');
+         redirectButton.addEventListener('click', function() {
+             window.location.href = '{% url "indice" %}';
+         });
+
+         const container = document.querySelector('.container');
+         container.appendChild(redirectButton);
+    
     </script>
 </body>
+
 </html>
