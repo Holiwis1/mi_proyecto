@@ -1,5 +1,3 @@
-
-
 <html>
 <head>
     <title>Lista de Tablas</title>
@@ -10,7 +8,7 @@
     <style>
         /* Personaliza el estilo si es necesario */
         body {
-            background-color: #ffffff;
+            background-color: black;
             margin: 0;
             padding: 0;
             display: flex;
@@ -28,8 +26,7 @@
         .container {
             margin-bottom: 30px; /* Espacio inferior */
             max-width: 800px; /* Ancho máximo del contenedor */
-            width: 90%; /* Porcentaje del ancho disponible */
-            
+            width: 90%; /* Porcentaje del ancho disponible */   
         }
         .card-header {
             display: flex;
@@ -42,7 +39,6 @@
             color: red; /* Cambia el color del ícono de eliminar a rojo */
         }
         .card-body {
-            
             background-color: transparent;
         }
         .btn-primary {
@@ -62,6 +58,13 @@
         }
         .prueba{
             background-color: red;
+        }
+        .redirect-button-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
         }
     </style>
 </head>
@@ -106,6 +109,11 @@
         {% endfor %}
     </div>
 
+    <!-- Botón de redirección -->
+    <div class="redirect-button-container">
+        <button type="button" class="btn btn-primary prueba" onclick="window.location.href='{% url 'indice' %}'">Página de inicio</button>
+    </div>
+
     <!-- Enlaza Bootstrap JS y Popper.js (para algunos componentes de Bootstrap) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Script para eliminar tablas -->
@@ -139,17 +147,6 @@
                 });
             });
         });
-         // Botón para redirigir a la página ''
-         const redirectButton = document.createElement('button');
-         redirectButton.textContent = 'pagina de inicio';
-         redirectButton.classList.add('btn', 'btn-primary', 'prueba');
-         redirectButton.addEventListener('click', function() {
-             window.location.href = '{% url "indice" %}';
-         });
-
-         const container = document.querySelector('.container');
-         container.appendChild(redirectButton);
-    
     </script>
 </body>
 
