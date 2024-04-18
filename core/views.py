@@ -234,7 +234,10 @@ def eliminar_cliente(request, cliente_id):
     cliente.delete()
     return redirect('lista_clientes')
 
-
+#perfil cliente 
+def perfil_cliente(request, cliente_id):
+    cliente = get_object_or_404(Cliente, id=cliente_id)
+    return render(request, 'core/perfil_cliente.html', {'cliente': cliente})
 
  #TRELLO
 

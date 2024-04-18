@@ -25,5 +25,5 @@ urlpatterns = [
     path('table/<int:table_id>/ticket/create/', views.ticket_create, name='ticket_create'),
     path('ticket/<int:ticket_id>/update/', views.ticket_update, name='ticket_update'),
     path('ticket/<int:ticket_id>/delete/', views.ticket_delete, name='ticket_delete'),
-    
+    path('perfil_cliente/<int:cliente_id>/', views.perfil_cliente, name='perfil_cliente'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

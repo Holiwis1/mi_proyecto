@@ -147,7 +147,7 @@
                         <div class="dropdown">
                             <img src="https://e7.pngegg.com/pngimages/402/481/png-clipart-hamburger-button-drop-down-list-computer-icons-navigation-bars-and-page-menu-templates-text-rectangle.png" alt="Icon" class="dropdown-icon">
                             <div class="dropdown-content">
-                                <a href="#">Información</a>
+                                <a href="{% url 'perfil_cliente' cliente.id %}">Información</a>
                                 <a href="#">Mensajes</a>
                                 <a href="{% url 'editar_cliente' cliente.id %}">Editar</a>
                                 <a href="{% url 'eliminar_cliente' cliente.id %}">Eliminar</a>

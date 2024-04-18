@@ -1,0 +1,111 @@
+<!-- perfil_cliente.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Perfil del Cliente</h1>
+<ul>
+    <li><strong>Nombre:</strong> {{ cliente.nombre }}</li>
+    <li><strong>Nombre Comercial:</strong> {{ cliente.nombre_comercial }}</li>
+    <li><strong>NIF:</strong> {{ cliente.nif }}</li>
+    <li><strong>Tipo:</strong> {{ cliente.tipo }}</li>
+    <li><strong>Email:</strong> {{ cliente.email }}</li>
+    <li><strong>Teléfono:</strong> {{ cliente.telefono }}</li>
+    <li><strong>Dirección:</strong> {{ cliente.direccion }}</li>
+    <!-- Otros campos que quieras mostrar -->
+</ul>
+
+<div id="drop-area">
+    <form class="my-form">
+        <p>Arrastra y suelta archivos aquí o haz clic para seleccionar archivos.</p>
+        <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
+        <label class="button" for="fileElem">Seleccionar archivos</label>
+    </form>
+    <progress id="progress-bar" max=100 value=0></progress>
+    <div id="gallery"></div>
+</div>
+
+<script>
+    function handleFiles(files) {
+        const formData = new FormData();
+
+        for (const file of files) {
+            formData.append('files[]', file);
+
+            // Aquí puedes agregar código para mostrar una vista previa de los archivos seleccionados si es necesario
+        }
+
+        fetch('/guardar_archivos/', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            // Puedes manejar la respuesta del servidor aquí si es necesario
+        });
+    }
+
+    // Prevenir comportamientos predeterminados en el área de soltar
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        document.getElementById('drop-area').addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    // Resaltar el área de soltar cuando se arrastran archivos sobre ella
+    ['dragenter', 'dragover'].forEach(eventName => {
+        document.getElementById('drop-area').addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        document.getElementById('drop-area').addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight() {
+        document.getElementById('drop-area').classList.add('highlight');
+    }
+
+    function unhighlight() {
+        document.getElementById('drop-area').classList.remove('highlight');
+    }
+
+    // Manejar la soltura de archivos
+    document.getElementById('drop-area').addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+
+        handleFiles(files);
+    }
+</script>
+
+<style>
+    /* Estilos para el área de soltar archivos */
+    #drop-area {
+        border: 2px dashed #ccc;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    #drop-area.highlight {
+        background-color: #f0f0f0;
+    }
+
+    /* Estilos para el botón de seleccionar archivos */
+    .button {
+        display: inline-block;
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+</style>
+{% endblock %}
