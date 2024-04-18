@@ -2,7 +2,7 @@ from multiprocessing import context
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from core.forms import ClienteEditarForm, ClienteForm, EmpleadoSignUpForm, EmpleadoCambiarFoto, EmpleadoEditarForm
-from .models import Empleado, Cliente, Tareas, Proyecto, Table, Ticket
+from .models import Empleado, Cliente, Tareas, Proyecto, Table, Ticket, Archivo
 from django.contrib import messages
 from django.contrib.auth import login
 from django.shortcuts import render
@@ -15,6 +15,8 @@ from reportlab.lib.utils import ImageReader
 from reportlab.lib.units import inch
 from django.db.models import Q
 from .forms import TableForm, TicketForm
+from django.views.decorators.csrf import csrf_exempt
+from django.core.files.storage import FileSystemStorage
 
 
 
@@ -242,27 +244,35 @@ def perfil_cliente(request, cliente_id):
 
 #guardar archivos en cliente
 def guardar_archivos(request):
-    if request.method == 'POST' and request.FILES:
+    if request.method == 'POST':
         cliente_id = request.POST.get('cliente_id')
         files = request.FILES.getlist('files[]')
 
-        # Verificar si el cliente existe
         try:
             cliente = Cliente.objects.get(pk=cliente_id)
         except Cliente.DoesNotExist:
             return JsonResponse({'error': 'Cliente no encontrado'}, status=404)
 
-        # Asociar los archivos al cliente
-        for file in files:
-            cliente.archivos = file
-            cliente.save()
+        archivos_info = []
 
-        return JsonResponse({'message': 'Archivos guardados exitosamente'})
+        for file in files:
+            fs = FileSystemStorage()  # usar el sistema de almacenamiento de archivos de Django
+            filename = fs.save(file.name, file)  # guardar el archivo
+            file_url = fs.url(filename)  # obtener la URL del archivo
+
+            # Crear y guardar la instancia del modelo Archivo
+            nuevo_archivo = Archivo(cliente=cliente, archivo=filename)
+            nuevo_archivo.save()
+
+            # Agregar la información del archivo a la lista
+            archivos_info.append({'name': filename, 'url': file_url})
+
+        return JsonResponse({'files': archivos_info})
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
- #TRELLO
 
+ #TRELLO
 def crear_tabla(request):
     if request.method == 'POST':
         form = TableForm(request.POST)

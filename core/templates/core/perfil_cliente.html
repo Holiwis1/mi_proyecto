@@ -74,6 +74,7 @@
             document.getElementById('file-list').innerHTML = '';
         
             // Itera sobre las propiedades del objeto data
+            /*
             for (const key in data) {
                 if (Object.hasOwnProperty.call(data, key)) {
                     const fileItem = document.createElement('div');
@@ -81,7 +82,20 @@
                     fileItem.textContent = data[key].name; // Accede a la propiedad 'name' de cada objeto de archivo
                     document.getElementById('file-list').appendChild(fileItem);
                 }
-            }
+            }*/
+
+            // Para guardar archivos en el servidor y mostrar enlaces de descarga
+            data.files.forEach(file => {
+                const fileLink = document.createElement('a');
+                fileLink.href = file.url;  // URL del archivo para descargar
+                fileLink.download = file.name; // Sugerir el nombre al guardar
+                fileLink.textContent = file.name; // Texto del enlace
+                fileLink.className = 'file-item'; // Clase para estilización
+
+                const fileItem = document.createElement('div');
+                fileItem.appendChild(fileLink);
+                document.getElementById('file-list').appendChild(fileItem);
+            });
         })
         .catch(error => {
             console.error('Error al guardar archivos:', error);

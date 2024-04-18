@@ -51,7 +51,6 @@ class Cliente(models.Model):
     notas = models.TextField(null=True, blank=True)
     descripcion = models.TextField(null=True, blank=True)
     web = models.URLField(null=True, blank=True)
-    archivos = models.FileField(upload_to='archivos_clientes/', null=True, blank=True)
 
     def __str__(self):
         return self.nombre + ' ' + self.nif
@@ -104,3 +103,8 @@ class Ticket(models.Model):
 
     def __str__(self):
         return self.title
+
+#Clase archivo para poder subir cualquier numero de archivos al cliente
+class Archivo(models.Model):
+    cliente = models.ForeignKey(Cliente, related_name='archivos', on_delete=models.CASCADE, null=True, blank=True)
+    archivo = models.FileField(upload_to='archivos_clientes/')
