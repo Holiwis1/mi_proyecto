@@ -239,6 +239,28 @@ def perfil_cliente(request, cliente_id):
     cliente = get_object_or_404(Cliente, id=cliente_id)
     return render(request, 'core/perfil_cliente.html', {'cliente': cliente})
 
+
+#guardar archivos en cliente
+def guardar_archivos(request):
+    if request.method == 'POST' and request.FILES:
+        cliente_id = request.POST.get('cliente_id')
+        files = request.FILES.getlist('files[]')
+
+        # Verificar si el cliente existe
+        try:
+            cliente = Cliente.objects.get(pk=cliente_id)
+        except Cliente.DoesNotExist:
+            return JsonResponse({'error': 'Cliente no encontrado'}, status=404)
+
+        # Asociar los archivos al cliente
+        for file in files:
+            cliente.archivos = file
+            cliente.save()
+
+        return JsonResponse({'message': 'Archivos guardados exitosamente'})
+
+    return JsonResponse({'error': 'Método no permitido'}, status=405)
+
  #TRELLO
 
 def crear_tabla(request):

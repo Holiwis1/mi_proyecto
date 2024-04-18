@@ -31,7 +31,7 @@ class Empleado(AbstractUser):
 
 #Modelo Cliente
 class Cliente(models.Model):
-    #Opciones de tipo de cliente
+    # Opciones de tipo de cliente
     TIPO_CHOICES = [
         ('empresa', 'Empresa'),
         ('particular', 'Particular'),
@@ -51,10 +51,11 @@ class Cliente(models.Model):
     notas = models.TextField(null=True, blank=True)
     descripcion = models.TextField(null=True, blank=True)
     web = models.URLField(null=True, blank=True)
+    archivos = models.FileField(upload_to='archivos_clientes/', null=True, blank=True)
 
     def __str__(self):
         return self.nombre + ' ' + self.nif
-    
+
 
 class Proyecto(models.Model):
     nombre = models.CharField(max_length=120)

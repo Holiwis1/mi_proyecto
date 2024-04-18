@@ -26,4 +26,5 @@ urlpatterns = [
     path('ticket/<int:ticket_id>/update/', views.ticket_update, name='ticket_update'),
     path('ticket/<int:ticket_id>/delete/', views.ticket_delete, name='ticket_delete'),
     path('perfil_cliente/<int:cliente_id>/', views.perfil_cliente, name='perfil_cliente'),
+    path('guardar_archivos/', views.guardar_archivos, name='guardar_archivos'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
