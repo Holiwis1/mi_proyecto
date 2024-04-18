@@ -50,8 +50,7 @@
             white-space: nowrap;
             display: flex;
             justify-content: center;
-            padding: 10px;
-            margin-bottom: 20px;
+            padding-top:15%;
             width: max-content; /* Ancho basado en el contenido */
             margin-left: auto;
             margin-right: auto;
@@ -66,12 +65,22 @@
             transform: translateX(-50%);
             z-index: 999;
         }
+        .fixed-container {
+            position: fixed;
+            top: 20px; /* Ajusta la posición vertical según sea necesario */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+            background-color: white; /* Cambia el color de fondo según sea necesario */
+            padding: 20px; /* Agrega relleno para evitar que el contenido se superponga */
+            width: 90%; /* Ajusta el ancho del contenedor */
+            max-width: 800px; /* Ancho máximo del contenedor */
+        }
     </style>
 </head>
 
 <body>
-   
-    <div class="container">
+    <div class="container fixed-container">
         <h1>Lista de Tablas</h1>
         <!-- Formulario para crear nueva tabla -->
         <form method="post" action="{% url 'crear_tabla' %}" class="mb-3">
