@@ -23,7 +23,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        
             <div id="drop-area" class="card">
                 <div class="card-header">
                     Subir Archivos
@@ -34,11 +34,18 @@
                         <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)" class="d-none">
                         <label class="button btn btn-primary" for="fileElem">Seleccionar archivos</label>
                     </form>
-                    <progress id="progress-bar" max=100 value=0 class="mt-3"></progress>
-                    <div id="gallery" class="mt-3"></div>
+                    <div id="file-list">
+                        {% for archivo in cliente.archivos.all %}
+                            <div class="file-item">
+                                <a href="{{ archivo.archivo.url }}" download>{{ archivo.archivo.name }}</a>
+                            </div>
+                        {% empty %}
+                            <p>No se han subido archivos.</p>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
-        </div>
+        
     </div>
     <!-- Sección para mostrar los archivos almacenados -->
     <div id="file-list" class="mt-3">

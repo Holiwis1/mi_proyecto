@@ -242,7 +242,6 @@ def perfil_cliente(request, cliente_id):
     return render(request, 'core/perfil_cliente.html', {'cliente': cliente})
 
 
-#guardar archivos en cliente
 def guardar_archivos(request):
     if request.method == 'POST':
         cliente_id = request.POST.get('cliente_id')
@@ -253,19 +252,20 @@ def guardar_archivos(request):
         except Cliente.DoesNotExist:
             return JsonResponse({'error': 'Cliente no encontrado'}, status=404)
 
-        archivos_info = []
-
         for file in files:
             fs = FileSystemStorage()  # usar el sistema de almacenamiento de archivos de Django
             filename = fs.save(file.name, file)  # guardar el archivo
             file_url = fs.url(filename)  # obtener la URL del archivo
 
             # Crear y guardar la instancia del modelo Archivo
-            nuevo_archivo = Archivo(cliente=cliente, archivo=filename)
-            nuevo_archivo.save()
+            Archivo.objects.create(cliente=cliente, archivo=filename)
 
-            # Agregar la información del archivo a la lista
-            archivos_info.append({'name': filename, 'url': file_url})
+        # Obtener todos los archivos para el cliente y devolverlos
+        archivos_cliente = cliente.archivos.all()
+        archivos_info = [{
+            'name': archivo.archivo.name, 
+            'url': archivo.archivo.url
+        } for archivo in archivos_cliente]
 
         return JsonResponse({'files': archivos_info})
 
