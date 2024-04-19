@@ -327,3 +327,4 @@ def eliminar_tabla(request, table_id):
     table = get_object_or_404(Table, pk=table_id)
     table.delete()
     return JsonResponse({'message': 'Tabla eliminada exitosamente'})
+    
