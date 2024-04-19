@@ -92,7 +92,7 @@ def lista_clientes(request):
 
 #mostrar pagina indice
 def indice(request):
-    return render(request, 'core/indice.html')
+    return render(request, 'core/index.html')
 
 
 
