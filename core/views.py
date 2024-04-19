@@ -198,15 +198,13 @@ def eliminar_empleado(request, empleado_id):
     return redirect('lista_empleados')
 
 
-
 #Editar información de empleado
 def editar_empleado(request, empleado_id):
     empleado = get_object_or_404(Empleado, pk=empleado_id)
     if request.method == 'POST':
-        form = EmpleadoEditarForm(request.POST, instance=empleado)
+        form = EmpleadoEditarForm(request.POST, request.FILES, instance=empleado)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Empleado actualizado con éxito.')
             return redirect('lista_empleados')  # Asume que tienes una URL nombrada 'lista_empleados'
     else:
         form = EmpleadoEditarForm(instance=empleado)
