@@ -1,5 +1,5 @@
 from multiprocessing import context
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from core.forms import ClienteEditarForm, ClienteForm, EmpleadoSignUpForm, EmpleadoCambiarFoto, EmpleadoEditarForm
 from .models import Empleado, Cliente, Tareas, Proyecto, Table, Ticket, Archivo
@@ -268,6 +268,28 @@ def guardar_archivos(request):
         return JsonResponse({'files': archivos_info})
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+#Editar nombre archivo
+def editar_archivo(request, archivo_id):
+    if request.method == 'POST':
+        archivo = Archivo.objects.get(id=archivo_id)
+        nuevo_nombre = request.POST.get('nuevoNombre')
+        archivo.archivo.name = nuevo_nombre
+        archivo.save()
+        return JsonResponse({'success': True})
+
+#Eliminar archivo
+def eliminar_archivo(request, archivo_id):
+    if request.method == 'POST':
+        archivo = get_object_or_404(Archivo, id=archivo_id)
+        
+        # Eliminar el archivo del sistema de archivos
+        archivo.archivo.delete()
+        archivo.delete()
+        
+        return HttpResponse('Archivo eliminado con éxito')
+
+    return HttpResponse('Método no permitido', status=405)
 
 
  #TRELLO

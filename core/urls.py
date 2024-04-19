@@ -17,6 +17,9 @@ urlpatterns = [
     path('eliminar_empleado/<int:empleado_id>/', views.eliminar_empleado, name='eliminar_empleado'), #para eliminar empleado
     path('editar_cliente/<int:cliente_id>/', views.editar_cliente, name='editar_cliente'), #http://127.0.0.1:8000/editar (por id de cliente)
     path('eliminar_cliente/<int:cliente_id>/', views.eliminar_cliente, name='eliminar_cliente'), #para eliminar cliente
+    path('editar_archivo/<int:archivo_id>/', views.editar_archivo, name='editar_archivo'), #edición nombre archivo
+    path('archivo/<int:archivo_id>/eliminar/', views.eliminar_archivo, name='eliminar_archivo'), #eliminar archivo
+
     #urls de trello
     path('eliminar_tabla/<int:table_id>/', views.eliminar_tabla, name='eliminar_tabla'),
     path('table_list/', views.table_list, name='table_list'),
