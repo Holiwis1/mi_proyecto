@@ -35,23 +35,26 @@
                     </form>
                     <div id="file-list">
                         {% for archivo in cliente.archivos.all %}
-                        <div class="file-item">
-                            <a href="{{ archivo.archivo.url }}" download>{{ archivo.archivo.name }}</a>
-                            <button class="btn btn-primary btn-sm" onclick="editarNombre('{{ archivo.id }}')">Editar</button>
-                            <button class="btn btn-danger btn-sm" onclick="eliminarArchivo('{{ archivo.id }}')">Eliminar</button>
-
-                            <!-- Formulario para editar el nombre del archivo <a href="{{ archivo.archivo.url }}" download>{{ archivo.archivo.name }}</a>
-                            <div class="dropdown">
-                                <img src="https://e7.pngegg.com/pngimages/402/481/png-clipart-hamburger-button-drop-down-list-computer-icons-navigation-bars-and-page-menu-templates-text-rectangle.png" alt="Icon" class="dropdown-icon">
-                                <div class="dropdown-content">
-                                    <a href="{% url 'editar_archivo' archivo.id %}">Editar</a>
-                                    <a href="{% url 'eliminar_archivo' archivo.id %}">Eliminar</a>
+                            <div class="file-item">
+                                <a href="{{ archivo.archivo.url }}" download>{{ archivo.archivo.name }}</a>
+                                <div class="botones">
+                                    <form action="{% url 'cambiar_nombre_archivo' archivo.id %}" method="post" style="display: inline-block;">
+                                        {% csrf_token %}
+                                        <input type="text" name="nuevo_nombre" placeholder="Nuevo nombre" class="nombre-input" style="display: none;">  <!-- Oculto por defecto -->
+                                        <button type="submit" class="btn btn-primary btn-sm" style="display: none;">Guardar</button>  <!-- Solo aparece al mostrar el input -->
+                                        <button type="button" class="btn btn-primary btn-sm" onclick="mostrarInput(this)">Cambiar Nombre</button>  <!-- Acción para mostrar el input -->
+                                        
+                                    </form>
+                                    <form action="{% url 'eliminar_archivo' archivo.id %}" method="post" style="display: inline-block;" onsubmit="return confirm('¿Está seguro de que desea eliminar este archivo?');">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                    </form>
                                 </div>
-                            </div>-->
-                        </div>
+                            </div>
                         {% empty %}
                             <p>No se han subido archivos.</p>
                         {% endfor %}
+
                     </div>
                 </div>
             </div>
@@ -64,6 +67,22 @@
 </div>
 
 <script>
+
+    //Mostrar el input text para cambiar el nombre del archivo y el botón de guardar
+    function mostrarInput(boton) {
+        const form = boton.closest('form');  // Encuentra el formulario padre
+        const input = form.querySelector('.nombre-input');  // Encuentra el input
+        const submitButton = form.querySelector('button[type="submit"]');  // Encuentra el botón de guardar
+    
+        if (input.style.display === "none") {
+            input.style.display = "inline-block";  // Muestra el input
+            submitButton.style.display = "inline-block";  // Muestra el botón de guardar
+        } else {
+            input.style.display = "none";  // Oculta el input
+            submitButton.style.display = "none";  // Oculta el botón de guardar
+        }
+    }
+
     // Función para manejar la carga de archivos
     function handleFiles(files) {
         const formData = new FormData();
@@ -145,6 +164,26 @@
 
         handleFiles(files);
     }
+
+    //Desde el javascript 
+    function eliminarArchivo(archivoId) {
+        if (confirm("¿Está seguro de que desea eliminar este archivo?")) {
+            fetch(`/archivo/${archivoId}/eliminar/`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),  // Asegúrate de incluir el token CSRF
+                },
+            }).then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    console.error("Error al eliminar el archivo.");
+                }
+            }).catch(error => {
+                console.error("Error:", error);
+            });
+        }
+    }
     
 </script>
 
@@ -193,6 +232,8 @@
         max-width: 310px; /* Ajusta esto según el ancho deseado */
         text-overflow: ellipsis; /* Añade puntos suspensivos al texto que desborde */
         white-space: normal; /* Permite que el texto envuelva en múltiples líneas */
+        overflow: hidden; /* Oculta el texto que desborde */
+        margin-right: 10px; /* Añade espacio entre el enlace y los botones */
     }
     
     .file-item button {
@@ -214,5 +255,14 @@
     .file-item:hover {
         background-color: #e0e0e0; /* Color de fondo al pasar el mouse */
     }
+
+    .botones {
+        display: flex;
+        justify-content: flex-end;  // Alinea los elementos a la derecha
+        gap: 10px;  // Espacio entre botones
+    }
+    
+
+    
 </style>
 {% endblock %}

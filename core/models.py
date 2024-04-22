@@ -1,4 +1,5 @@
 # Create your models here.
+from typing import Iterable
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
@@ -108,3 +109,9 @@ class Ticket(models.Model):
 class Archivo(models.Model):
     cliente = models.ForeignKey(Cliente, related_name='archivos', on_delete=models.CASCADE, null=True, blank=True)
     archivo = models.FileField(upload_to='archivos_clientes/')
+    name = models.CharField(max_length=255, null=True, blank=True) #Nombre del archivo para que en la página aparezca un nombre que podamos poner y por otra parte donde está el archivo
+    descripcion = models.TextField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.descripcion = str(self.archivo) # Asigna el nombre del archivo como descripción
+        super().save(*args, **kwargs) # Llama a la función save original

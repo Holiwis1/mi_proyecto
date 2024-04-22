@@ -2,6 +2,7 @@ from multiprocessing import context
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from core.forms import ClienteEditarForm, ClienteForm, EmpleadoSignUpForm, EmpleadoCambiarFoto, EmpleadoEditarForm
+from mi_proyecto import settings
 from .models import Empleado, Cliente, Tareas, Proyecto, Table, Ticket, Archivo
 from django.contrib import messages
 from django.contrib.auth import login
@@ -270,26 +271,53 @@ def guardar_archivos(request):
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
 #Editar nombre archivo
-def editar_archivo(request, archivo_id):
+def cambiar_nombre_archivo(request, archivo_id):
     if request.method == 'POST':
-        archivo = Archivo.objects.get(id=archivo_id)
-        nuevo_nombre = request.POST.get('nuevoNombre')
-        archivo.archivo.name = nuevo_nombre
+        nuevo_nombre = request.POST.get('nuevo_nombre', None)
+
+        archivo = get_object_or_404(Archivo, id=archivo_id)
+
+        cliente_id = archivo.cliente.id
+
+        # Cambiar el nombre del archivo en el sistema de archivos
+        antiguo_nombre = archivo.archivo.name
+        nuevo_nombre_path =nuevo_nombre
+
+        # Renombrar el archivo físico si es necesario
+        import os
+        old_path = os.path.join(settings.MEDIA_ROOT, antiguo_nombre)
+        new_path = os.path.join(settings.MEDIA_ROOT, nuevo_nombre_path)
+
+        if os.path.exists(old_path):
+            os.rename(old_path, new_path)
+
+        # Actualizar el campo del archivo en el modelo
+        archivo.archivo.name = nuevo_nombre_path
         archivo.save()
-        return JsonResponse({'success': True})
+
+        return redirect('perfil_cliente', cliente_id=cliente_id)
+
+    return JsonResponse({'error': 'Método no permitido'}, status=405)
 
 #Eliminar archivo
 def eliminar_archivo(request, archivo_id):
     if request.method == 'POST':
         archivo = get_object_or_404(Archivo, id=archivo_id)
+
+        # Obtener el cliente al que pertenece el archivo
+        cliente_id = archivo.cliente.id
         
         # Eliminar el archivo del sistema de archivos
-        archivo.archivo.delete()
-        archivo.delete()
+        archivo.archivo.delete()  
         
-        return HttpResponse('Archivo eliminado con éxito')
+        # Eliminar el objeto del modelo
+        archivo.delete()  
+        
+        # Redirigir a la página del perfil
+        return redirect('perfil_cliente', cliente_id=cliente_id)  # Redirigir a la misma página
 
-    return HttpResponse('Método no permitido', status=405)
+    return HttpResponse("Método no permitido", status=405)
+
 
 
  #TRELLO
