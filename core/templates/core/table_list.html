@@ -124,11 +124,7 @@
     <div class="container fixed-container">
         <h1>Lista de Tablas</h1>
         <!-- Formulario para crear nueva tabla -->
-        <form method="post" action="{% url 'crear_tabla' %}" class="mb-3">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Crear Tabla</button>
-        </form>
+       
     </div>
 
     <!-- Contenedor con desplazamiento horizontal -->
@@ -172,8 +168,13 @@
             </button>
             </div>
         </div>
+    </form>
         {% endfor %}
-    </div>
+        <form method="post" action="{% url 'crear_tabla' %}" class="mb-3 card"style="background-color: transparent; border: none;">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary" >Crear Tabla</button>
+        </form>
 
 
     <!-- Botón de redirección -->
