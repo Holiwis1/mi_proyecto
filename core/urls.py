@@ -20,7 +20,9 @@ urlpatterns = [
     path('cambiar_nombre_archivo/<int:archivo_id>/', views.cambiar_nombre_archivo, name='cambiar_nombre_archivo'), #edición nombre archivo
     path('archivo/<int:archivo_id>/eliminar/', views.eliminar_archivo, name='eliminar_archivo'), #eliminar archivo
     path('perfil_cliente/<int:cliente_id>/', views.perfil_cliente, name='perfil_cliente'),
-    
+    path('guardar_archivos/', views.guardar_archivos, name='guardar_archivos'), #para subir los archivos al la pagina web
+    path('archivo/<int:archivo_id>/descargar/', views.descargar_archivos, name='descargar_archivos'), #para descargar los archivos
+
     #urls de trello
     path('eliminar_tabla/<int:table_id>/', views.eliminar_tabla, name='eliminar_tabla'),
     path('table_list/', views.table_list, name='table_list'),
@@ -29,6 +31,6 @@ urlpatterns = [
     path('table/<int:table_id>/ticket/create/', views.ticket_create, name='ticket_create'),
     path('ticket/<int:ticket_id>/update/', views.ticket_update, name='ticket_update'),
     path('ticket/<int:ticket_id>/delete/', views.ticket_delete, name='ticket_delete'),
-    path('guardar_archivos/', views.guardar_archivos, name='guardar_archivos'),
+    
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

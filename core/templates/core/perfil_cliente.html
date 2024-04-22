@@ -36,7 +36,8 @@
                     <div id="file-list">
                         {% for archivo in cliente.archivos.all %}
                             <div class="file-item">
-                                <a href="{{ archivo.archivo.url }}" download>{{ archivo.archivo.name }}</a>
+                                <a href="{% url 'descargar_archivos' archivo.id %}" download>{{ archivo.name }}</a>  <!-- Usando el ID para obtener la URL -->
+                                
                                 <div class="botones">
                                     <form action="{% url 'cambiar_nombre_archivo' archivo.id %}" method="post" style="display: inline-block;">
                                         {% csrf_token %}
@@ -54,7 +55,6 @@
                         {% empty %}
                             <p>No se han subido archivos.</p>
                         {% endfor %}
-
                     </div>
                 </div>
             </div>
@@ -234,6 +234,11 @@
         white-space: normal; /* Permite que el texto envuelva en múltiples líneas */
         overflow: hidden; /* Oculta el texto que desborde */
         margin-right: 10px; /* Añade espacio entre el enlace y los botones */
+    }
+
+    .file-item p {
+        display: inline-block;
+        margin-right: 10px;
     }
     
     .file-item button {

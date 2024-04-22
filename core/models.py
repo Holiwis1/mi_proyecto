@@ -109,9 +109,12 @@ class Ticket(models.Model):
 class Archivo(models.Model):
     cliente = models.ForeignKey(Cliente, related_name='archivos', on_delete=models.CASCADE, null=True, blank=True)
     archivo = models.FileField(upload_to='archivos_clientes/')
-    name = models.CharField(max_length=255, null=True, blank=True) #Nombre del archivo para que en la página aparezca un nombre que podamos poner y por otra parte donde está el archivo
+    name = models.CharField(max_length=255, null=True, blank=True)
     descripcion = models.TextField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        self.descripcion = str(self.archivo) # Asigna el nombre del archivo como descripción
-        super().save(*args, **kwargs) # Llama a la función save original
+        # Si el objeto es nuevo (no tiene ID), asigna la descripción y el nombre
+        if not self.pk:  # Esto verifica si el objeto ya existe
+            self.descripcion = str(self.archivo)  # Solo se asigna al crear
+        self.name = str(self.archivo)  # Asigna el nombre del archivo cuando quiera, ya que se puede editar
+        super().save(*args, **kwargs)  # Llama a la función save original

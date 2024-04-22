@@ -241,6 +241,12 @@ def perfil_cliente(request, cliente_id):
     return render(request, 'core/perfil_cliente.html', {'cliente': cliente})
 
 
+def descargar_archivos(request, archivo_id):
+    archivo = get_object_or_404(Archivo, id=archivo_id)
+    file_path = archivo.archivo.path
+    return FileResponse(open(file_path, 'rb'))
+
+#guardar archivos
 def guardar_archivos(request):
     if request.method == 'POST':
         cliente_id = request.POST.get('cliente_id')
@@ -274,14 +280,16 @@ def guardar_archivos(request):
 def cambiar_nombre_archivo(request, archivo_id):
     if request.method == 'POST':
         nuevo_nombre = request.POST.get('nuevo_nombre', None)
+        # Obtener el cliente al que pertenece el archivo
+        cliente_id = archivo.cliente.id
+        if not nuevo_nombre:
+            return JsonResponse({'error': 'No se proporcionó un nuevo nombre'}, status=400)
 
         archivo = get_object_or_404(Archivo, id=archivo_id)
 
-        cliente_id = archivo.cliente.id
-
         # Cambiar el nombre del archivo en el sistema de archivos
         antiguo_nombre = archivo.archivo.name
-        nuevo_nombre_path =nuevo_nombre
+        nuevo_nombre_path = f'archivos/{nuevo_nombre}'
 
         # Renombrar el archivo físico si es necesario
         import os
@@ -295,7 +303,7 @@ def cambiar_nombre_archivo(request, archivo_id):
         archivo.archivo.name = nuevo_nombre_path
         archivo.save()
 
-        return redirect('perfil_cliente', cliente_id=cliente_id)
+        return redirect('perfil_cliente', cliente_id=cliente_id)  # Redirigir a la misma página
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
