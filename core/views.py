@@ -1,4 +1,5 @@
 from multiprocessing import context
+import os
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from core.forms import ClienteEditarForm, ClienteForm, EmpleadoSignUpForm, EmpleadoCambiarFoto, EmpleadoEditarForm
@@ -280,24 +281,32 @@ def guardar_archivos(request):
 def cambiar_nombre_archivo(request, archivo_id):
     if request.method == 'POST':
         nuevo_nombre = request.POST.get('nuevo_nombre', None)
-        # Obtener el cliente al que pertenece el archivo
-        cliente_id = archivo.cliente.id
         if not nuevo_nombre:
             return JsonResponse({'error': 'No se proporcionó un nuevo nombre'}, status=400)
 
         archivo = get_object_or_404(Archivo, id=archivo_id)
+        cliente_id = archivo.cliente.id
 
-        # Cambiar el nombre del archivo en el sistema de archivos
-        antiguo_nombre = archivo.archivo.name
-        nuevo_nombre_path = f'archivos/{nuevo_nombre}'
+        # Obtener la extensión del archivo original
+        base_name, ext = os.path.splitext(archivo.archivo.name)
 
-        # Renombrar el archivo físico si es necesario
-        import os
-        old_path = os.path.join(settings.MEDIA_ROOT, antiguo_nombre)
+        # Crear el nuevo nombre usando la base proporcionada y la extensión original
+        nuevo_nombre_path = f'{nuevo_nombre}{ext}'
+
+        # Rutas del archivo original y nuevo
+        old_path = os.path.join(settings.MEDIA_ROOT, archivo.archivo.name)
         new_path = os.path.join(settings.MEDIA_ROOT, nuevo_nombre_path)
 
+        # Verificar si el directorio de destino existe, si no, crearlo
+        new_dir = os.path.dirname(new_path)
+        if not os.path.exists(new_dir):
+            os.makedirs(new_dir)
+
+        # Renombrar el archivo físico si el original existe
         if os.path.exists(old_path):
             os.rename(old_path, new_path)
+        else:
+            return JsonResponse({'error': 'El archivo original no existe'}, status=404)
 
         # Actualizar el campo del archivo en el modelo
         archivo.archivo.name = nuevo_nombre_path
