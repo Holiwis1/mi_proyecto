@@ -105,7 +105,7 @@
             left: 50%;
             transform: translateX(-50%);
             z-index: 999;
-            background-color: white; /* Cambia el color de fondo según sea necesario */
+            background-color: transparent; /* Cambia el color de fondo según sea necesario */
             padding: 20px; /* Agrega relleno para evitar que el contenido se superponga */
             width: 90%; /* Ajusta el ancho del contenedor */
             max-width: 800px; /* Ancho máximo del contenedor */
@@ -157,22 +157,46 @@
                 <form method="post" action="{% url 'ticket_create' table.id %}">
                     {% csrf_token %}
                     {{ ticket_form.as_p }}
-                    <button type="submit" class="btn btn-primary">Crear Ticket</button>
-                </form>
+                    <button type="submit" 
+                    type="button" 
+                    data-testid="list-add-card-button" 
+                    style="display: block; margin-left: 10%;  background: none; border-radius:10%;  padding-right:20px; margin-top: 3%;">
+                <span class="nch-icon A3PtEe1rGIm_yL neoUEAwI0GETBQ gNDonYrNSA1GXJ">
+                    <span data-testid="AddIcon" aria-hidden="true" class="css-snhnyn" style="--icon-primary-color: currentColor; --icon-secondary-color: inherit;">
+                        <svg width="50" height="20" padding=1"0px"; role="presentation" focusable="false" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 3C11.4477 3 11 3.44772 11 4V11L4 11C3.44772 11 3 11.4477 3 12C3 12.5523 3.44772 13 4 13H11V20C11 20.5523 11.4477 21 12 21C12.5523 21 13 20.5523 13 20V13H20C20.5523 13 21 12.5523 21 12C21 11.4477 20.5523 11 20 11L13 11V4C13 3.44772 12.5523 3 12 3Z" fill="currentColor"></path>
+                        </svg>
+                    </span>
+                </span>
+                Añade una tarjeta
+            </button>
             </div>
         </div>
         {% endfor %}
     </div>
+
 
     <!-- Botón de redirección -->
     <div class="redirect-button-container">
         <button type="button" class="btn btn-primary prueba" onclick="window.location.href='{% url 'indice' %}'">Página de inicio</button>
     </div>
 
+
+   <!--INTENTAR PONER LA FOTO DE DESCRIPTION -->
     <div id="ticketModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <div id="ticketContent"></div>
+            <div id="ticketContent">
+                <!-- Fila para el ícono y el texto "Descripción" -->
+                <div class="description-row">
+                    <!-- Ícono de descripción -->
+                    <img src="https://cdn-icons-png.flaticon.com/128/5956/5956597.png" alt="Icono de descripción" width="48" height="48" style="float: left; margin-right: 10px;">
+                    <!-- Texto "Descripción" -->
+                    <h4>Descripción:</h4>
+                </div>
+                <!-- Contenedor para la descripción del ticket -->
+                <div id="ticketDescription"></div>
+            </div>
         </div>
     </div>
 
@@ -220,7 +244,8 @@
         ticketTitles.forEach(title => {
                 title.addEventListener('click', function() {
                     const description = this.nextElementSibling.innerHTML; 
-                    modalContent.innerHTML = description; 
+                    const title_description = "Descripción: ";
+                    modalContent.innerHTML = "<strong>" + title_description + "</strong>" + description;
                     modal.style.display = 'block'; 
                 });
             });
