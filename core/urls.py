@@ -19,23 +19,9 @@ urlpatterns = [
     path('registrarme2/', registro_cliente, name='registro_cliente'), #http://127.0.0.1:8000/registrarme2/
     path('editar_cliente/<int:cliente_id>/', views.editar_cliente, name='editar_cliente'), #http://127.0.0.1:8000/editar (por id de cliente)
     path('eliminar_cliente/<int:cliente_id>/', views.eliminar_cliente, name='eliminar_cliente'), #para eliminar cliente
-    
-   
     path('perfil_cliente/<int:cliente_id>/', views.perfil_cliente, name='perfil_cliente'),
-    path('guardar_archivos/', views.guardar_archivos, name='guardar_archivos'), #para subir los archivos al la pagina web
-    path('archivo/<int:archivo_id>/descargar/', views.descargar_archivos, name='descargar_archivos'), #para descargar los archivos
-
-    #urls de trello
-<<<<<<< Updated upstream
-    path('eliminar_tabla/<int:table_id>/', views.eliminar_tabla, name='eliminar_tabla'),
-    path('table_list/', views.table_list, name='table_list'),
-    path('crear-tabla/', views.crear_tabla, name='crear_tabla'),
-    path('table/<int:table_id>/', views.table_detail, name='table_detail'),
-    path('table/<int:table_id>/ticket/create/', views.ticket_create, name='ticket_create'),
-    path('ticket/<int:ticket_id>/update/', views.ticket_update, name='ticket_update'),
-    path('ticket/<int:ticket_id>/delete/', views.ticket_delete, name='ticket_delete'),
     
-=======
+    #urls de trello
     path('eliminar_tabla/<int:table_id>/', views.eliminar_tabla, name='eliminar_tabla'),#Eliminar tabla
     path('table_list/', views.table_list, name='table_list'),#Trello
     path('crear-tabla/', views.crear_tabla, name='crear_tabla'),#Crear tabla
@@ -43,9 +29,7 @@ urlpatterns = [
     path('table/<int:table_id>/ticket/create/', views.ticket_create, name='ticket_create'),#Crear tickets
     path('ticket/<int:ticket_id>/update/', views.ticket_update, name='ticket_update'),#Actualizar tickets
     path('ticket/<int:ticket_id>/delete/', views.ticket_delete, name='ticket_delete'),#Eliminar tickets
->>>>>>> Stashed changes
     
-
     #Guardar archivos clientes
     path('archivo/<int:archivo_id>/eliminar/', views.eliminar_archivo, name='eliminar_archivo'), #eliminar archivo
     path('guardar_archivos/', views.guardar_archivos, name='guardar_archivos'),#Guardar archivos clientes
