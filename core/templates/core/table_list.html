@@ -23,19 +23,17 @@
         .card {
           flex: 0 0 auto;
           margin-right: 1em;
-          background-color: #f4f5f7;
-          border-radius: 3px;
           max-width: 300px;
           min-width: 300px;
-          margin-top: 10%;
-         
+          margin-top: 5%;
+          border-color:none;
+          border:none;
         }
         
         /* Estilo para el encabezado de las tarjetas */
         .card-header {
           padding: 10px 15px;
           font-weight: 700;
-          border-bottom: 1px solid rgba(0,0,0,.125);
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -44,6 +42,8 @@
         /* Estilo para el cuerpo de las tarjetas */
         .card-body {
           padding: 15px;
+          border-color:none;
+          border:none;
         }
         
         /* Estilo para los tickets */
@@ -124,8 +124,6 @@
     <!-- Añadir header -->
     <div class="container fixed-container">
         <h1>TRELLO</h1>
-        
-       
     </div>
 
     <!-- Contenedor con desplazamiento horizontal -->
@@ -171,17 +169,28 @@
         </div>
     </form>
         {% endfor %}
-        <form method="post" action="{% url 'crear_tabla' %}" class="mb-3 card"style="background-color: transparent; border: none;">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary" >Crear Tabla</button>
-        </form>
+        <div  class="mb-3 card" style="background-color: transparent; border: none;" >
+
+            <button id="crear-tabla-btn" type="submit" class="btn btn-primary">Crear Tabla</button>
+        </div>
 
 
     <!-- Botón de redirección -->
     <div class="redirect-button-container">
         <button type="button" class="btn btn-primary prueba" onclick="window.location.href='{% url 'indice' %}'">Página de inicio</button>
     </div>
+
+    <div id="crear-tabla-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form id="crear-tabla-form" method="post" action="{% url 'crear_tabla' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Crear</button>
+            </form>
+        </div>
+    </div>
+
 
 
    <!--INTENTAR PONER LA FOTO DE DESCRIPTION -->
@@ -206,6 +215,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Script para eliminar tablas -->
     <script>
+        //eliminar la tabla funcion
         document.addEventListener('DOMContentLoaded', function() {
             const deleteButtons = document.querySelectorAll('.delete-table');
     
@@ -263,6 +273,27 @@
                     modal.style.display = 'none';
                 }
             });
+
+     //Tabla modal crear tabla
+    document.addEventListener('DOMContentLoaded', function() {
+    const crearTablaBtn = document.querySelector('.btn.btn-primary');
+    const modal = document.getElementById('crear-tabla-modal');
+    const closeModalBtn = document.querySelector('.close');
+
+    crearTablaBtn.addEventListener('click', function() {
+        modal.style.display = 'block';
+    });
+
+    closeModalBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    });
+});
       
         
     </script>
