@@ -4,7 +4,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 
-# Modelo Empleado
+
+#****************************** EMPLEADO ******************************#
+
+#****************************** MODELO EMPLEADO ******************************#
 class Empleado(AbstractUser):
     #Opciones de roles
     ROL_CHOICES = [
@@ -30,7 +33,10 @@ class Empleado(AbstractUser):
     def __str__(self):
         return self.first_name + ' ' + self.last_name
 
-#Modelo Cliente
+
+#****************************** CLIENTE ******************************#
+
+#****************************** MODELO CLIENTE ******************************#
 class Cliente(models.Model):
     # Opciones de tipo de cliente
     TIPO_CHOICES = [
@@ -55,8 +61,26 @@ class Cliente(models.Model):
 
     def __str__(self):
         return self.nombre + ' ' + self.nif
+        
+#****************************** MODELO ARCHIVO ******************************#
+#Clase archivo para poder subir cualquier numero de archivos al cliente
+class Archivo(models.Model):
+    cliente = models.ForeignKey(Cliente, related_name='archivos', on_delete=models.CASCADE, null=True, blank=True)
+    archivo = models.FileField(upload_to='archivos_clientes/')
+    name = models.CharField(max_length=255, null=True, blank=True)
+    descripcion = models.TextField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        # Si el objeto es nuevo (no tiene ID), asigna la descripción y el nombre
+        if not self.pk:  # Esto verifica si el objeto ya existe
+            self.descripcion = str(self.archivo)  # Solo se asigna al crear
+        self.name = str(self.archivo)  # Asigna el nombre del archivo cuando quiera, ya que se puede editar
+        super().save(*args, **kwargs)  # Llama a la función save original
 
 
+#****************************** PROYECTO ******************************#
+
+#****************************** MODELO PROYECTO ******************************#
 class Proyecto(models.Model):
     nombre = models.CharField(max_length=120)
     descripcion = models.TextField(null=True, blank=True)
@@ -69,6 +93,9 @@ class Proyecto(models.Model):
     def __str__(self):
         return self.nombre 
 
+#****************************** TAREAS ******************************#
+
+#****************************** MODELO TAREAS ******************************#
 class Tareas(models.Model):
     PRIORIDAD_CHOICES = [
         ('alta', 'Alta'),
@@ -89,13 +116,17 @@ class Tareas(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+#****************************** TRELLO ******************************#
         
+#****************************** MODELO TABLA ******************************#
 class Table(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
 
+#****************************** MODELO TICKETS ******************************#
 class Ticket(models.Model):
     table = models.ForeignKey(Table, related_name='tickets', on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
@@ -105,16 +136,8 @@ class Ticket(models.Model):
     def __str__(self):
         return self.title
 
-#Clase archivo para poder subir cualquier numero de archivos al cliente
-class Archivo(models.Model):
-    cliente = models.ForeignKey(Cliente, related_name='archivos', on_delete=models.CASCADE, null=True, blank=True)
-    archivo = models.FileField(upload_to='archivos_clientes/')
-    name = models.CharField(max_length=255, null=True, blank=True)
-    descripcion = models.TextField(null=True, blank=True)
 
-    def save(self, *args, **kwargs):
-        # Si el objeto es nuevo (no tiene ID), asigna la descripción y el nombre
-        if not self.pk:  # Esto verifica si el objeto ya existe
-            self.descripcion = str(self.archivo)  # Solo se asigna al crear
-        self.name = str(self.archivo)  # Asigna el nombre del archivo cuando quiera, ya que se puede editar
-        super().save(*args, **kwargs)  # Llama a la función save original
+#****************************** MODELO ARCHIVOS_TICKETS ******************************#
+class TicketAttachment(models.Model):
+    ticket = models.ForeignKey('Ticket', related_name='attachments', on_delete=models.CASCADE)
+    file = models.ImageField(upload_to='ticket_attachments/')

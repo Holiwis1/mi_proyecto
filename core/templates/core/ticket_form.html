@@ -1,7 +1,69 @@
+<style>
+  .file-info {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 10px;
+  }
+
+  .file-info img {
+    max-width: 100px; /* Tamaño máximo de la miniatura */
+    max-height: 100px; /* Tamaño máximo de la miniatura */
+    margin-bottom: 5px;
+  }
+</style>
+
 <h1>Crear/Actualizar Ticket</h1>
 
-<form method="post">
+<form id="ticket-form" method="post">
   {% csrf_token %}
   {{ form.as_p }}
+  <div id="file-drop-area">
+  AQUI SE ARRASTRA EL archivo
+  </div>
   <button type="submit">Guardar</button>
 </form>
+
+<script>
+  // Función para previsualizar imágenes y mostrar el nombre del archivo
+  function previewFile(file) {
+    var reader = new FileReader();
+    reader.onload = function(event) {
+      var fileInfo = document.createElement('div');
+      fileInfo.className = 'file-info';
+
+      // Crear elemento de imagen si es una imagen
+      if (file.type.startsWith('image/')) {
+        var imgElement = document.createElement('img');
+        imgElement.src = event.target.result;
+        fileInfo.appendChild(imgElement);
+      }
+
+      // Mostrar el nombre del archivo con su extensión
+      var fileNameElement = document.createElement('span');
+      fileNameElement.textContent = file.name;
+      fileInfo.appendChild(fileNameElement);
+
+      document.getElementById('file-drop-area').appendChild(fileInfo);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Función para manejar el evento de arrastrar y soltar
+  function handleFileDrop(event) {
+    event.preventDefault();
+    var files = event.dataTransfer.files;
+
+    for (var i = 0; i < files.length; i++) {
+      var file = files[i];
+      previewFile(file);
+    }
+  }
+
+  // Agregar eventos al área de arrastrar y soltar
+  var fileDropArea = document.getElementById('file-drop-area');
+  fileDropArea.addEventListener('dragover', function(event) {
+    event.preventDefault();
+  });
+  fileDropArea.addEventListener('drop', handleFileDrop);
+</script>

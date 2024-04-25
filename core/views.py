@@ -16,13 +16,13 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.utils import ImageReader
 from reportlab.lib.units import inch
 from django.db.models import Q
-from .forms import TableForm, TicketForm
+from .forms import TableForm, TicketAttachmentForm, TicketForm
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage
 
 
 
-# mostrar la lista de empleados
+# Mostrar la lista de empleados
 def lista_empleados(request):
     # Obtener todos los empleados y ordenarlos por un campo (por ejemplo, id)
     empleados = Empleado.objects.order_by('id')
@@ -361,16 +361,26 @@ def table_detail(request, table_id):
 
 def ticket_create(request, table_id):
     table = get_object_or_404(Table, pk=table_id)
+    
     if request.method == 'POST':
-        form = TicketForm(request.POST)
-        if form.is_valid():
-            ticket = form.save(commit=False)
+        ticket_form = TicketForm(request.POST)
+        attachment_form = TicketAttachmentForm(request.POST, request.FILES)
+
+        if ticket_form.is_valid() and attachment_form.is_valid():
+            ticket = ticket_form.save(commit=False)
             ticket.table = table
             ticket.save()
+
+            attachment = attachment_form.save(commit=False)
+            attachment.ticket = ticket
+            attachment.save()
+
             return redirect('table_list') 
     else:
-        form = TicketForm()
-    return render(request, 'core/ticket_form.html', {'form': form})
+        ticket_form = TicketForm()
+        attachment_form = TicketAttachmentForm()
+
+    return render(request, 'core/ticket_form.html', {'ticket_form': ticket_form, 'attachment_form': attachment_form})
 
 def ticket_update(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)

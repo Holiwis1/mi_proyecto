@@ -1,10 +1,10 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from .models import Cliente, Table, Ticket,Empleado
-
+from .models import Cliente, Table, Ticket,Empleado, TicketAttachment
+#****************************** USUARIO ******************************#
 User = get_user_model()
-
+#****************************** EMPLEADO ******************************#
 class EmpleadoSignUpForm(UserCreationForm):
     class Meta:
         model = User
@@ -50,13 +50,8 @@ class EmpleadoSignUpForm(UserCreationForm):
             self.fields['fecha_alta'].required = False
 
 
-# Cambiarlo y dejarlo como arriba para poder editar en html
-class ClienteForm(forms.ModelForm):
-    class Meta:
-        model = Cliente
-        fields = '__all__'  #O lista los campos que deseas incluir en el formulario
 
-
+            
 #Modelo para cambiar la foto de perfil del empleado desde su propio perfil
 class EmpleadoCambiarFoto(forms.ModelForm):
     class Meta:
@@ -102,6 +97,17 @@ class EmpleadoEditarForm(forms.ModelForm):
         self.fields['foto_dni2'].required = False
         self.fields['fecha_alta'].required = False
         self.fields['telefono2'].required = False
+
+        
+#****************************** CLIENTES ******************************#
+
+# Cambiarlo y dejarlo como arriba para poder editar en html
+class ClienteForm(forms.ModelForm):
+    class Meta:
+        model = Cliente
+        fields = '__all__'  #O lista los campos que deseas incluir en el formulario
+
+
 
     def clean(self):
         cleaned_data = super().clean()
@@ -158,6 +164,7 @@ class ClienteEditarForm(forms.ModelForm):
         self.fields['web'].required = False
 
     
+#****************************** TRELLO ******************************#
 class TableForm(forms.ModelForm):
     class Meta:
         model = Table
@@ -167,3 +174,8 @@ class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
         fields = ['title', 'description']
+        
+class TicketAttachmentForm(forms.ModelForm):
+    class Meta:
+        model = TicketAttachment
+        fields = ['file']
