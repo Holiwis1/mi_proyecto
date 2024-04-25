@@ -55,12 +55,7 @@
         .ticket-title {
           margin: 0;
         }
-        
-        /* Estilo para el botón de eliminar tabla */
-        .delete-icon {
-          color: #b5b5b5;
-        }
-        
+    
         /* Estilo para el modal */
         .modal {
           display: none;
@@ -160,6 +155,13 @@
             right: 10px; /* Distancia desde la derecha */
           
         }
+       
+        .desple_tabla {
+            color: black;
+            padding: 8px 10px;
+            text-decoration: none;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -175,7 +177,13 @@
             <div class="card-header">
                 <span>{{ table.name }}</span>
                 <a href="#" class="delete-table" data-table-id="{{ table.id }}">
-                    <i class="fas fa-times delete-icon"></i>
+                    <div class="dropdown">
+                        <img src="https://e7.pngegg.com/pngimages/402/481/png-clipart-hamburger-button-drop-down-list-computer-icons-navigation-bars-and-page-menu-templates-text-rectangle.png" alt="Icon" class="dropdown-icon">
+                    <div class="dropdown-content">
+                    <i class="desple_tabla">ELIMINAR</i>
+                    
+                </div>
+            </div>
                 </a>
             </div>
             <div class="card-body">
@@ -185,37 +193,38 @@
                         <div class="ticket-content">
                             <h5 class="ticket-title" style="cursor: pointer;">{{ ticket.title }}</h5>
                             <p class="ticket-description" style="display: none;">{{ ticket.description }}</p>
-                        </div>
-                        <div id="ticketModal" class="modal">
+                            
+                         </div>
+                         <div class="dropdown">
+                            <!-- Imagen desplegable -->
+                            <img src="https://e7.pngegg.com/pngimages/402/481/png-clipart-hamburger-button-drop-down-list-computer-icons-navigation-bars-and-page-menu-templates-text-rectangle.png" alt="Icon" class="dropdown-icon">
+                            <!-- Contenido desplegable -->
+                            <div class="dropdown-content">
+                                <a href="{% url 'ticket_update' ticket.id %}">Editar</a>
+                                <a href="{% url 'ticket_delete' ticket.id %}">Eliminar</a>
+                                {% if ticket.id %}  
+                                {% endif %}
+                            </div>
+                         </div>
+                         <div id="ticketModal" class="modal">
                             <div class="modal-content">
                                 <span class="close">&times;</span>
                                 <div id="ticketContent">
+                                 
                                     <!-- Fila para el ícono y el texto "Descripción" -->
                                     <div class="description-row">
                                         <!-- Ícono de descripción -->
                                         <img src="https://cdn-icons-png.flaticon.com/128/5956/5956597.png" alt="Icono de descripción" width="48" height="48" style="float: left; margin-right: 10px;">
                                         <!-- Texto "Descripción" -->
                                         <h4>Descripción:</h4>
+                                        
                                     </div>
+                                    
                                     <!-- Contenedor para la descripción del ticket -->
                                     <div id="ticketDescription"></div>
                                 </div>
-                                <div class="dropdown">
-                                    <!-- Imagen desplegable -->
-                                    <img src="https://e7.pngegg.com/pngimages/402/481/png-clipart-hamburger-button-drop-down-list-computer-icons-navigation-bars-and-page-menu-templates-text-rectangle.png" alt="Icon" class="dropdown-icon">
-                                    <!-- Contenido desplegable -->
-                                    <div class="dropdown-content">
-                                       
-                                        <a href="{% url 'ticket_update' ticket.id %}">Editar</a>
-                                        <a href="{% url 'ticket_delete' ticket.id %}">Eliminar</a>
-                                        {% if ticket.id %}
-                                            
-                                        {% endif %}
-                                  
-                                    </div>
-                                </div>
                             </div>
-                        </div>
+                         </div>
                     </li>
                     {% empty %}
                     <li class="list-group-item">No hay tickets en esta tabla.</li>
@@ -271,6 +280,24 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Script para eliminar tablas -->
     <script>
+
+
+
+
+
+
+        document.querySelectorAll('.ticket-title').forEach(function(title) {
+            title.addEventListener('click', function() {
+                var ticketId = this.getAttribute('data-ticket-id');
+                var dropdown = document.getElementById('ticket-options');
+                dropdown.style.display = 'block'; // Mostrar el desplegable
+                dropdown.querySelector('.edit-ticket-btn').href = `/ticket_update/${ticketId}`; // Asignar href para editar
+                dropdown.querySelector('.delete-ticket-btn').href = `/ticket_delete/${ticketId}`; // Asignar href para eliminar
+            });
+        });
+
+
+
         //eliminar la tabla funcion
         document.addEventListener('DOMContentLoaded', function() {
             const deleteButtons = document.querySelectorAll('.delete-table');
@@ -329,15 +356,6 @@
             }
         });
         
-        editTicketBtn.addEventListener('click', function() {
-            // Agregar la lógica para editar el ticket aquí
-            alert('Editar ticket');
-        });
-        
-        deleteTicketBtn.addEventListener('click', function() {
-            // Agregar la lógica para eliminar el ticket aquí
-            alert('Eliminar ticket');
-        });
      //Tabla modal crear tabla
     document.addEventListener('DOMContentLoaded', function() {
     const crearTablaBtn = document.querySelector('.btn.btn-primary');
