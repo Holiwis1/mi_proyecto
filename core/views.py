@@ -351,7 +351,8 @@ def crear_tabla(request):
     return render(request, 'core/table_list.html', {'form': form, 'tables': tables})
 def table_list(request):
     tables = Table.objects.all()
-    return render(request, 'core/table_list.html', {'tables': tables})
+    tickets = Ticket.objects.all()  # Obtener todos los tickets
+    return render(request, 'core/table_list.html', {'tables': tables, 'tickets': tickets})
 
 def table_detail(request, table_id):
     table = get_object_or_404(Table, pk=table_id)
@@ -377,16 +378,15 @@ def ticket_update(request, ticket_id):
         form = TicketForm(request.POST, instance=ticket)
         if form.is_valid():
             form.save()
-            return redirect('table_list', table_id=ticket.table.id)
+            return redirect('table_list')
     else:
         form = TicketForm(instance=ticket)
     return render(request, 'core/ticket_form.html', {'form': form})
 
 def ticket_delete(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
-    table_id = ticket.table.id
     ticket.delete()
-    return redirect('table_list', table_id=table_id)
+    return redirect('table_list')
 
 def eliminar_tabla(request, table_id):
     table = get_object_or_404(Table, pk=table_id)

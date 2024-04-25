@@ -27,9 +27,9 @@ urlpatterns = [
     path('crear-tabla/', views.crear_tabla, name='crear_tabla'),#Crear tabla
     path('table/<int:table_id>/', views.table_detail, name='table_detail'),#Id de la tabla en especifico
     path('table/<int:table_id>/ticket/create/', views.ticket_create, name='ticket_create'),#Crear tickets
-    path('ticket/<int:ticket_id>/update/', views.ticket_update, name='ticket_update'),#Actualizar tickets
-    path('ticket/<int:ticket_id>/delete/', views.ticket_delete, name='ticket_delete'),#Eliminar tickets
-    
+    path('ticket/<int:ticket_id>/update/', views.ticket_update, name='ticket_update'),
+    path('ticket/<int:ticket_id>/delete/', views.ticket_delete, name='ticket_delete'),
+
     #Guardar archivos clientes
     path('archivo/<int:archivo_id>/eliminar/', views.eliminar_archivo, name='eliminar_archivo'), #eliminar archivo
     path('guardar_archivos/', views.guardar_archivos, name='guardar_archivos'),#Guardar archivos clientes
