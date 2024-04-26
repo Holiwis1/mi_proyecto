@@ -28,7 +28,7 @@ urlpatterns = [
     path('archivo/<int:archivo_id>/eliminar/', views.eliminar_archivo, name='eliminar_archivo'), #eliminar archivo
     path('guardar_archivos/', views.guardar_archivos, name='guardar_archivos'),#Guardar archivos clientes
     path('cambiar_nombre_archivo/<int:archivo_id>/', views.cambiar_nombre_archivo, name='cambiar_nombre_archivo'), #edición nombre archivo
-    
+    path('descargar_archivo/<int:archivo_id>/', views.descargar_archivos, name='descargar_archivos'),
    
 #****************************** TRELLO ******************************#
     path('eliminar_tabla/<int:table_id>/', views.eliminar_tabla, name='eliminar_tabla'),#Eliminar tabla
