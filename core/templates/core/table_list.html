@@ -206,25 +206,7 @@
                                 {% endif %}
                             </div>
                          </div>
-                         <div id="ticketModal" class="modal">
-                            <div class="modal-content">
-                                <span class="close">&times;</span>
-                                <div id="ticketContent">
-                                 
-                                    <!-- Fila para el ícono y el texto "Descripción" -->
-                                    <div class="description-row">
-                                        <!-- Ícono de descripción -->
-                                        <img src="https://cdn-icons-png.flaticon.com/128/5956/5956597.png" alt="Icono de descripción" width="48" height="48" style="float: left; margin-right: 10px;">
-                                        <!-- Texto "Descripción" -->
-                                        <h4>Descripción:</h4>
-                                        
-                                    </div>
-                                    
-                                    <!-- Contenedor para la descripción del ticket -->
-                                    <div id="ticketDescription"></div>
-                                </div>
-                            </div>
-                         </div>
+                     
                     </li>
                     {% empty %}
                     <li class="list-group-item">No hay tickets en esta tabla.</li>
@@ -272,7 +254,22 @@
         </div>
     </div>
 
-
+    <div id="ticketModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="ticketContent">
+                <!-- Fila para el ícono y el texto "Descripción" -->
+                <div class="description-row">
+                    <!-- Ícono de descripción -->
+                    <img src="https://cdn-icons-png.flaticon.com/128/5956/5956597.png" alt="Icono de descripción" width="48" height="48" style="float: left; margin-right: 10px;">
+                    <!-- Texto "Descripción" -->
+                    <h4>Descripción:</h4>
+                </div>
+                <!-- Contenedor para la descripción del ticket -->
+                <div id="ticketDescription"></div>
+            </div>
+        </div>
+    </div>
 <!--INTENTAR PONER LA FOTO DE DESCRIPTION -->
 
 
@@ -339,11 +336,11 @@
         
         ticketTitles.forEach(title => {
             title.addEventListener('click', function() {
-                const description = this.nextElementSibling.innerHTML; 
-                const titleDescription = "Descripción: ";
-                modalContent.innerHTML = "<strong>" + titleDescription + "</strong>" + description;
-                modal.style.display = 'block'; 
-            });
+                    const description = this.nextElementSibling.innerHTML; 
+                    const title_description = "Descripción: ";
+                    modalContent.innerHTML = "<strong>" + title_description + "</strong>" + description;
+                    modal.style.display = 'block'; 
+                });
         });
         
         closeBtn.addEventListener('click', function() {
