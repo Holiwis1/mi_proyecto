@@ -1,10 +1,23 @@
-
-
 <h1>Crear/Actualizar Ticket</h1>
 
-<form id="ticket-form" method="post">
+<form id="ticket-form" method="post" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.as_p }}
+  <input type="file" name="archivo_adjunto" id="archivo-adjunto">
+  <input type="text" name="nuevo_nombre_archivo" id="nuevo-nombre-archivo" placeholder="Nuevo nombre del archivo">
   <button type="submit">Guardar</button>
 </form>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const archivoAdjuntoInput = document.getElementById('archivo-adjunto');
+    const nuevoNombreArchivoInput = document.getElementById('nuevo-nombre-archivo');
 
+    archivoAdjuntoInput.addEventListener('change', function() {
+        if (archivoAdjuntoInput.files.length > 0) {
+            nuevoNombreArchivoInput.style.display = 'block';
+        } else {
+            nuevoNombreArchivoInput.style.display = 'none';
+        }
+    });
+});
+</script>

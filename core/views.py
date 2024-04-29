@@ -335,6 +335,36 @@ def eliminar_archivo(request, archivo_id):
 
     return HttpResponse("Método no permitido", status=405)
 
+#TICKET_FORM
+def crear_actualizar_ticket(request):
+    if request.method == 'POST':
+        # Lógica para manejar los datos del formulario
+        form = TicketForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Procesar el formulario aquí
+            
+            # Manejar archivo adjunto si está presente
+            archivo_adjunto = request.FILES.get('archivo_adjunto')
+            if archivo_adjunto:
+                fs = FileSystemStorage()
+                filename = fs.save(archivo_adjunto.name, archivo_adjunto)
+                # Puedes almacenar el nombre del archivo en la base de datos si es necesario
+
+            # Cambiar el nombre del archivo si se proporciona uno nuevo
+            nuevo_nombre_archivo = request.POST.get('nuevo_nombre_archivo')
+            if nuevo_nombre_archivo and archivo_adjunto:
+                # Lógica para cambiar el nombre del archivo adjunto
+                old_path = fs.path(filename)
+                new_path = fs.path(nuevo_nombre_archivo)
+                os.rename(old_path, new_path)
+
+            # Redirigir a alguna página de éxito o renderizar otro template
+            return redirect('pagina_exito')
+
+    else:
+        form = TicketForm()
+    
+    return render(request, 'ticket_form.html', {'form': form})
 
 
  #TRELLO
