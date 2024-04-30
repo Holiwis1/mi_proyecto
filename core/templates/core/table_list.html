@@ -44,7 +44,7 @@
             padding: 0 0.8rem; /* Ajusta el relleno según sea necesario */
             width: 100%;
             max-width: 100%;
-            user-select: none;
+            user-select: none; 
         }
 
         /* Estilo para las tarjetas */
@@ -547,7 +547,7 @@
 
     <!-- Botón de redirección -->
     <div class="redirect-button-container">
-        <button type="button" class="btn btn-primary prueba" onclick="window.location.href='{% url 'indice' %}'">Página de inicio</button>
+        <button type="button" class="btn btn-primary prueba" onclick="window.location.href='{% url 'lista_clientes' %}'">Página de inicio</button>
     </div>
 
     <!-- Modal para crear tabla -->
@@ -585,17 +585,13 @@
         $(document).ready(function() {
             var isMouseDown = false; // Variable para verificar si el mouse está presionado
             var lastMouseX = 0; // Última posición horizontal del ratón
-            var lastScrollLeft = 0; // Última posición del scrollbar
-            var lastTimestamp = 0; // Última marca de tiempo
     
-            // Cuando se mantiene presionado el click izquierdo dentro del área de las tablas, se activa el desplazamiento
-            $('.scrolling-wrapper').mousedown(function(event) {
+            // Cuando se mantiene presionado el click izquierdo, se activa el desplazamiento
+            $(document).mousedown(function(event) {
                 if (event.which == 1) { // Verifica si el botón presionado es el izquierdo (código 1)
                     isMouseDown = true;
                     $('body').css('overflow-x', 'scroll'); // Habilita el desplazamiento horizontal
                     lastMouseX = event.pageX; // Guarda la posición horizontal actual del ratón
-                    lastScrollLeft = $(document).scrollLeft(); // Guarda la posición del scrollbar
-                    lastTimestamp = performance.now(); // Guarda la marca de tiempo actual
                 }
             });
     
@@ -610,27 +606,14 @@
             // Cuando se mueve el mouse, se controla el desplazamiento del scrollbar
             $(document).mousemove(function(event) {
                 if (isMouseDown) {
-                    var scrollSpeed = 0.1; // Velocidad de desplazamiento
-                    var currentTime = performance.now(); // Marca de tiempo actual
-                    var timeDifference = currentTime - lastTimestamp; // Diferencia de tiempo
-                    var deltaTime = timeDifference * scrollSpeed; // Ajuste de velocidad
+                    var scrollSpeed = 4; // Ajusta el valor para una velocidad de desplazamiento más rápida
                     var deltaX = lastMouseX - event.pageX; // Cantidad de desplazamiento horizontal en píxeles
-    
-                    // Desaceleración
-                    var scrollDelta = (deltaX / deltaTime) * 10; // Factor de desaceleración
-                    var newScrollLeft = lastScrollLeft + scrollDelta; // Nueva posición del scrollbar
-    
-                    // Aplica el desplazamiento horizontal con suavidad
-                    $('html, body').scrollLeft(newScrollLeft);
-                    
+                    $(document).scrollLeft($(document).scrollLeft() + deltaX * scrollSpeed); // Aplica el desplazamiento horizontal
                     lastMouseX = event.pageX; // Actualiza la última posición horizontal del ratón
-                    lastScrollLeft = newScrollLeft; // Actualiza la última posición del scrollbar
-                    lastTimestamp = currentTime; // Actualiza la última marca de tiempo
                 }
             });
         });
     </script>
-    
     
     <script>
         document.querySelectorAll('.ticket-title').forEach(function(title) {
