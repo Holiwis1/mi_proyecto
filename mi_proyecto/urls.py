@@ -20,11 +20,9 @@ from core.views import indice, home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', indice, name='indice'),
     path('home/', home, name='home'),
     path('', include('core.urls')),  # Incluye las URLs de la app core
-  
-    
+ 
 ]
 
 handler404 = 'core.views.handler404'

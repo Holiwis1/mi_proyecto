@@ -126,9 +126,11 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configuración de la autentificacion
-LOGIN_REDIRECT_URL = 'indice'
-LOGOUT_REDIRECT_URL = 'login'
+LOGIN_REDIRECT_URL = 'lista_clientes'
+LOGOUT_REDIRECT_URL = '/iniciar-sesion/'
+LOGIN_URL = '/iniciar-sesion/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False

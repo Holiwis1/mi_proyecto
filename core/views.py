@@ -16,6 +16,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.utils import ImageReader
 from reportlab.lib.units import inch
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 from .forms import TableForm, TicketAttachmentForm, TicketForm
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage
@@ -23,6 +24,7 @@ from django.core.files.storage import FileSystemStorage
 
 
 # Mostrar la lista de empleados
+@login_required
 def lista_empleados(request):
     # Obtener todos los empleados y ordenarlos por un campo (por ejemplo, id)
     empleados = Empleado.objects.order_by('id')
@@ -61,6 +63,7 @@ def lista_empleados(request):
 
 
 #listado de clientes ordenado por id
+@login_required
 def lista_clientes(request):
     #Ordenar clientes por id
     clientes = Cliente.objects.all().order_by('id')
@@ -85,7 +88,7 @@ def lista_clientes(request):
             Q(telefono2__icontains=cliente_busqueda)  # Buscar por segundo teléfono
         )
 
-    paginator = Paginator(clientes, 2)
+    paginator = Paginator(clientes, 20)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
     return render(request, 'core/lista_clientes.html', {'page_obj': page_obj})
@@ -93,24 +96,27 @@ def lista_clientes(request):
 
 
 #mostrar pagina indice
+@login_required
 def indice(request):
-    return render(request, 'core/index.html')
+    return render(request, 'lista_clientes')
 
 
 
 #mostrar pagina home
+@login_required
 def home(request):
     return render(request, 'core/home.html')
 
 
 
 #ruta no encontrada errores
+@login_required
 def handler404(request, exception):
     return render(request, 'core/error.html')
 
 
-
 #registro de usuario/empleados
+@login_required
 def registro_empleado(request):
     if request.method == 'POST':
         form = EmpleadoSignUpForm(request.POST, request.FILES)
@@ -129,6 +135,7 @@ def registro_empleado(request):
 
 
 #mostrar el perfil de un empleado, con informacion como imagen, nombre, apellido, email, etc
+@login_required
 def perfil_empleado(request, empleado_id):
     empleado = get_object_or_404(Empleado, pk=empleado_id)
 
@@ -147,6 +154,7 @@ def perfil_empleado(request, empleado_id):
 
 
 #Registrar un cliente
+@login_required
 def registro_cliente(request):
     if request.method == 'POST':
         form = ClienteForm(request.POST)
@@ -161,6 +169,7 @@ def registro_cliente(request):
 
 
 #Descargar PDF con la foto del DNI de un empleado
+@login_required
 def descargar_pdf(request, empleado_id):
     empleado = Empleado.objects.get(pk=empleado_id)
 
@@ -194,6 +203,7 @@ def descargar_pdf(request, empleado_id):
 
 
 #Eliminar empleado, recibo su id, elimino y refresco pagina
+@login_required
 def eliminar_empleado(request, empleado_id):
     empleado = Empleado.objects.get(pk=empleado_id)
     empleado.delete()
@@ -201,6 +211,7 @@ def eliminar_empleado(request, empleado_id):
 
 
 #Editar información de empleado
+@login_required
 def editar_empleado(request, empleado_id):
     empleado = get_object_or_404(Empleado, pk=empleado_id)
     if request.method == 'POST':
@@ -215,6 +226,7 @@ def editar_empleado(request, empleado_id):
 
 
 #Editar información de cliente
+@login_required
 def editar_cliente(request, cliente_id):
     cliente = get_object_or_404(Cliente, pk=cliente_id)
     if request.method == 'POST':
@@ -231,23 +243,28 @@ def editar_cliente(request, cliente_id):
 
 
 #Eliminar cliente, recibo su id, elimino y refresco pagina
+@login_required
 def eliminar_cliente(request, cliente_id):
     cliente = Cliente.objects.get(pk=cliente_id)
     cliente.delete()
     return redirect('lista_clientes')
 
+
 #perfil cliente 
+@login_required
 def perfil_cliente(request, cliente_id):
     cliente = get_object_or_404(Cliente, id=cliente_id)
     return render(request, 'core/perfil_cliente.html', {'cliente': cliente})
 
-
+#Descargar archivos
+@login_required
 def descargar_archivos(request, archivo_id):
     archivo = get_object_or_404(Archivo, id=archivo_id)
     file_path = archivo.archivo.path
     return FileResponse(open(file_path, 'rb'))
 
 #guardar archivos
+@login_required
 def guardar_archivos(request):
     if request.method == 'POST':
         cliente_id = request.POST.get('cliente_id')
@@ -277,7 +294,9 @@ def guardar_archivos(request):
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
+
 #Editar nombre archivo
+@login_required
 def cambiar_nombre_archivo(request, archivo_id):
     if request.method == 'POST':
         nuevo_nombre = request.POST.get('nuevo_nombre', None)
@@ -316,7 +335,9 @@ def cambiar_nombre_archivo(request, archivo_id):
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
+
 #Eliminar archivo
+@login_required
 def eliminar_archivo(request, archivo_id):
     if request.method == 'POST':
         archivo = get_object_or_404(Archivo, id=archivo_id)
@@ -335,7 +356,9 @@ def eliminar_archivo(request, archivo_id):
 
     return HttpResponse("Método no permitido", status=405)
 
+
 #TICKET_FORM
+@login_required
 def crear_actualizar_ticket(request):
     if request.method == 'POST':
         # Lógica para manejar los datos del formulario
@@ -367,7 +390,8 @@ def crear_actualizar_ticket(request):
     return render(request, 'ticket_form.html', {'form': form})
 
 
- #TRELLO
+#TRELLO
+@login_required
 def crear_tabla(request):
     if request.method == 'POST':
         form = TableForm(request.POST)
@@ -379,15 +403,20 @@ def crear_tabla(request):
     
     tables = Table.objects.all()
     return render(request, 'core/table_list.html', {'form': form, 'tables': tables})
+
+@login_required
 def table_list(request):
     tables = Table.objects.all()
     tickets = Ticket.objects.all()  # Obtener todos los tickets
     return render(request, 'core/table_list.html', {'tables': tables, 'tickets': tickets})
 
+@login_required
 def table_detail(request, table_id):
     table = get_object_or_404(Table, pk=table_id)
     tickets = Ticket.objects.filter(table=table)
     return render(request, 'core/table_detail.html', {'table': table, 'tickets': tickets})
+
+@login_required
 def ticket_create(request, table_id):
     table = get_object_or_404(Table, pk=table_id)
     
@@ -403,8 +432,9 @@ def ticket_create(request, table_id):
         form = TicketForm()
     return render(request, 'core/ticket_form.html', {'form': form})
 
- 
 
+#Actualizar ticket 
+@login_required
 def ticket_update(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     if request.method == 'POST':
@@ -416,11 +446,13 @@ def ticket_update(request, ticket_id):
         form = TicketForm(instance=ticket)
     return render(request, 'core/ticket_form.html', {'form': form})
 
+@login_required
 def ticket_delete(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     ticket.delete()
     return redirect('table_list')
 
+@login_required
 def eliminar_tabla(request, table_id):
     table = get_object_or_404(Table, pk=table_id)
     table.delete()

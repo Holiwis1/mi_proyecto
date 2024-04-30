@@ -5,11 +5,15 @@ from .views import lista_empleados, registro_cliente, registro_empleado
 from django.contrib.auth.views import LoginView, LogoutView
 from . import views
 
+
 urlpatterns = [
+    #***************************************La página de inicio será la lista de clientes**************************************************
+    path('', views.lista_clientes, name='lista_clientes'), 
     
 #****************************** LOGIN ******************************#
     path('iniciar-sesion/', LoginView.as_view(template_name='core/login.html'), name='login'), #http://127.0.0.1:8000/iniciar-sesion/
-    
+    path('cerrar-sesion/', LogoutView.as_view(), name='logout'), #Tiene que redirigir al login
+
 #****************************** EMPLEADOS ******************************#
     path('empleados/', lista_empleados, name='lista_empleados'), #http://127.0.0.1:8000/empleados/
     path('eliminar_empleado/<int:empleado_id>/', views.eliminar_empleado, name='eliminar_empleado'), #para eliminar empleado
