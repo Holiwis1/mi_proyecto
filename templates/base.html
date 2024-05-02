@@ -29,13 +29,18 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-
                     {% block navegar %}
                     <!-- El contenido de cada página específica irá aquí -->
                     {% endblock %}
-
                 </ul>
             </div>
+        
+            <!-- Mostrar saludo y nombre del usuario -->
+            {% if request.user.is_authenticated %}
+            <span class="navbar-text">
+                Hola, {{ request.user.username }}
+            </span>
+            {% endif %}
         </nav>
     </header>
 

@@ -102,6 +102,23 @@
             font-family: Arial, Helvetica, sans-serif;
             Font-size:90%;
             padding:1%;
+            
+        }
+        .description-container{
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f4f5f7;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+            width:45%;
+            height:45%;
+        }
+        .title{
+            
         }
 
         /* Estilo para el título de los tickets */
@@ -116,21 +133,22 @@
                     position: fixed;
                     width: 100%; /* Ancho al 100% */
                     height: 100%; /* Altura al 100% */
-                    overflow: auto;
+                    
+                    
                     background-color: rgba(0,0,0,0.3); /* Modifica el valor de la opacidad según lo necesites */
                 }
 
 /* Estilo para el contenido del modal */
-            .modal-content {
-                background-color: #fefefe;
-                margin: auto;
-                padding: 20px;
-                margin-top:10%;
-                border: 1px solid #888;
-                width: 80%;
-                max-width: 800px;
-            }
-
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    margin-top: 10%;
+    border: 1px solid #888;
+    max-width: 80%; /* Ancho máximo del contenido del modal */
+    max-height: 80vh; /* Altura máxima del contenido del modal */
+    overflow-y: auto; /* Permitir el desplazamiento vertical si es necesario */
+}
         /* Estilo para el botón de cerrar el modal */
         .close {
           color: #aaaaaa;
@@ -457,7 +475,8 @@
         }
         .logo-container{
             margin-left: 20%;
-        }
+        
+        
     </style>
 </head>
 <body>
@@ -486,9 +505,10 @@
                 <button class="user-settings-btn btn" aria-label="Notifications">
                     <i class="fas fa-bell" aria-hidden="true"></i>
                 </button>
-                <button class="user-settings-btn btn" aria-label="User Settings">
-                    <i class="fas fa-user-circle" aria-hidden="true"></i>
-                </button>
+                <div class="user-settings">
+                    <img id="profile-img" src="{% if empleado.foto %}{{ empleado.foto.url }}{% else %}https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s{% endif %}" alt="Foto de perfil">
+                </div>
+                
             </div>
         </div>
     </header>
@@ -515,7 +535,7 @@
                     <li class="list-group-item">
                         <div class="ticket-content">
                             <h5 class="ticket-title" style="cursor: pointer;">{{ ticket.title }}</h5>
-                            <p class="ticket-description" style="display: none;">{{ ticket.description }}</p>
+                            <p class="ticket-description" style="display: none; background-color:red;">{{ ticket.description }}</p>
                         </div>
                         <div class="ticket-icons">
                             <!-- Icono de lápiz para editar -->
@@ -665,15 +685,23 @@
         const editTicketBtn = document.getElementById('editTicketBtn');
         const deleteTicketBtn = document.getElementById('deleteTicketBtn');
 
+        const MAX_CHARACTERS_PER_LINE = 100;
         ticketTitles.forEach(title => {
             title.addEventListener('click', function() {
-                const description = this.nextElementSibling.innerHTML; 
+                const description = this.nextElementSibling.innerHTML;
                 const title_description = "Descripción: ";
-                modalContent.innerHTML = "<strong>" + title_description + "</strong>" + description;
+                let formattedDescription = "<div class='description-container'><div class='title'>" + title_description + "</div>";
+        
+                // Agregar saltos de línea cada MAX_CHARACTERS_PER_LINE caracteres
+                for (let i = 0; i < description.length; i += MAX_CHARACTERS_PER_LINE) {
+                    formattedDescription += description.substring(i, i + MAX_CHARACTERS_PER_LINE) + "<br>";
+                }
+                
+                formattedDescription += "</div>"; // Cerrar el contenedor de descripción
+                modalContent.innerHTML = formattedDescription;
                 modal.style.display = 'block'; 
             });
         });
-
         closeBtn.addEventListener('click', function() {
             modal.style.display = 'none';
         });

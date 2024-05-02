@@ -148,7 +148,12 @@ def perfil_empleado(request, empleado_id):
     else:
         # Inicializa el formulario con la instancia de 'empleado' para los casos GET.
         form = EmpleadoCambiarFoto(instance=empleado)
-    return render(request, 'core/perfil_empleado.html', context={'empleado': empleado, 'form': form})
+
+    # Obtener la URL de la imagen del perfil del empleado
+    profile_image_url = empleado.foto.url if empleado.foto else None
+
+    return render(request, 'core/perfil_empleado.html', context={'empleado': empleado, 'form': form, 'profile_image_url': profile_image_url})
+
 
 
 
