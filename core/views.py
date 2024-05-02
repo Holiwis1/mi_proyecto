@@ -401,8 +401,9 @@ def crear_tabla(request):
     if request.method == 'POST':
         form = TableForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('table_list') 
+            table = form.save()
+            # Redirecciona al perfil del empleado después de guardar la tabla
+            return redirect('perfil_empleado', empleado_id=table.empleado.id)
     else:
         form = TableForm()
     
