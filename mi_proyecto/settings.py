@@ -127,8 +127,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configuración de la autentificacion
 LOGIN_REDIRECT_URL = 'lista_clientes'
-LOGOUT_REDIRECT_URL = '/iniciar-sesion/'
 LOGIN_URL = '/iniciar-sesion/'
+LOGOUT_REDIRECT_URL = '/iniciar-sesion/'
+LOGOUT_URL = 'logout'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

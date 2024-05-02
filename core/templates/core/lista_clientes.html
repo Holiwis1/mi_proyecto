@@ -103,8 +103,12 @@
 </style>
 
 <li class="nav-item">
-    <a class="nav-link" href="{% url 'login' %}">Cerrar sesión</a>
+    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-link nav-link" style="border: none; padding: 0; background: none;">Cerrar sesión</button>
+    </form>
 </li>
+
 {% endblock %}
 
 {% block content %}
