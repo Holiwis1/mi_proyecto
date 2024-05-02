@@ -400,6 +400,7 @@ def crear_actualizar_ticket(request):
 def crear_tabla(request):
     if request.method == 'POST':
         form = TableForm(request.POST)
+        
         if form.is_valid():
             table = form.save()
             # Redirecciona al perfil del empleado después de guardar la tabla
