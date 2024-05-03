@@ -384,7 +384,7 @@
         .search-icon {
             font-size: 1.5rem;
             position: absolute;
-            top: 50%;
+            top: 45%;
             right: 0.8rem;
             transform: translateY(-50%) rotate(90deg);
             color: #fff;
@@ -539,15 +539,12 @@
                     <i class="fas fa-bell" aria-hidden="true"></i>
                 </button>
                 <div class="user-img-login">
-                    
-                        
+                    <a href="{% url 'perfil_empleado' empleado_id=request.user.id %}">
                         <img id="user-img-login" src="{{ request.user.foto.url }}" alt="Foto de perfil">
                     </a>
                 </div>
                 <p class="title-img-login">Bienvenido, {{ request.user.username }}</p>
-               
-        </nav>
-                </div>
+                
                 
             </div>
         </div>
@@ -666,7 +663,7 @@
             // Cuando se mueve el mouse, se controla el desplazamiento del scrollbar
             $(document).mousemove(function(event) {
                 if (isMouseDown) {
-                    var scrollSpeed = 4; // Ajusta el valor para una velocidad de desplazamiento más rápida
+                    var scrollSpeed = 10; // Ajusta el valor para una velocidad de desplazamiento más rápida
                     var deltaX = lastMouseX - event.pageX; // Cantidad de desplazamiento horizontal en píxeles
                     $(document).scrollLeft($(document).scrollLeft() + deltaX * scrollSpeed); // Aplica el desplazamiento horizontal
                     lastMouseX = event.pageX; // Actualiza la última posición horizontal del ratón
