@@ -81,14 +81,16 @@
             <span class="navbar-text">
                 <div class="user-img-login">
                     <a href="{% url 'perfil_empleado' empleado_id=request.user.id %}">
-                        <img id="user-img-login" src="{{ request.user.foto.url }}" alt="Foto de perfil">
+                        {% if request.user.foto %}
+                            <img id="user-img-login" src="{{ request.user.foto.url }}" alt="Foto de perfil">
+                        {% else %}
+                            <img id="user-img-login" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s" alt="Foto de perfil predeterminada">
+                        {% endif %}
                     </a>
                     <p class="title-img-login">Bienvenido, {{ request.user.username }}</p>
                 </div>
-               
-                
             </span>
-            {% endif %}
+        {% endif %}
         </nav>
     </header>
 
