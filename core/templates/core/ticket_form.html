@@ -1,23 +1,104 @@
-<h1>Crear/Actualizar Ticket</h1>
-
-<form id="ticket-form" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="file" name="archivo_adjunto" id="archivo-adjunto">
-  <input type="text" name="nuevo_nombre_archivo" id="nuevo-nombre-archivo" placeholder="Nuevo nombre del archivo">
-  <button type="submit">Guardar</button>
-</form>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const archivoAdjuntoInput = document.getElementById('archivo-adjunto');
-    const nuevoNombreArchivoInput = document.getElementById('nuevo-nombre-archivo');
-
-    archivoAdjuntoInput.addEventListener('change', function() {
-        if (archivoAdjuntoInput.files.length > 0) {
-            nuevoNombreArchivoInput.style.display = 'block';
-        } else {
-            nuevoNombreArchivoInput.style.display = 'none';
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear/Actualizar Ticket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-    });
-});
-</script>
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            max-width: 100%;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        input[type="file"],
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="file"] {
+            width: 95%;
+        }
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Crear/Actualizar Ticket</h1>
+        <form id="ticket-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_title">Título:</label>
+                <input type="text" name="title" id="id_title" class="form-control" placeholder="Título del ticket" value="{{ form.instance.title }}">
+            </div>
+            <div class="form-group">
+                <label for="id_description">Descripción:</label>
+                <textarea name="description" id="id_description" class="form-control" rows="4" placeholder="Descripción del ticket">{{ form.instance.description }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="archivo-adjunto">Adjuntar Archivo:</label>
+                <input type="file" name="archivo_adjunto" id="archivo-adjunto">
+            </div>
+            <div class="form-group">
+                <input type="text" name="nuevo_nombre_archivo" id="nuevo-nombre-archivo" class="form-control" placeholder="Nuevo nombre del archivo">
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const archivoAdjuntoInput = document.getElementById('archivo-adjunto');
+            const nuevoNombreArchivoInput = document.getElementById('nuevo-nombre-archivo');
+
+            archivoAdjuntoInput.addEventListener('change', function() {
+                if (archivoAdjuntoInput.files.length > 0) {
+                    nuevoNombreArchivoInput.style.display = 'block';
+                } else {
+                    nuevoNombreArchivoInput.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

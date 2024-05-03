@@ -450,6 +450,7 @@ def ticket_update(request, ticket_id):
             form.save()
             return redirect('table_list')
     else:
+        # Aquí, asegúrate de pasar el ticket existente al formulario
         form = TicketForm(instance=ticket)
     return render(request, 'core/ticket_form.html', {'form': form})
 
