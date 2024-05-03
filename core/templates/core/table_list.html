@@ -511,10 +511,11 @@
         
         .title-img-login {
             /* Centra el texto horizontalmente */
-            margin-top: 3px; /* Ajusta el margen superior según sea necesario */
+            margin-top: 10%; /* Ajusta el margen superior según sea necesario */
             font-size: 15px; /* Tamaño de fuente */
             color: white; /* Color del texto */
             /* Otros estilos que desees aplicar */
+            margin-left:10%;
         }
         
         
@@ -547,7 +548,7 @@
                     <i class="fas fa-bell" aria-hidden="true"></i>
                 </button>
                 {% if request.user.is_authenticated %}
-                <span class="navbar-text">
+               
                     <div class="user-img-login">
                         <a href="{% url 'perfil_empleado' empleado_id=request.user.id %}">
                             {% if request.user.foto %}
@@ -558,7 +559,7 @@
                         </a>
                         <p class="title-img-login">A trabajar, {{ request.user.username }}</p>
                     </div>
-                </span>
+               
             {% endif %}
                
                 
