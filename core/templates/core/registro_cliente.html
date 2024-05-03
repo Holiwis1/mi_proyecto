@@ -21,7 +21,7 @@
                 <label for="id_tipo">Tipo:</label>
                 <select name="tipo" id="id_tipo" class="form-control">
                     {% for choice in cliente.get_tipo_display %}
-                        <option value="{{ choice.0 }}" {% if choice.0 == cliente.tipo %} selected {% endif %}>{{ choice.1 }}</option>
+                        <option value="{{ choice }}" {% if choice == cliente.tipo %} selected {% endif %}>{{ choice }}</option>
                     {% endfor %}
                 </select>
             </div>
