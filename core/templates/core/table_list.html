@@ -481,10 +481,18 @@
 
         }
         
+        .user-img-login {
+            display: flex;
+            align-items: center; /* Centra verticalmente los elementos */
+            justify-content: flex-end; /* Alinea los elementos a la derecha */
+        }
+        
         .user-img-login img {
+            /* Tus estilos existentes */
+            
             display: block;
             margin: 1px auto;
-            margin-right:2px;
+            margin-right: 2px;
             width: 50px;
             height: 50px;
             overflow: hidden;
@@ -492,16 +500,15 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             position: relative;
-            border-color:white;
-            background-color:#0079bf;
+            border-color: white;
+            background-color: #0079bf;
             border: 2px solid #fff;
         }
-       
         #user-img-login {
             max-width:400px;
-            height: 100%;
             object-fit: cover;
         }
+        
         .title-img-login {
             /* Centra el texto horizontalmente */
             margin-top: 3px; /* Ajusta el margen superior según sea necesario */
@@ -509,6 +516,7 @@
             color: white; /* Color del texto */
             /* Otros estilos que desees aplicar */
         }
+        
         
     </style>
 </head>
@@ -543,7 +551,7 @@
                         <img id="user-img-login" src="{{ request.user.foto.url }}" alt="Foto de perfil">
                     </a>
                 </div>
-                <p class="title-img-login">Bienvenido, {{ request.user.username }}</p>
+                <p class="title-img-login">A trabajar, {{ request.user.username }}</p>
                 
                 
             </div>

@@ -15,6 +15,47 @@
         }
     </style>
 </head>
+<style>
+    .user-img-login{
+        margin-left: 5%;
+
+    }
+    
+    .user-img-login {
+        display: flex;
+       
+        
+    }
+    
+    .user-img-login img {
+        display: block;
+        margin: 1px auto;
+        margin-right: 2px;
+        width: 50px;
+        height: 50px;
+        overflow: hidden;
+        border-radius: 50%;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        border-color: white;
+        background-color: #0079bf;
+        border: 2px solid #fff;
+    }
+    #user-img-login {
+        object-fit: cover;
+    }
+    
+    .title-img-login {
+        /* Centra el texto horizontalmente */
+        margin-top: 3px; /* Ajusta el margen superior según sea necesario */
+        font-size: 15px; /* Tamaño de fuente */
+        color: white; /* Color del texto */
+        marg
+        /* Otros estilos que desees aplicar */
+    }
+   
+</style>  
 <body>
     <header>
         <!-- Barra de navegación -->
@@ -38,7 +79,13 @@
             <!-- Mostrar saludo y nombre del usuario -->
             {% if request.user.is_authenticated %}
             <span class="navbar-text">
-                Hola, {{ request.user.username }}
+                <div class="user-img-login">
+                    <a href="{% url 'perfil_empleado' empleado_id=request.user.id %}">
+                        <img id="user-img-login" src="{{ request.user.foto.url }}" alt="Foto de perfil">
+                    </a>
+                    <p class="title-img-login">Bienvenido, {{ request.user.username }}</p>
+                </div>
+               
                 
             </span>
             {% endif %}
