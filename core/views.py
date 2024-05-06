@@ -23,6 +23,7 @@ from .forms import TableForm, TicketAttachmentForm, TicketForm
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage
 
+
 # Mostrar la lista de empleados
 @login_required
 @admin_required
@@ -104,7 +105,6 @@ def indice(request):
 
 
 #ruta no encontrada errores
-@login_required
 def handler404(request, exception):
     return render(request, 'core/error.html')
 

@@ -9,13 +9,13 @@ def admin_required(view_func):
         # Comprueba si el usuario está autenticado
         if not request.user.is_authenticated:
             # Redirige a la página de inicio de sesión
-            return redirect('login')  
+            return redirect('login') 
 
         # Comprueba si el usuario es administrador
         if request.user.rol != 'admin':
             # Renderiza una página de error específica para problemas de rol
             context = {'mensaje': 'No tienes permiso para ver esta página'}
-            return render(request, 'rol_error.html', context, status=403)
+            return render(request, 'core/rol_error.html', context, status=403)
 
         return view_func(request, *args, **kwargs)
     return _wrapped_view
