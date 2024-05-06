@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="alert alert-danger" role="alert">
+    {{ mensaje }}
+    <p>Puedes regresar a la <a href="{% url 'table_list' %}">página principal</a>.</p>
+</div>
+{% endblock %}

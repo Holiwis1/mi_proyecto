@@ -8,7 +8,7 @@ from . import views
 
 urlpatterns = [
     #***************************************La página de inicio será la lista de clientes**************************************************
-    path('', views.lista_clientes, name='lista_clientes'), 
+    path('', views.table_list, name='table_list'), 
     
 #****************************** LOGIN ******************************#
     path('iniciar-sesion/', LoginView.as_view(template_name='core/login.html'), name='login'), #http://127.0.0.1:8000/iniciar-sesion/

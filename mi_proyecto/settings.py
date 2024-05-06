@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^x-_^33b%!1ua8*&(74t30n+p!+z1^gngxx1t&mz%9%eng2rf8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
@@ -126,7 +126,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configuración de la autentificacion
-LOGIN_REDIRECT_URL = 'lista_clientes'
+LOGIN_REDIRECT_URL = 'table_list'
 LOGIN_URL = '/iniciar-sesion/'
 LOGOUT_REDIRECT_URL = '/iniciar-sesion/'
 LOGOUT_URL = 'logout'

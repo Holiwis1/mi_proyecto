@@ -1,3 +1,4 @@
+from functools import wraps
 from multiprocessing import context
 import os
 from django.http import HttpResponse, JsonResponse
@@ -10,6 +11,7 @@ from django.contrib.auth import login
 from django.shortcuts import render
 from django.core.paginator import Paginator
 import io
+from .decorators import admin_required
 from django.http import FileResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
@@ -21,10 +23,9 @@ from .forms import TableForm, TicketAttachmentForm, TicketForm
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage
 
-
-
 # Mostrar la lista de empleados
 @login_required
+@admin_required
 def lista_empleados(request):
     # Obtener todos los empleados y ordenarlos por un campo (por ejemplo, id)
     empleados = Empleado.objects.order_by('id')
@@ -64,6 +65,7 @@ def lista_empleados(request):
 
 #listado de clientes ordenado por id
 @login_required
+@admin_required
 def lista_clientes(request):
     #Ordenar clientes por id
     clientes = Cliente.objects.all().order_by('id')
@@ -98,15 +100,7 @@ def lista_clientes(request):
 #mostrar pagina indice
 @login_required
 def indice(request):
-    return render(request, 'lista_clientes')
-
-
-
-#mostrar pagina home
-@login_required
-def home(request):
-    return render(request, 'core/home.html')
-
+    return render(request, 'table_list')
 
 
 #ruta no encontrada errores
@@ -160,6 +154,7 @@ def perfil_empleado(request, empleado_id):
 
 #Registrar un cliente
 @login_required
+@admin_required
 def registro_cliente(request):
     if request.method == 'POST':
         form = ClienteForm(request.POST)
@@ -209,6 +204,7 @@ def descargar_pdf(request, empleado_id):
 
 #Eliminar empleado, recibo su id, elimino y refresco pagina
 @login_required
+@admin_required
 def eliminar_empleado(request, empleado_id):
     empleado = Empleado.objects.get(pk=empleado_id)
     empleado.delete()
@@ -217,6 +213,7 @@ def eliminar_empleado(request, empleado_id):
 
 #Editar información de empleado
 @login_required
+@admin_required
 def editar_empleado(request, empleado_id):
     empleado = get_object_or_404(Empleado, pk=empleado_id)
     if request.method == 'POST':
@@ -232,6 +229,7 @@ def editar_empleado(request, empleado_id):
 
 #Editar información de cliente
 @login_required
+@admin_required
 def editar_cliente(request, cliente_id):
     cliente = get_object_or_404(Cliente, pk=cliente_id)
     if request.method == 'POST':
@@ -249,6 +247,7 @@ def editar_cliente(request, cliente_id):
 
 #Eliminar cliente, recibo su id, elimino y refresco pagina
 @login_required
+@admin_required
 def eliminar_cliente(request, cliente_id):
     cliente = Cliente.objects.get(pk=cliente_id)
     cliente.delete()
@@ -257,6 +256,7 @@ def eliminar_cliente(request, cliente_id):
 
 #perfil cliente 
 @login_required
+@admin_required
 def perfil_cliente(request, cliente_id):
     cliente = get_object_or_404(Cliente, id=cliente_id)
     return render(request, 'core/perfil_cliente.html', {'cliente': cliente})
