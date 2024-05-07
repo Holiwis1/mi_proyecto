@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 {% block content %}
     <div class="container">
+       
         <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
             <div class="profile-card">
+                <a href="#" onclick="history.go(-1)" style="position: absolute; top: 10%; left: 10px; color: #333; text-decoration: none;"><i class="fas fa-arrow-left"></i> Volver</a>
                 <div class="profile-header">
                     <label for="imagen-upload" class="profile-img">
                         <img id="profile-img" src="{% if empleado.foto %}{{ empleado.foto.url }}{% else %}https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s{% endif %}" alt="Foto de perfil">
