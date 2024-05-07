@@ -171,3 +171,11 @@ class Archivo(models.Model):
             self.descripcion = str(self.archivo)  # Solo se asigna al crear
         self.name = str(self.archivo)  # Asigna el nombre del archivo cuando quiera, ya que se puede editar
         super().save(*args, **kwargs)  # Llama a la función save original
+
+
+#****************************** MODELO ETIQUETAS ******************************#
+class Etiqueta(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
