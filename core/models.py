@@ -62,26 +62,28 @@ class Cliente(models.Model):
     def __str__(self):
         return self.nombre + ' ' + self.nif
         
-#****************************** MODELO ARCHIVO ******************************#
-#Clase archivo para poder subir cualquier numero de archivos al cliente
-class Archivo(models.Model):
-    cliente = models.ForeignKey(Cliente, related_name='archivos', on_delete=models.CASCADE, null=True, blank=True)
-    archivo = models.FileField(upload_to='archivos_clientes/')
-    name = models.CharField(max_length=255, null=True, blank=True)
-    descripcion = models.TextField(null=True, blank=True)
 
-    def save(self, *args, **kwargs):
-        # Si el objeto es nuevo (no tiene ID), asigna la descripción y el nombre
-        if not self.pk:  # Esto verifica si el objeto ya existe
-            self.descripcion = str(self.archivo)  # Solo se asigna al crear
-        self.name = str(self.archivo)  # Asigna el nombre del archivo cuando quiera, ya que se puede editar
-        super().save(*args, **kwargs)  # Llama a la función save original
 
 
 #****************************** PROYECTO ******************************#
 
 #****************************** MODELO PROYECTO ******************************#
 class Proyecto(models.Model):
+    PRIORIDAD_CHOICES = [
+        ('alta', 'Alta'),
+        ('muy_alta', 'Muy Alta'),
+        ('media', 'Media'),
+        ('baja', 'Baja'),
+        ('muy_baja', 'Muy Baja'),
+        ('sin_prioridad', 'Sin Prioridad')
+    ]
+    ESTADOS_CHOICES = [
+        ('pendiente', 'Pendiente'),
+        ('activo', 'Activo'),
+        ('finalizado', 'Finalizado'),
+        ('cancelado', 'Cancelado'),
+        ('permanente', 'Permanente')
+    ]
     nombre = models.CharField(max_length=120)
     descripcion = models.TextField(null=True, blank=True)
     fecha_inicio = models.DateField(null=True, blank=True)
@@ -89,6 +91,8 @@ class Proyecto(models.Model):
     num_acuerdo = models.IntegerField(null=True, blank=True)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True, blank=True)
     empleados = models.ManyToManyField(Empleado)
+    prioridad = models.CharField(max_length=120, choices=PRIORIDAD_CHOICES, default='sin_prioridad', null=True, blank=True)
+    estado = models.CharField(max_length=120, choices=ESTADOS_CHOICES, default='pendiente', null=True, blank=True)
 
     def __str__(self):
         return self.nombre 
@@ -105,6 +109,13 @@ class Tareas(models.Model):
         ('muy_baja', 'Muy Baja'),
         ('sin_prioridad', 'Sin Prioridad')
     ]
+    ESTADOS_CHOICES = [
+        ('pendiente', 'Pendiente'),
+        ('activo', 'Activo'),
+        ('finalizado', 'Finalizado'),
+        ('cancelado', 'Cancelado'),
+        ('permanente', 'Permanente')
+    ]
     nombre = models.CharField(max_length=120)
     descripcion = models.TextField(null=True, blank=True)
     fecha_inicio = models.DateField(null=True, blank=True)
@@ -113,6 +124,7 @@ class Tareas(models.Model):
     empleado = models.ManyToManyField(Empleado)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, null=True, blank=True)
     prioridad = models.CharField(max_length=120, choices=PRIORIDAD_CHOICES, default='sin_prioridad', null=True, blank=True)
+    estado = models.CharField(max_length=120, choices=ESTADOS_CHOICES, default='pendiente', null=True, blank=True)
 
     def __str__(self):
         return self.nombre
@@ -141,3 +153,20 @@ class Ticket(models.Model):
 class TicketAttachment(models.Model):
     ticket = models.ForeignKey('Ticket', related_name='attachments', on_delete=models.CASCADE)
     file = models.ImageField(upload_to='ticket_attachments/')
+    
+#****************************** MODELO ARCHIVO ******************************#
+#Clase archivo para poder subir cualquier numero de archivos al cliente
+class Archivo(models.Model):
+    cliente = models.ForeignKey(Cliente, related_name='archivos', on_delete=models.CASCADE, null=True, blank=True)
+    archivo = models.FileField(upload_to='archivos_clientes/')
+    name = models.CharField(max_length=255, null=True, blank=True)
+    descripcion = models.TextField(null=True, blank=True)
+    Proyecto = models.ForeignKey(Proyecto, related_name='archivos', on_delete=models.CASCADE, null=True, blank=True)
+    Tareas = models.ForeignKey(Tareas, related_name='archivos', on_delete=models.CASCADE, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        # Si el objeto es nuevo (no tiene ID), asigna la descripción y el nombre
+        if not self.pk:  # Esto verifica si el objeto ya existe
+            self.descripcion = str(self.archivo)  # Solo se asigna al crear
+        self.name = str(self.archivo)  # Asigna el nombre del archivo cuando quiera, ya que se puede editar
+        super().save(*args, **kwargs)  # Llama a la función save original
