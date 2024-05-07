@@ -163,6 +163,7 @@ class Archivo(models.Model):
     descripcion = models.TextField(null=True, blank=True)
     Proyecto = models.ForeignKey(Proyecto, related_name='archivos', on_delete=models.CASCADE, null=True, blank=True)
     Tareas = models.ForeignKey(Tareas, related_name='archivos', on_delete=models.CASCADE, null=True, blank=True)
+    tickets = models.ForeignKey(Ticket, related_name='archivos', on_delete=models.CASCADE, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         # Si el objeto es nuevo (no tiene ID), asigna la descripción y el nombre
