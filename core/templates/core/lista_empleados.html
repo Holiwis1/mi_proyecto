@@ -170,5 +170,21 @@
         </div>
     </div>
     {% endif %}
- 
+    <script>
+        document.getElementById('search').addEventListener('keyup', function() {
+            const searchValue = this.value;  // Obtener el valor actual del campo de búsqueda
+    
+            // Realizar una solicitud AJAX al servidor
+            fetch(`{% url 'lista_empleados' %}?search=${searchValue}`)  // Asegúrate de que la URL es correcta
+                .then(response => response.text())  // Convertir la respuesta a texto HTML
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newBody = doc.querySelector('.empleados-lista');  // Seleccionar solo la parte de la lista de empleados
+                    document.querySelector('.empleados-lista').innerHTML = newBody.innerHTML;
+                })
+                .catch(error => console.error('Error al cargar los empleados:', error));
+        });
+    </script>
+    
 {% endblock %}
