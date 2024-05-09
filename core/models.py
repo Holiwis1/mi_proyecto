@@ -84,6 +84,25 @@ class Proyecto(models.Model):
         ('cancelado', 'Cancelado'),
         ('permanente', 'Permanente')
     ]
+    TIPO_CHOICES = [
+        ('1ª Justificacion', '1ª Justificacion'),
+        ('2ª Justificacion', '2ª Justificacion'),
+        ('Acuerdos', 'Acuerdos'),
+        ('Diseño Gráfico', 'Diseño Gráfico'),
+        ('E-Commerce', 'E-Commerce'),
+        ('Factura electrónica', 'Factura electrónica'),
+        ('Gestión Clientes', 'Gestión Clientes'),
+        ('Gestión Procesos', 'Gestión Procesos'),
+        ('Kit Digital', 'Kit Digital'),
+        ('Marketing', 'Marketing'),
+        ('Solicitud KD', 'Solicitud KD'),
+        ('Redes Sociales', 'Redes Sociales'),
+        ('SEO', 'SEO'),
+        ('Web', 'Web'), 
+        ('TPV', 'TPV'), 
+        ('Diseño Gráfico', 'Diseño Gráfico'),
+        ('URL', 'URL')
+    ]
     nombre = models.CharField(max_length=120)
     descripcion = models.TextField(null=True, blank=True)
     fecha_inicio = models.DateField(null=True, blank=True)
@@ -93,6 +112,8 @@ class Proyecto(models.Model):
     empleados = models.ManyToManyField(Empleado)
     prioridad = models.CharField(max_length=120, choices=PRIORIDAD_CHOICES, default='sin_prioridad', null=True, blank=True)
     estado = models.CharField(max_length=120, choices=ESTADOS_CHOICES, default='pendiente', null=True, blank=True)
+    valor = models.IntegerField(null=True, blank=True)
+    tipo = models.CharField(max_length=120, choices=TIPO_CHOICES, null=True, blank=True)
 
     def __str__(self):
         return self.nombre 
@@ -128,6 +149,15 @@ class Tareas(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+class Notas(models.Model):
+    titulo = models.CharField(max_length=120)
+    descripcion = models.TextField(null=True, blank=True)
+    fecha_creación = models.DateField(auto_now_add=True, null=True, blank=True, editable=False)
+    fecha_editado = models.DateField(auto_now=True, null=True, blank=True, editable=False)
+
+    def __str__(self):
+        return self.titulo
     
 #****************************** TRELLO ******************************#
         
