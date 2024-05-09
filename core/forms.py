@@ -180,6 +180,12 @@ class TicketAttachmentForm(forms.ModelForm):
         model = TicketAttachment
         fields = ['file']
 
+class EtiquetaForm(forms.ModelForm):
+    class Meta:
+        model = Etiqueta
+        fields = ['nombre']
+        
+
 
 #****************************** PROYECTOS Y TAREAS ******************************#
 class ProyectoForm(forms.ModelForm):
@@ -192,4 +198,4 @@ class ProyectoForm(forms.ModelForm):
             'fecha_fin': forms.DateInput(attrs={'type': 'date'}),
         }
 
-        
+    
