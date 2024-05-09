@@ -43,5 +43,8 @@ urlpatterns = [
     path('ticket/<int:ticket_id>/update/', views.ticket_update, name='ticket_update'),#actualizar tickets
     path('ticket/<int:ticket_id>/delete/', views.ticket_delete, name='ticket_delete'),#eliminar tickets
 
+#****************************** PROYECTOS Y TAREAS ******************************#
+    path ('proyectos/', views.lista_proyectos, name='lista_proyectos'),
+    path('proyectos/crear/', crear_proyecto, name='crear_proyecto'),
    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

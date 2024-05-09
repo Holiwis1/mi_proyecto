@@ -114,6 +114,10 @@ class Proyecto(models.Model):
     estado = models.CharField(max_length=120, choices=ESTADOS_CHOICES, default='pendiente', null=True, blank=True)
     valor = models.IntegerField(null=True, blank=True)
     tipo = models.CharField(max_length=120, choices=TIPO_CHOICES, null=True, blank=True)
+    firma_acuerdo = models.DateField(null=True, blank=True)
+    fecha_facturacion = models.DateField(null=True, blank=True)
+    num_factura = models.IntegerField(null=True, blank=True)
+    fecha_cobro_IVA = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return self.nombre 

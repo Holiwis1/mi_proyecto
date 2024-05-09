@@ -19,7 +19,7 @@ from reportlab.lib.utils import ImageReader
 from reportlab.lib.units import inch
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-from .forms import TableForm, TicketAttachmentForm, TicketForm
+from .forms import TableForm, TicketAttachmentForm, TicketForm, ProyectoForm
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage
 
@@ -466,3 +466,15 @@ def eliminar_tabla(request, table_id):
     table.delete()
     return JsonResponse({'message': 'Tabla eliminada exitosamente'})
     
+@login_required
+@admin_required
+def crear_proyecto(request):
+    if request.method == 'POST':
+        form = ProyectoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_proyectos') #Redirigiendo a pagina donde habrá una lista de proyectos
+    else:
+        form = ProyectoForm()
+    
+    return render(request, 'core/crear_proyecto.html', {'form': form})

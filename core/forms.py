@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from .models import Cliente, Table, Ticket,Empleado, TicketAttachment
+from .models import Cliente, Table, Ticket,Empleado, TicketAttachment, Proyecto, Tareas
 #****************************** USUARIO ******************************#
 User = get_user_model()
 #****************************** EMPLEADO ******************************#
@@ -179,3 +179,27 @@ class TicketAttachmentForm(forms.ModelForm):
     class Meta:
         model = TicketAttachment
         fields = ['file']
+
+
+#****************************** PROYECTOS Y TAREAS ******************************#
+class ProyectoForm(forms.ModelForm):
+    class Meta:
+        model = Proyecto
+        fields = ['nombre', 'descripcion', 'fecha_inicio', 'fecha_fin', 'Cliente', 'empleado', 'prioridad', 'estado', 'valor', 'tipo', 'num_acuerdo', 'firma_acuerdo', 'fecha_facturacion', 'num_factura', 'fecha_cobro_IVA']
+        labels = {
+            'nombre': 'Nombre',
+            'descripcion': 'Descripción',
+            'fecha_inicio': 'Fecha de inicio',
+            'fecha_fin': 'Fecha de fin',
+            'Cliente': 'Cliente',
+            'empleado': 'Asignado a',
+            'prioridad': 'Prioridad',
+            'estado': 'Estado', 
+            'valor': 'Valor',
+            'tipo': 'Tipo',
+            'num_acuerdo': 'Número de acuerdo',
+            'firma_acuerdo': 'Firma de acuerdo',
+            'fecha_facturacion': 'Fecha de facturación',
+            'num_factura': 'Número de factura',
+            'fecha_cobro_IVA': 'Fecha de cobro IVA'
+        }
