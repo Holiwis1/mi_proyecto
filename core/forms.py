@@ -203,3 +203,10 @@ class ProyectoForm(forms.ModelForm):
             'num_factura': 'Número de factura',
             'fecha_cobro_IVA': 'Fecha de cobro IVA'
         }
+
+        widgets = {
+            'fecha_inicio': forms.DateInput(attrs={'type': 'date'}),
+            'fecha_fin': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+        
