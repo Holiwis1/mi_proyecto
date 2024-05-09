@@ -3,7 +3,7 @@ from multiprocessing import context
 import os
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from core.forms import ClienteEditarForm, ClienteForm, EmpleadoSignUpForm, EmpleadoCambiarFoto, EmpleadoEditarForm,EtiquetaForm
+from core.forms import ClienteEditarForm, ClienteForm, EmpleadoSignUpForm, EmpleadoCambiarFoto, EmpleadoEditarForm, ProyectoForm
 from mi_proyecto import settings
 from .models import Empleado, Cliente, Tareas, Proyecto, Table, Ticket, Archivo,Etiqueta
 from django.contrib import messages
@@ -19,7 +19,7 @@ from reportlab.lib.utils import ImageReader
 from reportlab.lib.units import inch
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-from .forms import TableForm, TicketAttachmentForm, TicketForm, ProyectoForm
+from .forms import TableForm, TicketAttachmentForm, TicketForm
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage
 
@@ -471,7 +471,7 @@ def eliminar_tabla(request, table_id):
     table.delete()
     return JsonResponse({'message': 'Tabla eliminada exitosamente'})
 
-@login_required
+"""@login_required
 def crear_etiqueta(request):
     if request.method == 'POST':
         form = EtiquetaForm(request.POST)
@@ -480,7 +480,8 @@ def crear_etiqueta(request):
             return redirect('url_de_redireccion')
     else:
         form = EtiquetaForm()
-    return render(request, 'crear_etiqueta.html', {'form': form})
+    return render(request, 'crear_etiqueta.html', {'form': form})"""
+
     
 @login_required
 @admin_required
@@ -489,7 +490,7 @@ def crear_proyecto(request):
         form = ProyectoForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('lista_proyectos') #Redirigiendo a pagina donde habrá una lista de proyectos
+            return redirect('lista_clientes') #Redirigiendo a pagina donde habrá una lista de proyectos
     else:
         form = ProyectoForm()
     

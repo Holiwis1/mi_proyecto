@@ -154,6 +154,7 @@ class Tareas(models.Model):
     def __str__(self):
         return self.nombre
     
+#****************************** NOTAS ******************************#
 class Notas(models.Model):
     titulo = models.CharField(max_length=120)
     descripcion = models.TextField(null=True, blank=True)
