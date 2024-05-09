@@ -3,7 +3,7 @@ from typing import Iterable
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
-
+from django.core.validators import RegexValidator
 
 #****************************** EMPLEADO ******************************#
 
@@ -176,6 +176,6 @@ class Archivo(models.Model):
 #****************************** MODELO ETIQUETAS ******************************#
 class Etiqueta(models.Model):
     name = models.CharField(max_length=100)
-
+    color = models.CharField(max_length=7, default='#000000', validators=[RegexValidator('^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$')])
     def __str__(self):
         return self.name

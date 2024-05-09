@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from .models import Cliente, Table, Ticket,Empleado, TicketAttachment
+from .models import Cliente, Table, Ticket,Empleado, TicketAttachment,Etiqueta
 #****************************** USUARIO ******************************#
 User = get_user_model()
 #****************************** EMPLEADO ******************************#
@@ -179,3 +179,7 @@ class TicketAttachmentForm(forms.ModelForm):
     class Meta:
         model = TicketAttachment
         fields = ['file']
+class EtiquetaForm(forms.ModelForm):
+    class Meta:
+        model = Etiqueta
+        fields = ['name', 'color']
