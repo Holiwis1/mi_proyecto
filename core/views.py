@@ -3,9 +3,9 @@ from multiprocessing import context
 import os
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from core.forms import ClienteEditarForm, ClienteForm, EmpleadoSignUpForm, EmpleadoCambiarFoto, EmpleadoEditarForm
+from core.forms import ClienteEditarForm, ClienteForm, EmpleadoSignUpForm, EmpleadoCambiarFoto, EmpleadoEditarForm,EtiquetaForm
 from mi_proyecto import settings
-from .models import Empleado, Cliente, Tareas, Proyecto, Table, Ticket, Archivo
+from .models import Empleado, Cliente, Tareas, Proyecto, Table, Ticket, Archivo,Etiqueta
 from django.contrib import messages
 from django.contrib.auth import login
 from django.shortcuts import render
@@ -428,17 +428,22 @@ def ticket_create(request, table_id):
     table = get_object_or_404(Table, pk=table_id)
     
     if request.method == 'POST':
-        form = TicketForm(request.POST)
+        form = TicketForm(request.POST, request.FILES)
         if form.is_valid():
+            # Crear la etiqueta
+            nombre_etiqueta = form.cleaned_data['nombre_etiqueta']
+            color_etiqueta = form.cleaned_data['color_etiqueta']
+            etiqueta, created = Etiqueta.objects.get_or_create(name=nombre_etiqueta, defaults={'color': color_etiqueta})
+
+            # Crear el ticket y asociarlo con la etiqueta
             ticket = form.save(commit=False)
             ticket.table = table
+            ticket.etiqueta = etiqueta
             ticket.save()
-
             return redirect('table_list') 
     else:
         form = TicketForm()
     return render(request, 'core/ticket_form.html', {'form': form})
-
 
 #Actualizar ticket 
 @login_required
@@ -465,6 +470,17 @@ def eliminar_tabla(request, table_id):
     table = get_object_or_404(Table, pk=table_id)
     table.delete()
     return JsonResponse({'message': 'Tabla eliminada exitosamente'})
+
+@login_required
+def crear_etiqueta(request):
+    if request.method == 'POST':
+        form = EtiquetaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('url_de_redireccion')
+    else:
+        form = EtiquetaForm()
+    return render(request, 'crear_etiqueta.html', {'form': form})
     
 @login_required
 @admin_required

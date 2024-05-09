@@ -11,12 +11,13 @@
     <style>
         .nav-link{
             color: white;
-            
         }
     </style>
 </head>
 <style>
-  
+    header{
+        background-color:gray;
+    }
     
     .user-img-login {
         display: flex;
@@ -67,17 +68,25 @@
     .dropdown-wrapper:hover .dropdown-content {
         display: block;
     }
-   
+    .navbar-brand{
+        margin-right: 20%;
+    }
+    .hola{
+        background-color:#D9001D;
+    }
 </style>  
 <body>
     <header>
         <!-- Barra de navegación -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <a class="navbar-brand" href="/">Gestión navegatel</a>
-            <a class="nav-link" href="{% url 'lista_empleados' %}">lista_empleados</a>
-            <a class="nav-link" href="{% url 'lista_clientes' %}">lista_clientes</a>
-            <a class="nav-link" href="{% url 'registro_cliente' %}">registro_clientes</a>
-            <a class="nav-link" href="{% url 'crear_tabla' %}">TRELLO</a>
+        <nav class="hola navbar navbar-expand-lg navbar-dark  ">
+            <a class="navbar-brand" href="/">
+                <img src="https://navegatel.org/wp-content/uploads/2023/08/rocket-312430_1280.png" alt="Icono de Navegatel" style="height: 50px; width: auto; margin-right: 10px;">
+                Gestión navegatel
+            </a>
+            <a class="nav-link ml-5" href="{% url 'lista_empleados' %}">lista_empleados</a>
+            <a class="nav-link ml-5" href="{% url 'lista_clientes' %}">lista_clientes</a>
+            <a class="nav-link ml-5" href="{% url 'registro_cliente' %}">registro_clientes</a>
+            <a class="nav-link ml-5" href="{% url 'crear_tabla' %}">TRELLO</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
