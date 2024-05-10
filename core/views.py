@@ -5,7 +5,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from core.forms import ClienteEditarForm, ClienteForm, EmpleadoSignUpForm, EmpleadoCambiarFoto, EmpleadoEditarForm, ProyectoForm
 from mi_proyecto import settings
-from .models import Empleado, Cliente, Tareas, Proyecto, Table, Ticket, Archivo,Etiqueta
+from .models import Empleado, Cliente, Tareas, Proyecto, Table, Ticket, Archivo
 from django.contrib import messages
 from django.contrib.auth import login
 from django.shortcuts import render
@@ -486,12 +486,17 @@ def crear_etiqueta(request):
 @login_required
 @admin_required
 def crear_proyecto(request):
+   
     if request.method == 'POST':
         form = ProyectoForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('lista_clientes') #Redirigiendo a pagina donde habrá una lista de proyectos
+            return redirect('lista_clientes')
     else:
-        form = ProyectoForm()
+         # Crea una instancia vacía del modelo Proyecto
+        form = ProyectoForm()  # Pasa la instancia al formulario
     
-    return render(request, 'core/crear_proyecto.html', {'form': form})
+    # Obtener la lista de empleados
+    empleados = Empleado.objects.all()
+
+    return render(request, 'core/crear_proyecto.html', {'form': form,   'empleados': empleados})

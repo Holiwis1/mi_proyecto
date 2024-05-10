@@ -180,10 +180,10 @@ class TicketAttachmentForm(forms.ModelForm):
         model = TicketAttachment
         fields = ['file']
 
-class EtiquetaForm(forms.ModelForm):
+"""class EtiquetaForm(forms.ModelForm):
     class Meta:
         model = Etiqueta
-        fields = ['nombre']
+        fields = ['nombre']"""
         
 
 

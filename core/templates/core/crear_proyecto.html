@@ -3,11 +3,88 @@
 
 {% block content %}
 <div class="container">
-    <h2>Crear Proyecto</h2>
+    <h2>Detalles del Proyecto</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-success">Guardar Proyecto</button>
-    </form>
+        <div class="form-group">
+            <label for="id_nombre">Nombre:</label>
+            <input type="text" class="form-control" id="id_nombre" name="nombre" value="{{ proyecto.nombre }}">
+        </div>
+        <div class="form-group">
+            <label for="id_descripcion">Descripción:</label>
+            <textarea class="form-control" id="id_descripcion" name="descripcion">{{ proyecto.descripcion }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="id_fecha_inicio">Fecha de Inicio:</label>
+            <input type="date" class="form-control" id="id_fecha_inicio" name="fecha_inicio" value="{{ proyecto.fecha_inicio }}">
+        </div>
+        <div class="form-group">
+            <label for="id_fecha_fin">Fecha de Fin:</label>
+            <input type="date" class="form-control" id="id_fecha_fin" name="fecha_fin" value="{{ proyecto.fecha_fin }}">
+        </div>
+        <div class="form-group">
+            <label for="id_num_acuerdo">Número de Acuerdo:</label>
+            <input type="number" class="form-control" id="id_num_acuerdo" name="num_acuerdo" value="{{ proyecto.num_acuerdo }}">
+        </div>
+        <div class="form-group">
+            <label for="id_cliente">Cliente:</label>
+            <input type="text" class="form-control" id="id_cliente" name="cliente" value="{{ proyecto.cliente }}">
+        </div>
+     
+        
+     <div class="form-group">
+    <label for="id_prioridad">Prioridad:</label>
+    <select class="form-control" id="id_prioridad" name="prioridad">
+        {% for value, label in proyecto.PRIORIDAD_CHOICES %}
+            <option value="{{ value }}" {% if proyecto.prioridad == value %} selected {% endif %}>{{ label }}</option>
+        {% endfor %}
+    </select>
 </div>
+
+<div class="form-group">
+    <label for="id_estado">Estado:</label>
+    <select class="form-control" id="id_estado" name="estado">
+        {% for value, label in proyecto.ESTADOS_CHOICES %}
+            <option value="{{ value }}" {% if proyecto.estado == value %} selected {% endif %}>{{ label }}</option>
+        {% endfor %}
+    </select>
+</div>
+        <div class="form-group">
+            <label for="id_valor">Valor:</label>
+            <input type="number" class="form-control" id="id_valor" name="valor" value="{{ proyecto.valor }}">
+        </div>
+        <div class="form-group">
+            <label for="id_tipo">Tipo:</label>
+            <input type="text" class="form-control" id="id_tipo" name="tipo" value="{{ proyecto.tipo }}">
+        </div>
+        <div class="form-group">
+            <label for="id_firma_acuerdo">Firma de Acuerdo:</label>
+            <input type="date" class="form-control" id="id_firma_acuerdo" name="firma_acuerdo" value="{{ proyecto.firma_acuerdo }}">
+        </div>
+        <div class="form-group">
+            <label for="id_fecha_facturacion">Fecha de Facturación:</label>
+            <input type="date" class="form-control" id="id_fecha_facturacion" name="fecha_facturacion" value="{{ proyecto.fecha_facturacion }}">
+        </div>
+        <div class="form-group">
+            <label for="id_num_factura">Número de Factura:</label>
+            <input type="number" class="form-control" id="id_num_factura" name="num_factura" value="{{ proyecto.num_factura }}">
+        </div>
+        <div class="form-group">
+            <label for="id_fecha_cobro_IVA">Fecha de Cobro IVA:</label>
+            <input type="date" class="form-control" id="id_fecha_cobro_IVA" name="fecha_cobro_IVA" value="{{ proyecto.fecha_cobro_IVA }}">
+        </div>
+           <div class="form-group">
+            <label for="id_empleados">Empleados:</label>
+            <select class="form-control" id="id_empleados" name="empleados">
+                {% for empleado in empleados.all %}
+                    <option value="{{ empleado.id }}">{{ empleado }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <!-- Agrega más campos aquí según sea necesario -->
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        
+    </form>
+   
+
 {% endblock %}
