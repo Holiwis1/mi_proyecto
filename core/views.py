@@ -482,21 +482,29 @@ def crear_etiqueta(request):
         form = EtiquetaForm()
     return render(request, 'crear_etiqueta.html', {'form': form})"""
 
-    
+#Crear proyectos
 @login_required
 @admin_required
 def crear_proyecto(request):
-   
+    empleados = Empleado.objects.all()
+    clientes = Cliente.objects.all()  # Cambié 'cliente' a 'clientes' para evitar confusión
+    context = {
+        'empleados': empleados,
+        'cliente': clientes,  
+        'PRIORIDAD_CHOICES': Proyecto.PRIORIDAD_CHOICES,
+        'ESTADOS_CHOICES': Proyecto.ESTADOS_CHOICES,
+        'TIPO_CHOICES': Proyecto.TIPO_CHOICES
+    }
     if request.method == 'POST':
         form = ProyectoForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('lista_clientes')
+            nuevo_proyecto = form.save(commit=False)
+            # Agrega cualquier lógica adicional si es necesario antes de guardar
+            nuevo_proyecto.save()
+            # Después de guardar el proyecto, también debes guardar las relaciones ManyToMany
+            form.save_m2m()
+            return redirect('lista_clientes')  # Asume que quieres redirigir a la lista de clientes
     else:
-         # Crea una instancia vacía del modelo Proyecto
-        form = ProyectoForm()  # Pasa la instancia al formulario
-    
-    # Obtener la lista de empleados
-    empleados = Empleado.objects.all()
+        form = ProyectoForm()
 
-    return render(request, 'core/crear_proyecto.html', {'form': form,   'empleados': empleados})
+    return render(request, 'core/crear_proyecto.html', context)

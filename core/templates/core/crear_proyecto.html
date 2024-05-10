@@ -28,34 +28,42 @@
         </div>
         <div class="form-group">
             <label for="id_cliente">Cliente:</label>
-            <input type="text" class="form-control" id="id_cliente" name="cliente" value="{{ proyecto.cliente }}">
+                <select class="form-control" id="id_clientes" name="clientes">
+                    {% for client in cliente.all %}
+                        <option value="{{ client.id }}">{{ client }}</option>
+                    {% endfor %}
+                </select>
         </div>
      
+        <div class="form-group">
+            <label for="id_prioridad">Prioridad:</label>
+            <select class="form-control" id="id_prioridad" name="prioridad">
+                {% for value, label in PRIORIDAD_CHOICES %}
+                    <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
         
-     <div class="form-group">
-    <label for="id_prioridad">Prioridad:</label>
-    <select class="form-control" id="id_prioridad" name="prioridad">
-        {% for value, label in proyecto.PRIORIDAD_CHOICES %}
-            <option value="{{ value }}" {% if proyecto.prioridad == value %} selected {% endif %}>{{ label }}</option>
-        {% endfor %}
-    </select>
-</div>
-
-<div class="form-group">
-    <label for="id_estado">Estado:</label>
-    <select class="form-control" id="id_estado" name="estado">
-        {% for value, label in proyecto.ESTADOS_CHOICES %}
-            <option value="{{ value }}" {% if proyecto.estado == value %} selected {% endif %}>{{ label }}</option>
-        {% endfor %}
-    </select>
-</div>
+        <div class="form-group">
+            <label for="id_estado">Estado:</label>
+            <select class="form-control" id="id_estado" name="estado">
+                {% for value, label in ESTADOS_CHOICES %}
+                    <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
         <div class="form-group">
             <label for="id_valor">Valor:</label>
             <input type="number" class="form-control" id="id_valor" name="valor" value="{{ proyecto.valor }}">
         </div>
         <div class="form-group">
             <label for="id_tipo">Tipo:</label>
-            <input type="text" class="form-control" id="id_tipo" name="tipo" value="{{ proyecto.tipo }}">
+            <select class="form-control" id="id_tipo" name="tipo">
+                {% for value, label in TIPO_CHOICES %}
+                    <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
             <label for="id_firma_acuerdo">Firma de Acuerdo:</label>
@@ -73,18 +81,93 @@
             <label for="id_fecha_cobro_IVA">Fecha de Cobro IVA:</label>
             <input type="date" class="form-control" id="id_fecha_cobro_IVA" name="fecha_cobro_IVA" value="{{ proyecto.fecha_cobro_IVA }}">
         </div>
-           <div class="form-group">
+        <div class="form-group">
             <label for="id_empleados">Empleados:</label>
-            <select class="form-control" id="id_empleados" name="empleados">
+            <select multiple class="form-control" id="id_empleados" name="empleados">
                 {% for empleado in empleados.all %}
                     <option value="{{ empleado.id }}">{{ empleado }}</option>
                 {% endfor %}
             </select>
         </div>
+        <div id="selectedEmployees" style="margin-top: 10px;"></div>
+
         <!-- Agrega más campos aquí según sea necesario -->
         <button type="submit" class="btn btn-primary">Guardar</button>
         
     </form>
    
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var select = document.getElementById('id_empleados');
+            var displayArea = document.getElementById('selectedEmployees');
+            var selectedEmployees = [];
+        
+            select.addEventListener('change', function(e) {
+                var selectedOption = e.target.options[e.target.selectedIndex];
+                var selectedIndex = selectedOption.value;
+                var selectedText = selectedOption.text;
+        
+                if (selectedEmployees.some(emp => emp.id === selectedIndex)) {
+                    selectedEmployees = selectedEmployees.filter(emp => emp.id !== selectedIndex);
+                } else {
+                    selectedEmployees.push({ id: selectedIndex, text: selectedText });
+                }
+                
+                updateDisplayArea();
+            });
+        
+            function updateDisplayArea() {
+                displayArea.innerHTML = '';
+                selectedEmployees.forEach(emp => {
+                    var span = document.createElement('span');
+                    span.textContent = emp.text;
+                    var removeBtn = document.createElement('button');
+                    removeBtn.textContent = 'x';
+                    removeBtn.onclick = function() {
+                        selectedEmployees = selectedEmployees.filter(e => e.id !== emp.id);
+                        updateDisplayArea();
+                        updateSelection();
+                    };
+                    span.appendChild(removeBtn);
+                    displayArea.appendChild(span);
+                    displayArea.appendChild(document.createElement('br'));
+                });
+            }
+        
+            function updateSelection() {
+                for (var option of select.options) {
+                    option.selected = selectedEmployees.some(emp => emp.id === option.value);
+                }
+            }
+        });
+        
+    </script>
+        
+    <style>
+        #id_empleados {
+            width: 100%;
+            height: 150px;
+        }
+        #selectedEmployees {
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+        }
+        #selectedEmployees span {
+            padding: 5px;
+            margin-right: 5px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        
+        #selectedEmployees button {
+            margin-left: 5px;
+            color: red;
+            border: none;
+            background: none;
+        }
+        
+    </style>
+        
 {% endblock %}
