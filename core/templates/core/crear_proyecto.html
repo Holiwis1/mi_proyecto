@@ -1,5 +1,15 @@
 
 {% extends 'base.html' %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
+<style>
+    .no-style {
+        /* Aquí puedes definir reglas para eliminar cualquier estilo adicional */
+        /* Por ejemplo, puedes establecer bordes y fondos como ninguno */
+        border: none;
+        background: none;
+        /* También puedes establecer otros estilos como el tamaño de la fuente o el color del texto si es necesario */
+    }
+</style>
 
 {% block content %}
 <div class="container">
@@ -73,18 +83,23 @@
             <label for="id_fecha_cobro_IVA">Fecha de Cobro IVA:</label>
             <input type="date" class="form-control" id="id_fecha_cobro_IVA" name="fecha_cobro_IVA" value="{{ proyecto.fecha_cobro_IVA }}">
         </div>
-           <div class="form-group">
-            <label for="id_empleados">Empleados:</label>
-            <select class="form-control" id="id_empleados" name="empleados">
-                {% for empleado in empleados.all %}
-                    <option value="{{ empleado.id }}">{{ empleado }}</option>
-                {% endfor %}
-            </select>
-        </div>
+       <div class="form-group">
+    <label for="id_empleados">Empleados:</label>
+    <select class="form-control select2" id="id_empleados" name="empleados" multiple style="">
+        {% for empleado in empleados.all %}
+            <option value="{{ empleado.id }}">{{ empleado }}</option>
+        {% endfor %}
+    </select>
+</div>
         <!-- Agrega más campos aquí según sea necesario -->
         <button type="submit" class="btn btn-primary">Guardar</button>
         
     </form>
-   
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+    </script>
 {% endblock %}
