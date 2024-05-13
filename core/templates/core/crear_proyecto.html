@@ -1,64 +1,61 @@
-
 {% extends 'base.html' %}
 
 {% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <div class="container">
-    <h2>Detalles del Proyecto</h2>
+    <h2><i class="fas fa-tasks"></i> Detalles del Proyecto</h2>
     <form method="post">
         {% csrf_token %}
         <div class="form-group">
-            <label for="id_nombre">Nombre:</label>
+            <label for="id_nombre"><i class="fas fa-heading"></i> Nombre:</label>
             <input type="text" class="form-control" id="id_nombre" name="nombre" value="{{ proyecto.nombre }}">
         </div>
         <div class="form-group">
-            <label for="id_descripcion">Descripción:</label>
+            <label for="id_descripcion"><i class="fas fa-file-alt"></i> Descripción:</label>
             <textarea class="form-control" id="id_descripcion" name="descripcion">{{ proyecto.descripcion }}</textarea>
         </div>
         <div class="form-group">
-            <label for="id_fecha_inicio">Fecha de Inicio:</label>
+            <label for="id_fecha_inicio"><i class="far fa-calendar-alt"></i> Fecha de Inicio:</label>
             <input type="date" class="form-control" id="id_fecha_inicio" name="fecha_inicio" value="{{ proyecto.fecha_inicio }}">
         </div>
         <div class="form-group">
-            <label for="id_fecha_fin">Fecha de Fin:</label>
+            <label for="id_fecha_fin"><i class="far fa-calendar-alt"></i> Fecha de Fin:</label>
             <input type="date" class="form-control" id="id_fecha_fin" name="fecha_fin" value="{{ proyecto.fecha_fin }}">
         </div>
         <div class="form-group">
-            <label for="id_num_acuerdo">Número de Acuerdo:</label>
+            <label for="id_num_acuerdo"><i class="fas fa-list-ol"></i> Número de Acuerdo:</label>
             <input type="number" class="form-control" id="id_num_acuerdo" name="num_acuerdo" value="{{ proyecto.num_acuerdo }}">
         </div>
         <div class="form-group">
-            <label for="id_cliente">Cliente:</label>
-                <select class="form-control" id="id_clientes" name="clientes">
-                    {% for client in cliente.all %}
-                        <option value="{{ client.id }}">{{ client }}</option>
-                    {% endfor %}
-                </select>
+            <label for="id_cliente"><i class="fas fa-user"></i> Cliente:</label>
+            <select class="form-control" id="id_clientes" name="clientes">
+                {% for client in cliente.all %}
+                    <option value="{{ client.id }}">{{ client }}</option>
+                {% endfor %}
+            </select>
         </div>
-     
         <div class="form-group">
-            <label for="id_prioridad">Prioridad:</label>
+            <label for="id_prioridad"><i class="fas fa-exclamation-circle"></i> Prioridad:</label>
             <select class="form-control" id="id_prioridad" name="prioridad">
                 {% for value, label in PRIORIDAD_CHOICES %}
                     <option value="{{ value }}">{{ label }}</option>
                 {% endfor %}
             </select>
         </div>
-        
         <div class="form-group">
-            <label for="id_estado">Estado:</label>
+            <label for="id_estado"><i class="fas fa-check-circle"></i> Estado:</label>
             <select class="form-control" id="id_estado" name="estado">
                 {% for value, label in ESTADOS_CHOICES %}
                     <option value="{{ value }}">{{ label }}</option>
                 {% endfor %}
             </select>
         </div>
-        
         <div class="form-group">
-            <label for="id_valor">Valor:</label>
+            <label for="id_valor"><i class="fas fa-dollar-sign"></i> Valor:</label>
             <input type="number" class="form-control" id="id_valor" name="valor" value="{{ proyecto.valor }}">
         </div>
         <div class="form-group">
-            <label for="id_tipo">Tipo:</label>
+            <label for="id_tipo"><i class="fas fa-tags"></i> Tipo:</label>
             <select class="form-control" id="id_tipo" name="tipo">
                 {% for value, label in TIPO_CHOICES %}
                     <option value="{{ value }}">{{ label }}</option>
@@ -66,23 +63,23 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="id_firma_acuerdo">Firma de Acuerdo:</label>
+            <label for="id_firma_acuerdo"><i class="fas fa-pen-square"></i> Firma de Acuerdo:</label>
             <input type="date" class="form-control" id="id_firma_acuerdo" name="firma_acuerdo" value="{{ proyecto.firma_acuerdo }}">
         </div>
         <div class="form-group">
-            <label for="id_fecha_facturacion">Fecha de Facturación:</label>
+            <label for="id_fecha_facturacion"><i class="far fa-calendar-alt"></i> Fecha de Facturación:</label>
             <input type="date" class="form-control" id="id_fecha_facturacion" name="fecha_facturacion" value="{{ proyecto.fecha_facturacion }}">
         </div>
         <div class="form-group">
-            <label for="id_num_factura">Número de Factura:</label>
+            <label for="id_num_factura"><i class="fas fa-file-invoice-dollar"></i> Número de Factura:</label>
             <input type="number" class="form-control" id="id_num_factura" name="num_factura" value="{{ proyecto.num_factura }}">
         </div>
         <div class="form-group">
-            <label for="id_fecha_cobro_IVA">Fecha de Cobro IVA:</label>
+            <label for="id_fecha_cobro_IVA"><i class="far fa-calendar-alt"></i> Fecha de Cobro IVA:</label>
             <input type="date" class="form-control" id="id_fecha_cobro_IVA" name="fecha_cobro_IVA" value="{{ proyecto.fecha_cobro_IVA }}">
         </div>
         <div class="form-group">
-            <label for="id_empleados">Empleados:</label>
+            <label for="id_empleados"><i class="fas fa-users"></i> Empleados:</label>
             <select multiple class="form-control" id="id_empleados" name="empleados">
                 {% for empleado in empleados.all %}
                     <option value="{{ empleado.id }}">{{ empleado }}</option>
@@ -92,101 +89,55 @@
         <div id="selectedEmployees" style="margin-top: 10px;"></div>
         
         <!-- Agrega más campos aquí según sea necesario -->
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var select = document.getElementById('id_empleados');
-                var displayArea = document.getElementById('selectedEmployees');
-                var selectedEmployees = [];
-        
-                select.addEventListener('click', function(e) {
-                    var clickedOption = e.target;
-        
-                    // Toggle selected class
-                    if (clickedOption.classList.contains('selected')) {
-                        clickedOption.classList.remove('selected');
-                        selectedEmployees = selectedEmployees.filter(emp => emp.id !== clickedOption.value);
-                    } else {
-                        clickedOption.classList.add('selected');
-                        selectedEmployees.push({ id: clickedOption.value, text: clickedOption.textContent });
-                    }
-        
-                    updateDisplayArea();
-                });
-        
-                function updateDisplayArea() {
-                    displayArea.innerHTML = '';
-                    selectedEmployees.forEach(emp => {
-                        var span = document.createElement('span');
-                        span.textContent = emp.text;
-                        var removeBtn = document.createElement('button');
-                        removeBtn.textContent = 'x';
-                        removeBtn.onclick = function() {
-                            selectedEmployees = selectedEmployees.filter(e => e.id !== emp.id);
-                            var selectedOption = document.querySelector('select option[value="' + emp.id + '"]');
-                            if (selectedOption) {
-                                selectedOption.classList.remove('selected');
-                            }
-                            updateDisplayArea();
-                        };
-                        span.appendChild(removeBtn);
-                        displayArea.appendChild(span);
-                        displayArea.appendChild(document.createElement('br'));
-                    });
-                    console.log("IDs de empleados seleccionados:");
-                    console.log(selectedEmployees.map(emp => emp.id));
-                }
-        
-                // Manejar el envío del formulario
-                var form = document.querySelector('form');
-                form.addEventListener('submit', function(e) {
-                    // Limpiar y seleccionar todas las opciones antes de enviar el formulario
-                    Array.from(select.options).forEach(option => {
-                        option.selected = selectedEmployees.some(emp => emp.id === option.value);
-                    });
-                    // Imprimir en la consola los IDs de los empleados seleccionados antes de enviar el formulario
-                    console.log("Formulario enviado");
-                    console.log(selectedEmployees.map(emp => emp.id));
-                });
-            });
-        </script>
-        <style>
-            #id_empleados {
-                width: 100%;
-                height: 150px;
-            }
-            
-            /* Estilo para las opciones seleccionadas */
-            #id_empleados .selected {
-                background-color: #007bff; /* Azul */
-                color: white;
-            }
-            #id_empleados {
-                width: 100%;
-                height: 150px;
-            }
-            #selectedEmployees {
-                padding: 10px;
-                background-color: #f0f0f0;
-                border: 1px solid #ccc;
-            }
-            #selectedEmployees span {
-                padding: 5px;
-                margin-right: 5px;
-                background-color: #e9ecef;
-                border-radius: 5px;
-                display: inline-block;
-            }
-        
-            #selectedEmployees button {
-                margin-left: 5px;
-                color: red;
-                border: none;
-                background: none;
-            }
-        </style>
-        
-        
-        
+        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+    </form>
+</div>
+
+<style>
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    textarea {
+        resize: vertical;
+    }
+
+    #selectedEmployees {
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+    #selectedEmployees span {
+        padding: 5px;
+        margin-right: 5px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        display: inline-block;
+    }
+
+    #selectedEmployees button {
+        margin-left: 5px;
+        color: red;
+        border: none;
+        background: none;
+        cursor: pointer;
+    }
+</style>
+
 {% endblock %}
