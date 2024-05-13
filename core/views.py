@@ -508,3 +508,7 @@ def crear_proyecto(request):
         form = ProyectoForm()
 
     return render(request, 'core/crear_proyecto.html', context)
+
+def lista_proyectos(request):
+    proyectos = Proyecto.objects.all()
+    return render(request, 'core/proyectos.html', {'proyectos': proyectos})

@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import lista_empleados, registro_cliente, registro_empleado
+from .views import crear_proyecto, lista_empleados, lista_proyectos, registro_cliente, registro_empleado
 from django.contrib.auth.views import LoginView, LogoutView
 from . import views
 
@@ -46,5 +46,6 @@ urlpatterns = [
 #****************************** PROYECTOS Y TAREAS ******************************#
     #path ('proyectos/', views.lista_proyectos, name='lista_proyectos'),
     path('proyectos/crear/', views.crear_proyecto, name='crear_proyecto'),
+    path('proyectos/', lista_proyectos, name='lista_proyectos'),
    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

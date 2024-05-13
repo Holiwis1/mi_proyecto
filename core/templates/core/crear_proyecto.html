@@ -90,84 +90,103 @@
             </select>
         </div>
         <div id="selectedEmployees" style="margin-top: 10px;"></div>
-
+        
         <!-- Agrega más campos aquí según sea necesario -->
         <button type="submit" class="btn btn-primary">Guardar</button>
         
-    </form>
-   
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var select = document.getElementById('id_empleados');
-            var displayArea = document.getElementById('selectedEmployees');
-            var selectedEmployees = [];
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var select = document.getElementById('id_empleados');
+                var displayArea = document.getElementById('selectedEmployees');
+                var selectedEmployees = [];
         
-            select.addEventListener('change', function(e) {
-                var selectedOption = e.target.options[e.target.selectedIndex];
-                var selectedIndex = selectedOption.value;
-                var selectedText = selectedOption.text;
+                select.addEventListener('click', function(e) {
+                    var clickedOption = e.target;
         
-                if (selectedEmployees.some(emp => emp.id === selectedIndex)) {
-                    selectedEmployees = selectedEmployees.filter(emp => emp.id !== selectedIndex);
-                } else {
-                    selectedEmployees.push({ id: selectedIndex, text: selectedText });
-                }
-                
-                updateDisplayArea();
-            });
+                    // Toggle selected class
+                    if (clickedOption.classList.contains('selected')) {
+                        clickedOption.classList.remove('selected');
+                        selectedEmployees = selectedEmployees.filter(emp => emp.id !== clickedOption.value);
+                    } else {
+                        clickedOption.classList.add('selected');
+                        selectedEmployees.push({ id: clickedOption.value, text: clickedOption.textContent });
+                    }
         
-            function updateDisplayArea() {
-                displayArea.innerHTML = '';
-                selectedEmployees.forEach(emp => {
-                    var span = document.createElement('span');
-                    span.textContent = emp.text;
-                    var removeBtn = document.createElement('button');
-                    removeBtn.textContent = 'x';
-                    removeBtn.onclick = function() {
-                        selectedEmployees = selectedEmployees.filter(e => e.id !== emp.id);
-                        updateDisplayArea();
-                        updateSelection();
-                    };
-                    span.appendChild(removeBtn);
-                    displayArea.appendChild(span);
-                    displayArea.appendChild(document.createElement('br'));
+                    updateDisplayArea();
                 });
-            }
         
-            function updateSelection() {
-                for (var option of select.options) {
-                    option.selected = selectedEmployees.some(emp => emp.id === option.value);
+                function updateDisplayArea() {
+                    displayArea.innerHTML = '';
+                    selectedEmployees.forEach(emp => {
+                        var span = document.createElement('span');
+                        span.textContent = emp.text;
+                        var removeBtn = document.createElement('button');
+                        removeBtn.textContent = 'x';
+                        removeBtn.onclick = function() {
+                            selectedEmployees = selectedEmployees.filter(e => e.id !== emp.id);
+                            var selectedOption = document.querySelector('select option[value="' + emp.id + '"]');
+                            if (selectedOption) {
+                                selectedOption.classList.remove('selected');
+                            }
+                            updateDisplayArea();
+                        };
+                        span.appendChild(removeBtn);
+                        displayArea.appendChild(span);
+                        displayArea.appendChild(document.createElement('br'));
+                    });
+                    console.log("IDs de empleados seleccionados:");
+                    console.log(selectedEmployees.map(emp => emp.id));
                 }
+        
+                // Manejar el envío del formulario
+                var form = document.querySelector('form');
+                form.addEventListener('submit', function(e) {
+                    // Limpiar y seleccionar todas las opciones antes de enviar el formulario
+                    Array.from(select.options).forEach(option => {
+                        option.selected = selectedEmployees.some(emp => emp.id === option.value);
+                    });
+                    // Imprimir en la consola los IDs de los empleados seleccionados antes de enviar el formulario
+                    console.log("Formulario enviado");
+                    console.log(selectedEmployees.map(emp => emp.id));
+                });
+            });
+        </script>
+        <style>
+            #id_empleados {
+                width: 100%;
+                height: 150px;
             }
-        });
+            
+            /* Estilo para las opciones seleccionadas */
+            #id_empleados .selected {
+                background-color: #007bff; /* Azul */
+                color: white;
+            }
+            #id_empleados {
+                width: 100%;
+                height: 150px;
+            }
+            #selectedEmployees {
+                padding: 10px;
+                background-color: #f0f0f0;
+                border: 1px solid #ccc;
+            }
+            #selectedEmployees span {
+                padding: 5px;
+                margin-right: 5px;
+                background-color: #e9ecef;
+                border-radius: 5px;
+                display: inline-block;
+            }
         
-    </script>
+            #selectedEmployees button {
+                margin-left: 5px;
+                color: red;
+                border: none;
+                background: none;
+            }
+        </style>
         
-    <style>
-        #id_empleados {
-            width: 100%;
-            height: 150px;
-        }
-        #selectedEmployees {
-            padding: 10px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-        }
-        #selectedEmployees span {
-            padding: 5px;
-            margin-right: 5px;
-            background-color: #e9ecef;
-            border-radius: 5px;
-            display: inline-block;
-        }
         
-        #selectedEmployees button {
-            margin-left: 5px;
-            color: red;
-            border: none;
-            background: none;
-        }
-        
-    </style>
         
 {% endblock %}

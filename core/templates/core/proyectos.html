@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Lista de Proyectos</h2>
+    <ul>
+        {% for proyecto in proyectos %}
+            <li>
+                <strong>Nombre:</strong> {{ proyecto.nombre }} <br>
+                <strong>Descripción:</strong> {{ proyecto.descripcion }} <br>
+                <strong>Fecha de Inicio:</strong> {{ proyecto.fecha_inicio }} <br>
+                <strong>Fecha de Fin:</strong> {{ proyecto.fecha_fin }} <br>
+                <strong>Número de Acuerdo:</strong> {{ proyecto.num_acuerdo }} <br>
+                <strong>Cliente:</strong> {{ proyecto.cliente }} <br>
+                <strong>estado:</strong> {{ proyecto.estado}}<br>
+                <strong>valor:</strong> {{ proyecto.valor}} €<br>
+                <strong>tipo:</strong> {{ proyecto.tipo}}<br>
+                <strong>firma del acuerdo:</strong> {{ proyecto.firma_acuerdo}}<br>
+                <strong>fecha de facturacion:</strong> {{ proyecto.fecha_facturacion}}<br>
+                <strong>numero de factura:</strong> {{ proyecto.num_factura}}<br>
+                <strong>fecha del cobro IVA:</strong> {{ proyecto.fecha_cobro_IVA}}<br>
+                <strong>Empleados:</strong>
+                <ul>
+                    {% for empleado in proyecto.empleados.all %}
+                        <li>{{ empleado }}</li>
+                    {% endfor %}
+                </ul>
+                <br>
+                <br>
+            </li>
+            <!-- Puedes agregar más detalles aquí según sea necesario -->
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
