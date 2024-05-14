@@ -44,7 +44,6 @@ urlpatterns = [
     path('ticket/<int:ticket_id>/delete/', views.ticket_delete, name='ticket_delete'),#eliminar tickets
 
 #****************************** PROYECTOS Y TAREAS ******************************#
-    #path ('proyectos/', views.lista_proyectos, name='lista_proyectos'),
     path('proyectos/crear/', views.crear_proyecto, name='crear_proyecto'),
     path('proyectos/', lista_proyectos, name='lista_proyectos'),
    
