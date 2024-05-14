@@ -1,35 +1,161 @@
 {% extends 'base.html' %}
 
+{% block navegar %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<style>
+    /* Estilos para la tabla de empleados */
+    .empleados-lista {
+        margin: 0 auto;
+        width: 100%; /* Ancho de la tabla ajustado */
+    }
+
+    .empleados-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .empleados-table th,
+    .empleados-table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+    }
+    
+    .empleados-table th {
+        background-color: #f2f2f2;
+    }
+    
+    /* Estilos para resaltar al pasar el ratón sobre una fila */
+    .empleados-table tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    /* Estilos para los enlaces de paginación */
+    .pagination {
+        margin-top: 20px;
+        text-align: center;
+        margin-left:45%;
+    }
+
+    .pagination a {
+        display: inline-block;
+        padding: 7px 12px; /* Ajusta el padding para hacerlo más pequeño */
+        margin: 0 3px; /* Margen más pequeño entre enlaces */
+        border: 1px solid #007bff;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 3px;
+        font-size: 12px; /* Tamaño de fuente más pequeño */
+    }
+
+    .pagination a:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    .pagination .active {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    /* Estilos para el menú desplegable */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 120px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 8px 12px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+</style>
+
+<li class="nav-item">
+    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-link nav-link" style="border: none; padding: 0; background: none;">Cerrar sesión</button>
+    </form>
+</li>
+
+{% endblock %}
+
 {% block content %}
-<div class="container">
-    <h2>Lista de Proyectos</h2>
-    <ul>
-        {% for proyecto in proyectos %}
-            <li>
-                <strong>Nombre:</strong> {{ proyecto.nombre }} <br>
-                <strong>Descripción:</strong> {{ proyecto.descripcion }} <br>
-                <strong>Fecha de Inicio:</strong> {{ proyecto.fecha_inicio }} <br>
-                <strong>Fecha de Fin:</strong> {{ proyecto.fecha_fin }} <br>
-                <strong>Número de Acuerdo:</strong> {{ proyecto.num_acuerdo }} <br>
-                <strong>Cliente:</strong> {{ proyecto.cliente }} <br>
-                <strong>estado:</strong> {{ proyecto.estado}}<br>
-                <strong>valor:</strong> {{ proyecto.valor}} €<br>
-                <strong>tipo:</strong> {{ proyecto.tipo}}<br>
-                <strong>firma del acuerdo:</strong> {{ proyecto.firma_acuerdo}}<br>
-                <strong>fecha de facturacion:</strong> {{ proyecto.fecha_facturacion}}<br>
-                <strong>numero de factura:</strong> {{ proyecto.num_factura}}<br>
-                <strong>fecha del cobro IVA:</strong> {{ proyecto.fecha_cobro_IVA}}<br>
-                <strong>Empleados:</strong>
-                <ul>
-                    {% for empleado in proyecto.empleados.all %}
+<a href="{% url 'registro_empleado' %}" class="btn btn-primary register-btn">Registrar Empleados</a>
+<h1 class="text-center">Lista de Proyectos</h1>
+<div class="empleados-lista">
+    <table class="empleados-table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Fin</th>
+                <th>Número de Acuerdo</th>
+                <th>Cliente</th>
+                <th>Estado</th>
+                <th>Valor</th>
+                <th>Tipo</th>
+                <th>Firma del Acuerdo</th>
+                <th>Fecha de Facturación</th>
+                <th>Número de Factura</th>
+                <th>Fecha de Cobro IVA</th>
+                <th>Empleados</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for proyecto in proyectos %}
+            <tr>
+                <td>{{ proyecto.nombre }}</td>
+                <td>{{ proyecto.descripcion }}</td>
+                <td>{{ proyecto.fecha_inicio }}</td>
+                <td>{{ proyecto.fecha_fin }}</td>
+                <td>{{ proyecto.num_acuerdo }}</td>
+                <td>{{ proyecto.cliente }}</td>
+                <td>{{ proyecto.estado }}</td>
+                <td>{{ proyecto.valor }} €</td>
+                <td>{{ proyecto.tipo }}</td>
+                <td>{{ proyecto.firma_acuerdo }}</td>
+                <td>{{ proyecto.fecha_facturacion }}</td>
+                <td>{{ proyecto.num_factura }}</td>
+                <td>{{ proyecto.fecha_cobro_IVA }}</td>
+                <td>
+                    <ul>
+                        {% for empleado in proyecto.empleados.all %}
                         <li>{{ empleado }}</li>
-                    {% endfor %}
-                </ul>
-                <br>
-                <br>
-            </li>
-            <!-- Puedes agregar más detalles aquí según sea necesario -->
-        {% endfor %}
-    </ul>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}
