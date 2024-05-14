@@ -4,108 +4,49 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <style>
-    /* Estilos para la tabla de empleados */
-    .empleados-lista {
+    /* Estilos para la tabla de proyectos */
+    .proyectos-lista {
         margin: 0 auto;
-        width: 100%; /* Ancho de la tabla ajustado */
+        width: 100%; 
+        /* Ancho del contenedor de la tabla ajustado */
     }
 
-    .empleados-table {
-        width: 100%;
+    .proyectos-table {
+        width: 100%; /* Ancho de la tabla ajustado */
         border-collapse: collapse;
     }
     
-    .empleados-table th,
-    .empleados-table td {
-        border: 1px solid #ddd;
-        padding: 6px;
+    .proyectos-table th,
+    .proyectos-table td {
+        border: 1px solid #e0e0e0; /* Color de los bordes */
+        padding: 12px; /* Espaciado interior */
         text-align: left;
     }
     
-    .empleados-table th {
-        background-color: #f2f2f2;
+    .proyectos-table th {
+        background-color: #f8f8f8; /* Color de fondo de las celdas del encabezado */
+        font-weight: bold; /* Texto en negrita para el encabezado */
     }
     
     /* Estilos para resaltar al pasar el ratón sobre una fila */
-    .empleados-table tr:hover {
-        background-color: #f5f5f5;
+    .proyectos-table tr:hover {
+        background-color: #f2f2f2; /* Color de fondo al pasar el ratón */
     }
-
-    /* Estilos para los enlaces de paginación */
-    .pagination {
-        margin-top: 20px;
-        text-align: center;
-        margin-left:45%;
-    }
-
-    .pagination a {
-        display: inline-block;
-        padding: 7px 12px; /* Ajusta el padding para hacerlo más pequeño */
-        margin: 0 3px; /* Margen más pequeño entre enlaces */
-        border: 1px solid #007bff;
-        background-color: #007bff;
-        color: white;
-        text-decoration: none;
-        border-radius: 3px;
-        font-size: 12px; /* Tamaño de fuente más pequeño */
-    }
-
-    .pagination a:hover {
-        background-color: #0056b3;
-        border-color: #0056b3;
-    }
-
-    .pagination .active {
-        background-color: #0056b3;
-        border-color: #0056b3;
-    }
-
-    /* Estilos para el menú desplegable */
-    .dropdown {
-        position: relative;
-        display: inline-block;
-    }
-
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f9f9f9;
-        min-width: 120px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        z-index: 1;
-    }
-
-    .dropdown:hover .dropdown-content {
-        display: block;
-    }
-
-    .dropdown-content a {
-        color: black;
-        padding: 8px 12px;
-        text-decoration: none;
-        display: block;
-    }
-
-    .dropdown-content a:hover {
-        background-color: #f1f1f1;
-    }
-
-    .dropdown-icon {
-        width: 24px;
-        height: 24px;
-        margin-right: 5px;
-        cursor: pointer;
+    .foto-empleado {
+        width: 50px; /* Ancho deseado para las fotos */
+        height: 50px; /* Altura deseada para las fotos */
+        border-radius: 50%; /* Establecer bordes redondeados para que las fotos sean circulares */
+        object-fit: cover; /* Ajustar la imagen para que cubra el contenedor manteniendo su relación de aspecto */
     }
 </style>
-
 
 {% endblock %}
 
 {% block content %}
 <a href="{% url 'registro_empleado' %}" class="btn btn-primary register-btn">Registrar Empleados</a>
 <h1 class="text-center">Lista de Proyectos</h1>
-<div class="empleados-lista">
-    <table class="empleados-table">
+<div class="proyectos-lista">
+    <table class="proyectos-table">
         <thead>
             <tr>
                 <th>Nombre</th>
@@ -141,11 +82,13 @@
                 <td>{{ proyecto.num_factura }}</td>
                 <td>{{ proyecto.fecha_cobro_IVA }}</td>
                 <td>
-                    <ul>
-                        {% for empleado in proyecto.empleados.all %}
-                        <li>{{ empleado }}</li>
-                        {% endfor %}
-                    </ul>
+                    {% for empleado in proyecto.empleados.all %}
+                        {% if empleado.foto %}
+                            <img class="foto-empleado" src="{{ empleado.foto.url }}" alt="Foto de perfil">
+                        {% else %}
+                            <img class="foto-empleado" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s" alt="Foto de perfil predeterminada">
+                        {% endif %}
+                    {% endfor %}
                 </td>
             </tr>
             {% endfor %}
