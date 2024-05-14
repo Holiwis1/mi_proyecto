@@ -186,8 +186,8 @@ class Ticket(models.Model):
 
 #****************************** MODELO ARCHIVOS_TICKETS ******************************#
 class TicketAttachment(models.Model):
-    ticket = models.ForeignKey('Ticket', related_name='attachments', on_delete=models.CASCADE)
-    file = models.ImageField(upload_to='ticket_attachments/')
+    ticket = models.ForeignKey(Ticket, related_name='attachments', on_delete=models.CASCADE)
+    file = models.FileField(upload_to='ticket_attachments/')
     
 #****************************** MODELO ARCHIVO ******************************#
 #Clase archivo para poder subir cualquier numero de archivos al cliente

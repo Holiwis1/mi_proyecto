@@ -3,9 +3,9 @@ from multiprocessing import context
 import os
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from core.forms import ClienteEditarForm, ClienteForm, EmpleadoSignUpForm, EmpleadoCambiarFoto, EmpleadoEditarForm, ProyectoForm
+from core.forms import ClienteEditarForm, ClienteForm, EmpleadoSignUpForm, EmpleadoCambiarFoto, EmpleadoEditarForm, ProyectoForm,TicketAttachmentForm
 from mi_proyecto import settings
-from .models import Empleado, Cliente, Tareas, Proyecto, Table, Ticket, Archivo
+from .models import Empleado, Cliente, Tareas, Proyecto, Table, Ticket, Archivo,TicketAttachment
 from django.contrib import messages
 from django.contrib.auth import login
 from django.shortcuts import render
@@ -415,6 +415,7 @@ def crear_tabla(request):
 def table_list(request):
     tables = Table.objects.all()
     tickets = Ticket.objects.all()  # Obtener todos los tickets
+    
     return render(request, 'core/table_list.html', {'tables': tables, 'tickets': tickets})
 
 @login_required
@@ -428,26 +429,42 @@ def ticket_create(request, table_id):
     table = get_object_or_404(Table, pk=table_id)
     
     if request.method == 'POST':
-        form = TicketForm(request.POST, request.FILES)
-        if form.is_valid():
-            # Crear la etiqueta
-            nombre_etiqueta = form.cleaned_data['nombre_etiqueta']
-            color_etiqueta = form.cleaned_data['color_etiqueta']
-            etiqueta, created = Etiqueta.objects.get_or_create(name=nombre_etiqueta, defaults={'color': color_etiqueta})
-
-            # Crear el ticket y asociarlo con la etiqueta
-            ticket = form.save(commit=False)
+        ticket_form = TicketForm(request.POST)
+        attachment_form = TicketAttachmentForm(request.POST, request.FILES)
+        
+        if ticket_form.is_valid() and attachment_form.is_valid():
+            # Guardar el formulario del ticket
+            ticket = ticket_form.save(commit=False)
             ticket.table = table
-            ticket.etiqueta = etiqueta
             ticket.save()
+
+            # Guardar el formulario del archivo adjunto
+            attachment = attachment_form.save(commit=False)
+            attachment.ticket = ticket  # Asociar el archivo adjunto con el ticket
+            attachment.save()
+
             return redirect('table_list') 
     else:
-        form = TicketForm()
-    return render(request, 'core/ticket_form.html', {'form': form})
+        ticket_form = TicketForm()
+        attachment_form = TicketAttachmentForm()
+    
+    return render(request, 'core/ticket_form.html', {'ticket_form': ticket_form, 'attachment_form': attachment_form})
+
+@login_required
+def upload_attachment(request):
+    if request.method == 'POST':
+        form = TicketAttachmentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('table_list')  # Redirige a donde desees después de cargar el archivo
+    else:
+        form = TicketAttachmentForm()
+    return render(request, 'upload_attachment.html', {'form': form})
 
 #Actualizar ticket 
-@login_required
+"""@login_required
 def ticket_update(request, ticket_id):
+    attachment_form = TicketAttachmentForm(request.POST, request.FILES)
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     if request.method == 'POST':
         form = TicketForm(request.POST, instance=ticket)
@@ -457,7 +474,35 @@ def ticket_update(request, ticket_id):
     else:
         # Aquí, asegúrate de pasar el ticket existente al formulario
         form = TicketForm(instance=ticket)
-    return render(request, 'core/ticket_form.html', {'form': form})
+    return render(request, 'core/ticket_form.html', {'form': form})"""
+
+
+
+@login_required
+def ticket_update(request, ticket_id):
+    ticket = get_object_or_404(Ticket, pk=ticket_id)
+
+    if request.method == 'POST':
+        ticket_form = TicketForm(request.POST, instance=ticket)
+        attachment_form = TicketAttachmentForm(request.POST, request.FILES)
+        if ticket_form.is_valid() and attachment_form.is_valid():
+            # Guardar el formulario del ticket actualizado
+            ticket = ticket_form.save()
+
+            # Guardar el formulario del archivo adjunto
+            attachment = attachment_form.save(commit=False)
+            attachment.ticket = ticket  # Asociar el archivo adjunto con el ticket
+            attachment.save()
+           
+
+            return redirect('table_list')
+    else:
+        ticket_form = TicketForm(instance=ticket)  # Pasar la instancia del ticket al formulario
+        attachments = TicketAttachment.objects.filter(ticket=ticket)
+        attachment_form = TicketAttachmentForm()  # Formulario para nuevos archivos adjuntos
+
+    return render(request, 'core/ticket_form.html', {'ticket_form': ticket_form, 'attachment_form': attachment_form, 'attachments': attachments})
+
 
 @login_required
 def ticket_delete(request, ticket_id):
