@@ -498,12 +498,12 @@ def crear_proyecto(request):
     if request.method == 'POST':
         form = ProyectoForm(request.POST)
         if form.is_valid():
-            nuevo_proyecto = form.save(commit=False)
-            # Agrega cualquier lógica adicional si es necesario antes de guardar
-            nuevo_proyecto.save()
-            # Después de guardar el proyecto, también debes guardar las relaciones ManyToMany
-            form.save_m2m()
-            return redirect('lista_clientes')  # Asume que quieres redirigir a la lista de clientes
+            proyecto = form.save(commit=False)
+            proyecto.save()
+            # Accede a los empleados seleccionados y guarda las relaciones ManyToMany
+            proyecto.empleados.set(form.cleaned_data['empleados'])
+            proyecto.save()
+        return redirect('lista_proyectos')
     else:
         form = ProyectoForm()
 

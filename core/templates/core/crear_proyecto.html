@@ -94,61 +94,61 @@
 </div>
 
 <script>
+
     document.addEventListener('DOMContentLoaded', function() {
         var select = document.getElementById('id_empleados');
         var displayArea = document.getElementById('selectedEmployees');
-        var selectedEmployees = [];
-
-        select.addEventListener('click', function(e) {
+        var selectedValues = new Set(); // Usamos un conjunto para manejar valores únicos
+    
+        // Ajustar el evento de clic para el manejo de múltiples selecciones sin Ctrl
+        select.addEventListener('mousedown', function(e) {
+            e.preventDefault(); // Evita que la opción se seleccione de forma predeterminada
             var clickedOption = e.target;
-
-            // Toggle selected class
-            if (clickedOption.classList.contains('selected')) {
-                clickedOption.classList.remove('selected');
-                selectedEmployees = selectedEmployees.filter(emp => emp.id !== clickedOption.value);
-            } else {
-                clickedOption.classList.add('selected');
-                selectedEmployees.push({ id: clickedOption.value, text: clickedOption.textContent });
+    
+            if (clickedOption.tagName === 'OPTION') {
+                // Toggle de selección para simular selección múltiple sin Ctrl
+                if (selectedValues.has(clickedOption.value)) {
+                    selectedValues.delete(clickedOption.value);
+                    clickedOption.selected = false; // Visualmente deseleccionar la opción
+                } else {
+                    selectedValues.add(clickedOption.value);
+                    clickedOption.selected = true; // Visualmente seleccionar la opción
+                }
+    
+                // Asegurarse de que el select se actualice correctamente
+                clickedOption.parentElement.focus();
+                updateDisplayArea();
             }
-
-            updateDisplayArea();
         });
-
+    
         function updateDisplayArea() {
             displayArea.innerHTML = '';
-            selectedEmployees.forEach(emp => {
+            selectedValues.forEach(value => {
+                var optionText = select.querySelector('option[value="' + value + '"]').textContent;
                 var span = document.createElement('span');
-                span.textContent = emp.text;
+                span.textContent = optionText + " ";
                 var removeBtn = document.createElement('button');
                 removeBtn.textContent = 'x';
-                removeBtn.onclick = function() {
-                    selectedEmployees = selectedEmployees.filter(e => e.id !== emp.id);
-                    var selectedOption = document.querySelector('select option[value="' + emp.id + '"]');
-                    if (selectedOption) {
-                        selectedOption.classList.remove('selected');
-                    }
+                removeBtn.addEventListener('click', function() {
+                    selectedValues.delete(value);
+                    select.querySelector('option[value="' + value + '"]').selected = false;
                     updateDisplayArea();
-                };
+                });
                 span.appendChild(removeBtn);
                 displayArea.appendChild(span);
-                displayArea.appendChild(document.createElement('br'));
             });
-            console.log("IDs de empleados seleccionados:");
-            console.log(selectedEmployees.map(emp => emp.id));
         }
-
-        // Manejar el envío del formulario
+    
+        // Asegurar que todos los elementos seleccionados se envíen con el formulario
         var form = document.querySelector('form');
         form.addEventListener('submit', function(e) {
-            // Limpiar y seleccionar todas las opciones antes de enviar el formulario
             Array.from(select.options).forEach(option => {
-                option.selected = selectedEmployees.some(emp => emp.id === option.value);
+                option.selected = selectedValues.has(option.value);
             });
-            // Imprimir en la consola los IDs de los empleados seleccionados antes de enviar el formulario
-            console.log("Formulario enviado");
-            console.log(selectedEmployees.map(emp => emp.id));
         });
     });
+     
+    
 </script>
 <style>
     .container {
