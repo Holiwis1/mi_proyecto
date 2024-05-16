@@ -192,7 +192,7 @@
 
 {% block content %}
 
-<a href="{% url 'registro_empleado' %}" class="btn btn-primary register-btn">Registrar Empleados</a>
+<a href="{% url 'crear_proyecto' %}" class="btn btn-primary register-btn">Crear Proyecto</a>
 <h1 class="text-center">Lista de Proyectos</h1>
 <div class="proyectos-lista">
     <div class="datagrid">
@@ -239,6 +239,16 @@
                                 <img class="foto-empleado" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s" alt="Foto de perfil predeterminada">
                             {% endif %}
                         {% endfor %}
+                    </td>
+                    <td>
+                        
+                        <div class="dropdown">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2767/2767162.png" alt="Icon" class="dropdown-icon">
+                            <div class="dropdown-content">
+                                <a href="#">Editar</a>
+                                <a href="#">Eliminar</a>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 {% endfor %}

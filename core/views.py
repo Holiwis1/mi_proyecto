@@ -532,26 +532,27 @@ def crear_etiqueta(request):
 @admin_required
 def crear_proyecto(request):
     empleados = Empleado.objects.all()
-    clientes = Cliente.objects.all()  # Cambié 'cliente' a 'clientes' para evitar confusión
+    clientes = Cliente.objects.all()
     context = {
         'empleados': empleados,
-        'cliente': clientes,  
+        'clientes': clientes,  
         'PRIORIDAD_CHOICES': Proyecto.PRIORIDAD_CHOICES,
         'ESTADOS_CHOICES': Proyecto.ESTADOS_CHOICES,
         'TIPO_CHOICES': Proyecto.TIPO_CHOICES
     }
+
     if request.method == 'POST':
         form = ProyectoForm(request.POST)
         if form.is_valid():
             proyecto = form.save(commit=False)
             proyecto.save()
-            # Accede a los empleados seleccionados y guarda las relaciones ManyToMany
+            # Guarda las relaciones ManyToMany para empleados
             proyecto.empleados.set(form.cleaned_data['empleados'])
-            proyecto.save()
-        return redirect('lista_proyectos')
+            return redirect('lista_proyectos')  # Ajusta según la redirección deseada
     else:
         form = ProyectoForm()
 
+    context['form'] = form
     return render(request, 'core/crear_proyecto.html', context)
 
 def lista_proyectos(request):

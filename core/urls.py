@@ -25,7 +25,7 @@ urlpatterns = [
 #****************************** CLIENTE ******************************#
  
     path('clientes/', views.lista_clientes, name='lista_clientes'), #http://127.0.0.1:8000/lista_clientes
-    path('registrarme2/', registro_cliente, name='registro_cliente'), #http://127.0.0.1:8000/registrarme2/
+    path('registrar-cliente/', registro_cliente, name='registro_cliente'), #http://127.0.0.1:8000/registrar-cliente/
     path('editar_cliente/<int:cliente_id>/', views.editar_cliente, name='editar_cliente'), #http://127.0.0.1:8000/editar (por id de cliente)
     path('eliminar_cliente/<int:cliente_id>/', views.eliminar_cliente, name='eliminar_cliente'), #para eliminar cliente
     path('perfil_cliente/<int:cliente_id>/', views.perfil_cliente, name='perfil_cliente'),#Perfil clientes
@@ -46,5 +46,6 @@ urlpatterns = [
 #****************************** PROYECTOS Y TAREAS ******************************#
     path('proyectos/crear/', views.crear_proyecto, name='crear_proyecto'),
     path('proyectos/', lista_proyectos, name='lista_proyectos'),
+    #path('proyectos/<int:proyecto_id>/eliminar', views.eliminar_proyecto, name='eliminar_proyecto'),
    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
