@@ -4,95 +4,245 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <style>
-    /* Estilos para la tabla de proyectos */
-    .proyectos-lista {
-        margin: 0 auto;
-        width: 100%; 
-        /* Ancho del contenedor de la tabla ajustado */
+    /* Estilos para la tabla de empleados */
+    .datagrid table {
+        border-collapse: collapse;
+        text-align: left;
+        width: 100%;
+        max-width: 1500px;
+        margin: 0 auto; /* Centrar la tabla */
+        padding:0%;
+    }
+    
+    .datagrid {
+        font: normal 12px/150% Arial, Helvetica, sans-serif;
+        background: #fff;
+        overflow: hidden;
+       
+        border-radius: 10px;
+       
+    }
+    
+    .datagrid table td,
+    .datagrid table th {
+        padding: 3px 10px;
+    }
+    
+    .datagrid table thead th {
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #991821), color-stop(1, #80141C));
+        background: -moz-linear-gradient(center top, #991821 5%, #80141C 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#991821', endColorstr='#80141C');
+        background-color: #991821;
+        color: #FFFFFF;
+        font-size: 15px;
+        font-weight: bold;
+        border-left: 1px solid #B01C26;
+        padding:0%;
+    }
+    
+    .datagrid table thead th:first-child {
+        border: none;
+    }
+    
+    .datagrid table tbody td {
+        color: #80141C;
+        border-left: 1px solid #F7CDCD;
+        font-size: 12px;
+        font-weight: normal;
+    }
+    
+    .datagrid table tbody .alt td {
+        background: #F7CDCD;
+        color: #80141C;
+    }
+    
+    .datagrid table tbody td:first-child {
+        border-left: none;
+    }
+    
+    .datagrid table tbody tr:last-child td {
+        border-bottom: none;
+    }
+    
+    .datagrid table tfoot td div {
+        
+        background: #F7CDCD;
+    }
+    
+    .datagrid table tfoot td {
+        padding: 0;
+        font-size: 12px;
+    }
+    
+    .datagrid table tfoot td div {
+        padding: 2px;
+    }
+    
+    .datagrid table tfoot td ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        text-align: right;
+    }
+    
+    .datagrid table tfoot li {
+        display: inline;
+    }
+    
+    .datagrid table tfoot li a {
+        text-decoration: none;
+        display: inline-block;
+        padding: 2px 8px;
+        margin: 1px;
+        color: #FFFFFF;
+        border: 1px solid #991821;
+        border-radius: 3px;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #991821), color-stop(1, #80141C));
+        background: -moz-linear-gradient(center top, #991821 5%, #80141C 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#991821', endColorstr='#80141C');
+        background-color: #991821;
+    }
+    
+    .datagrid table tfoot ul.active,
+    .datagrid table tfoot ul a:hover {
+        text-decoration: none;
+        border-color: #80141C;
+        color: #FFFFFF;
+        background: none;
+        background-color: #991821;
+    }
+    .dropdown {
+        position: relative;
+        display: inline-block;
     }
 
-    .proyectos-table {
-        width: 100%; /* Ancho de la tabla ajustado */
-        border-collapse: collapse;
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown-icon {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+    }
+    .datagrid table tfoot .pagination {
+        text-align: center;
     }
     
-    .proyectos-table th,
-    .proyectos-table td {
-        border: 1px solid #e0e0e0; /* Color de los bordes */
-        padding: 12px; /* Espaciado interior */
-        text-align: left;
+    .datagrid table tfoot .pagination a {
+        text-decoration: none;
+        display: inline-block;
+        padding: 5px 10px;
+        margin: 0 2px;
+        color: #FFFFFF;
+        border: 1px solid #991821;
+        border-radius: 3px;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #991821), color-stop(1, #80141C));
+        background: -moz-linear-gradient(center top, #991821 5%, #80141C 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#991821', endColorstr='#80141C');
+        background-color: #991821;
     }
     
-    .proyectos-table th {
-        background-color: #f8f8f8; /* Color de fondo de las celdas del encabezado */
-        font-weight: bold; /* Texto en negrita para el encabezado */
+    .datagrid table tfoot .pagination a.active,
+    .datagrid table tfoot .pagination a:hover {
+        background: none;
+        background-color: #80141C;
+    }
+    .datagrid table tbody tr {
+        color: #80141C;
+        border-left: 1px solid #F7CDCD;
+        font-size: 12px;
+        font-weight: normal;
     }
     
-    /* Estilos para resaltar al pasar el ratón sobre una fila */
-    .proyectos-table tr:hover {
-        background-color: #f2f2f2; /* Color de fondo al pasar el ratón */
+    .datagrid table tbody tr.alt {
+        background: #F7CDCD; /* Color de fondo para números impares */
     }
     .foto-empleado {
         width: 50px; /* Ancho deseado para las fotos */
         height: 50px; /* Altura deseada para las fotos */
         border-radius: 50%; /* Establecer bordes redondeados para que las fotos sean circulares */
         object-fit: cover; /* Ajustar la imagen para que cubra el contenedor manteniendo su relación de aspecto */
+        margin-bottom: 5px; /* Agregar un margen inferior para separar las imágenes */
+        border-bottom: 1px solid #ccc; /* Agregar un borde inferior */
     }
 </style>
 
 {% endblock %}
 
 {% block content %}
+
 <a href="{% url 'registro_empleado' %}" class="btn btn-primary register-btn">Registrar Empleados</a>
 <h1 class="text-center">Lista de Proyectos</h1>
 <div class="proyectos-lista">
-    <table class="proyectos-table">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Fecha de Inicio</th>
-                <th>Fecha de Fin</th>
-                <th>Número de Acuerdo</th>
-                <th>Cliente</th>
-                <th>Estado</th>
-                <th>Valor</th>
-                <th>Tipo</th>
-                <th>Firma del Acuerdo</th>
-                <th>Fecha de Facturación</th>
-                <th>Número de Factura</th>
-                <th>Fecha de Cobro IVA</th>
-                <th>Empleados</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for proyecto in proyectos %}
-            <tr>
-                <td>{{ proyecto.nombre }}</td>
-                <td>{{ proyecto.descripcion }}</td>
-                <td>{{ proyecto.fecha_inicio }}</td>
-                <td>{{ proyecto.fecha_fin }}</td>
-                <td>{{ proyecto.num_acuerdo }}</td>
-                <td>{{ proyecto.cliente }}</td>
-                <td>{{ proyecto.estado }}</td>
-                <td>{{ proyecto.valor }} €</td>
-                <td>{{ proyecto.tipo }}</td>
-                <td>{{ proyecto.firma_acuerdo }}</td>
-                <td>{{ proyecto.fecha_facturacion }}</td>
-                <td>{{ proyecto.num_factura }}</td>
-                <td>{{ proyecto.fecha_cobro_IVA }}</td>
-                <td>
-                    {% for empleado in proyecto.empleados.all %}
-                        {% if empleado.foto %}
-                            <img class="foto-empleado" src="{{ empleado.foto.url }}" alt="Foto de perfil">
-                        {% else %}
-                            <img class="foto-empleado" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s" alt="Foto de perfil predeterminada">
-                        {% endif %}
-                    {% endfor %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="datagrid">
+        <table class="proyectos-table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Fecha de Inicio</th>
+                    <th>Fecha de Fin</th>
+                    <th>Número de Acuerdo</th>
+                    <th>Cliente</th>
+                    <th>Estado</th>
+                    <th>Valor</th>
+                    <th>Tipo</th>
+                    <th>Firma del Acuerdo</th>
+                    <th>Fecha de Facturación</th>
+                    <th>Número de Factura</th>
+                    <th>Fecha de Cobro IVA</th>
+                    <th>Empleados</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for proyecto in proyectos %}
+                <tr>
+                    <td>{{ proyecto.nombre }}</td>
+                    <td>{{ proyecto.descripcion }}</td>
+                    <td>{{ proyecto.fecha_inicio }}</td>
+                    <td>{{ proyecto.fecha_fin }}</td>
+                    <td>{{ proyecto.num_acuerdo }}</td>
+                    <td>{{ proyecto.cliente }}</td>
+                    <td>{{ proyecto.estado }}</td>
+                    <td>{{ proyecto.valor }} €</td>
+                    <td>{{ proyecto.tipo }}</td>
+                    <td>{{ proyecto.firma_acuerdo }}</td>
+                    <td>{{ proyecto.fecha_facturacion }}</td>
+                    <td>{{ proyecto.num_factura }}</td>
+                    <td>{{ proyecto.fecha_cobro_IVA }}</td>
+                    <td>
+                        {% for empleado in proyecto.empleados.all %}
+                            {% if empleado.foto %}
+                                <img class="foto-empleado" src="{{ empleado.foto.url }}" alt="Foto de perfil">
+                            {% else %}
+                                <img class="foto-empleado" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s" alt="Foto de perfil predeterminada">
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 </div>
 {% endblock %}

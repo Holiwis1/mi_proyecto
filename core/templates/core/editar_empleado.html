@@ -9,7 +9,6 @@
         <button type="submit" class="btn btn-link nav-link" style="border: none; padding: 0; background: none;">Cerrar sesión</button>
     </form>
 </li>
-
 {% endblock %}
 
 {% block content %}
@@ -19,11 +18,11 @@
         border-radius: 8px;
         padding: 40px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        max-width: 400px;
+        max-width: 600px;
         width: 100%;
-        align-items: center;
         display: flex;
         flex-direction: column;
+        align-items: center;
         justify-content: center;
         margin: 0 auto;
     }
@@ -39,22 +38,22 @@
     
     .form-group {
         margin-bottom: 20px;
+        width: 100%;
     }
     
     .form-group label {
         display: block;
-        color: #ccc;
+        color: #333;
         margin-bottom: 8px;
     }
     
     .form-group input,
     .form-group select {
-        width: calc(300px - 24px); /* Ajusta el ancho de los inputs y select */
+        width: calc(100% - 24px);
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 6px;
         font-size: 16px;
-        margin: 0 auto; /* Centra los inputs y select */
     }
     
     .form-group input:focus,
@@ -65,7 +64,7 @@
     
     .login-button {
         margin: 12px;
-        width: 100%;
+        width: calc(100% - 24px);
         background-color: #007bff;
         color: #fff;
         border: none;
@@ -80,26 +79,104 @@
         background-color: #0767ce;
     }
     
-    .create-account {
-        text-align: center;
-        margin-top: 20px;
-        font-size: 14px;
-        color: #666;
+    .cancel-button {
+        margin: 12px;
+        width: calc(100% - 24px);
+        background-color: #ccc;
+        color: #fff;
+        border: none;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    .cancel-button:hover {
+        background-color: #999;
     }
 </style>
 
 <div class="login-container">
     <div class="logo">
         <img src="https://navegatel.org/wp-content/uploads/2022/08/logo-navegatel-grande.webp" alt="Logo">
-    
     </div>
    
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
+        
+        <div class="form-group">
+            {{ form.first_name.label_tag }}
+            {{ form.first_name }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.last_name.label_tag }}
+            {{ form.last_name }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.rol.label_tag }}
+            {{ form.rol }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.telefono.label_tag }}
+            {{ form.telefono }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.telefono2.label_tag }}
+            {{ form.telefono2 }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.fecha_nacimiento.label_tag }}
+            {{ form.fecha_nacimiento }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.direccion.label_tag }}
+            {{ form.direccion }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.num_seguridad_social.label_tag }}
+            {{ form.num_seguridad_social }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.foto_dni.label_tag }}
+            {{ form.foto_dni }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.foto_dni2.label_tag }}
+            {{ form.foto_dni2 }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.fecha_alta.label_tag }}
+            {{ form.fecha_alta }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.new_password.label_tag }}
+            {{ form.new_password }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.new_password2.label_tag }}
+            {{ form.new_password2 }}
+        </div>
         
         <button type="submit" class="login-button">Confirmar cambios</button>
-        <button type="submit" class="login-button" href="{% url 'lista_empleados' %}">Cancelar</button>
+        <a href="{% url 'lista_empleados' %}" class="cancel-button">Cancelar</a>
     </form>
 </div>
 {% endblock %}

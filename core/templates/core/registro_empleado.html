@@ -17,9 +17,9 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         max-width: 400px;
         width: 100%;
-        align-items: center;
         display: flex;
         flex-direction: column;
+        align-items: center;
         justify-content: center;
         margin: 0 auto;
     }
@@ -39,18 +39,17 @@
     
     .form-group label {
         display: block;
-        color: #ccc;
+        color: #333;
         margin-bottom: 8px;
     }
     
     .form-group input,
     .form-group select {
-        width: calc(300px - 24px); /* Ajusta el ancho de los inputs y select */
+        width: calc(100% - 24px);
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 6px;
         font-size: 16px;
-        margin: 0 auto; /* Centra los inputs y select */
     }
     
     .form-group input:focus,
@@ -86,12 +85,80 @@
 <div class="login-container">
     <div class="logo">
         <img src="https://navegatel.org/wp-content/uploads/2022/08/logo-navegatel-grande.webp" alt="Logo">
-    
     </div>
    
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
+        
+        <div class="form-group">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.first_name.label_tag }}
+            {{ form.first_name }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.last_name.label_tag }}
+            {{ form.last_name }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.rol.label_tag }}
+            {{ form.rol }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.telefono.label_tag }}
+            {{ form.telefono }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.telefono2.label_tag }}
+            {{ form.telefono2 }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.fecha_nacimiento.label_tag }}
+            {{ form.fecha_nacimiento }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.direccion.label_tag }}
+            {{ form.direccion }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.num_seguridad_social.label_tag }}
+            {{ form.num_seguridad_social }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.foto.label_tag }}
+            {{ form.foto }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.foto_dni.label_tag }}
+            {{ form.foto_dni }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.foto_dni2.label_tag }}
+            {{ form.foto_dni2 }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.fecha_alta.label_tag }}
+            {{ form.fecha_alta }}
+        </div>
         
         <button type="submit" class="login-button">Registrar</button>
     </form>

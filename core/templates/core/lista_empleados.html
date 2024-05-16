@@ -4,62 +4,109 @@
 
 <style>
     /* Estilos para la tabla de empleados */
-    .empleados-lista {
-        margin: 0 auto;
-        width: 80%; /* Ancho de la tabla ajustado */
-    }
-
-    .empleados-table {
-        width: 100%;
+    .datagrid table {
         border-collapse: collapse;
-    }
-    
-    .empleados-table th,
-    .empleados-table td {
-        border: 1px solid #ddd;
-        padding: 6px;
         text-align: left;
+        width: 100%;
+        
     }
     
-    .empleados-table th {
-        background-color: #f2f2f2;
+    .datagrid {
+        font: normal 12px/150% Arial, Helvetica, sans-serif;
+        background: #fff;
+        overflow: hidden;
+       
+        border-radius: 10px;
+       
     }
     
-    /* Estilos para resaltar al pasar el ratón sobre una fila */
-    .empleados-table tr:hover {
-        background-color: #f5f5f5;
+    .datagrid table td,
+    .datagrid table th {
+        padding: 3px 10px;
     }
-
-    /* Estilos para los enlaces de paginación */
-    .pagination {
-        margin-top: 20px;
-        text-align: center;
-        margin-left:45%;
+    
+    .datagrid table thead th {
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #991821), color-stop(1, #80141C));
+        background: -moz-linear-gradient(center top, #991821 5%, #80141C 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#991821', endColorstr='#80141C');
+        background-color: #991821;
+        color: #FFFFFF;
+        font-size: 15px;
+        font-weight: bold;
+        border-left: 1px solid #B01C26;
     }
-
-    .pagination a {
-        display: inline-block;
-        padding: 7px 12px; /* Ajusta el padding para hacerlo más pequeño */
-        margin: 0 3px; /* Margen más pequeño entre enlaces */
-        border: 1px solid #007bff;
-        background-color: #007bff;
-        color: white;
+    
+    .datagrid table thead th:first-child {
+        border: none;
+    }
+    
+    .datagrid table tbody td {
+        color: #80141C;
+        border-left: 1px solid #F7CDCD;
+        font-size: 12px;
+        font-weight: normal;
+    }
+    
+    .datagrid table tbody .alt td {
+        background: #F7CDCD;
+        color: #80141C;
+    }
+    
+    .datagrid table tbody td:first-child {
+        border-left: none;
+    }
+    
+    .datagrid table tbody tr:last-child td {
+        border-bottom: none;
+    }
+    
+    .datagrid table tfoot td div {
+        
+        background: #F7CDCD;
+    }
+    
+    .datagrid table tfoot td {
+        padding: 0;
+        font-size: 12px;
+    }
+    
+    .datagrid table tfoot td div {
+        padding: 2px;
+    }
+    
+    .datagrid table tfoot td ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        text-align: right;
+    }
+    
+    .datagrid table tfoot li {
+        display: inline;
+    }
+    
+    .datagrid table tfoot li a {
         text-decoration: none;
+        display: inline-block;
+        padding: 2px 8px;
+        margin: 1px;
+        color: #FFFFFF;
+        border: 1px solid #991821;
         border-radius: 3px;
-        font-size: 12px; /* Tamaño de fuente más pequeño */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #991821), color-stop(1, #80141C));
+        background: -moz-linear-gradient(center top, #991821 5%, #80141C 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#991821', endColorstr='#80141C');
+        background-color: #991821;
     }
-
-    .pagination a:hover {
-        background-color: #0056b3;
-        border-color: #0056b3;
+    
+    .datagrid table tfoot ul.active,
+    .datagrid table tfoot ul a:hover {
+        text-decoration: none;
+        border-color: #80141C;
+        color: #FFFFFF;
+        background: none;
+        background-color: #991821;
     }
-
-    .pagination .active {
-        background-color: #0056b3;
-        border-color: #0056b3;
-    }
-
-    /* Estilos para el menú desplegable */
     .dropdown {
         position: relative;
         display: inline-block;
@@ -69,7 +116,7 @@
         display: none;
         position: absolute;
         background-color: #f9f9f9;
-        min-width: 120px;
+        min-width: 160px;
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
         z-index: 1;
     }
@@ -80,7 +127,7 @@
 
     .dropdown-content a {
         color: black;
-        padding: 8px 12px;
+        padding: 12px 16px;
         text-decoration: none;
         display: block;
     }
@@ -92,9 +139,42 @@
     .dropdown-icon {
         width: 24px;
         height: 24px;
-        margin-right: 5px;
         cursor: pointer;
     }
+    .datagrid table tfoot .pagination {
+        text-align: center;
+    }
+    
+    .datagrid table tfoot .pagination a {
+        text-decoration: none;
+        display: inline-block;
+        padding: 5px 10px;
+        margin: 0 2px;
+        color: #FFFFFF;
+        border: 1px solid #991821;
+        border-radius: 3px;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #991821), color-stop(1, #80141C));
+        background: -moz-linear-gradient(center top, #991821 5%, #80141C 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#991821', endColorstr='#80141C');
+        background-color: #991821;
+    }
+    
+    .datagrid table tfoot .pagination a.active,
+    .datagrid table tfoot .pagination a:hover {
+        background: none;
+        background-color: #80141C;
+    }
+    .datagrid table tbody tr {
+        color: #80141C;
+        border-left: 1px solid #F7CDCD;
+        font-size: 12px;
+        font-weight: normal;
+    }
+    
+    .datagrid table tbody tr.alt {
+        background: #F7CDCD; /* Color de fondo para números impares */
+    }
+    
 </style>
 
 <li class="nav-item">
@@ -108,16 +188,17 @@
 
 {% block content %}
 <a href="{% url 'registro_empleado' %}" class="btn btn-primary register-btn">Registrar Empleados</a>
-    <h1 class="text-center">Lista de Empleados</h1>
-    <form method="GET" class="mb-4">
-        <div class="form-group">
-            <label for="search">Buscar en empleados:</label>
-            <input type="text" class="form-control" id="search" name="search" placeholder="Nombre, Apellido, Correo, ...">
-        </div>
-        <button type="submit" class="btn btn-primary">Buscar</button>
-        <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'lista_empleados' %}'">Limpiar</button>
-    </form>
-    <div class="empleados-lista">
+<h1 class="text-center">Lista de Empleados</h1>
+<form method="GET" class="mb-4">
+    <div class="form-group">
+        <label for="search">Buscar en empleados:</label>
+        <input type="text" class="form-control" id="search" name="search" placeholder="Nombre, Apellido, Correo, ...">
+    </div>
+    <button type="submit" class="btn btn-primary">Buscar</button>
+    <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'lista_empleados' %}'">Limpiar</button>
+</form>
+<div class="empleados-lista">
+    <div class="datagrid">
         <table class="empleados-table">
             <thead>
                 <tr>
@@ -126,11 +207,12 @@
                     <th>Email</th>
                     <th>Teléfono</th>
                     <th>Foto de DNI</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 {% for empleado in page_obj %}
-                <tr>
+                <tr {% if forloop.counter|divisibleby:2 == 0 %}class="alt"{% endif %}>
                     <td>{{ empleado.get_full_name }}</td>
                     <td>{{ empleado.rol }}</td>
                     <td>{{ empleado.email }}</td>
@@ -140,13 +222,14 @@
                             <a href="{% url 'descargar_pdf' empleado.id %}" download><i class="fas fa-download"></i></a>
                         {% else %}
                             NO HAY DNI
-                        {% endif %}                       
+                        {% endif %}
                     </td>
                     <td>
+                        
                         <div class="dropdown">
-                            <img src="https://e7.pngegg.com/pngimages/402/481/png-clipart-hamburger-button-drop-down-list-computer-icons-navigation-bars-and-page-menu-templates-text-rectangle.png" alt="Icon" class="dropdown-icon">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2767/2767162.png" alt="Icon" class="dropdown-icon">
                             <div class="dropdown-content">
-                               <a href="{% url 'perfil_empleado' empleado.id %}">Perfil</a>
+                                <a href="{% url 'perfil_empleado' empleado.id %}">Perfil</a>
                                 <a href="#">Mensajes</a>
                                 <a href="{% url 'editar_empleado' empleado.id %}">Editar</a>
                                 <a href="{% url 'eliminar_empleado' empleado.id %}">Eliminar</a>
@@ -156,20 +239,23 @@
                 </tr>
                 {% endfor %}
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <div class="pagination">
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if num == page_obj.number %}
+                                    <a href="?page={{ num }}" class="active">{{ num }}</a>
+                                {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:"3" %}
+                                    <a href="?page={{ num }}">{{ num }}</a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
-        {% if page_obj.has_other_pages %}
-        <div class="pagination">
-            {% for num in page_obj.paginator.page_range %}
-                {% if num == page_obj.number %}
-                    <a href="?page={{ num }}" class="active">{{ num }}</a>
-                {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:"3" %}
-                    <a href="?page={{ num }}">{{ num }}</a>
-                {% endif %}
-                
-            {% endfor %}
-        </div>
     </div>
-    {% endif %}
     <script>
         document.getElementById('search').addEventListener('keyup', function() {
             const searchValue = this.value;  // Obtener el valor actual del campo de búsqueda
