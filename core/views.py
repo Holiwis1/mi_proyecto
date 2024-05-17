@@ -589,3 +589,11 @@ def editar_proyecto(request, proyecto_id):
         'empleados_seleccionados': list(empleados_seleccionados)
     }
     return render(request, 'core/editar_proyecto.html', context)
+
+#Eliminar un proyecto
+@login_required
+@admin_required
+def eliminar_proyecto(request, proyecto_id):
+    proyecto = Proyecto.objects.get(pk=proyecto_id)
+    proyecto.delete()
+    return redirect('lista_proyectos')

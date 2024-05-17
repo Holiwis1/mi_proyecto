@@ -7,7 +7,7 @@ from . import views
 
 
 urlpatterns = [
-    #***************************************La página de inicio será la lista de clientes**************************************************
+    #***************************************La página de inicio será el TRELLO**************************************************
     path('', views.table_list, name='table_list'), 
     
 #****************************** LOGIN ******************************#
@@ -46,7 +46,7 @@ urlpatterns = [
 #****************************** PROYECTOS Y TAREAS ******************************#
     path('proyectos/crear/', views.crear_proyecto, name='crear_proyecto'),
     path('proyectos/', lista_proyectos, name='lista_proyectos'),
-    #path('proyectos/<int:proyecto_id>/eliminar', views.eliminar_proyecto, name='eliminar_proyecto'),
+    path('proyectos/<int:proyecto_id>/eliminar', views.eliminar_proyecto, name='eliminar_proyecto'),
     path('proyectos/<int:proyecto_id>/editar/', views.editar_proyecto, name='editar_proyecto'),
    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
