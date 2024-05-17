@@ -558,3 +558,34 @@ def crear_proyecto(request):
 def lista_proyectos(request):
     proyectos = Proyecto.objects.all()
     return render(request, 'core/proyectos.html', {'proyectos': proyectos})
+
+@login_required
+@admin_required
+def editar_proyecto(request, proyecto_id):
+    proyecto = get_object_or_404(Proyecto, id=proyecto_id)
+    if request.method == 'POST':
+        form = ProyectoForm(request.POST, instance=proyecto)
+        if form.is_valid():
+            proyecto = form.save(commit=False)
+            proyecto.save()
+            # Actualiza los empleados seleccionados en la relación ManyToMany
+            empleados_ids = request.POST.getlist('empleados')
+            proyecto.empleados.set(empleados_ids)
+            return redirect('lista_proyectos')
+    else:
+        form = ProyectoForm(instance=proyecto)
+
+    empleados = Empleado.objects.all()
+    clientes = Cliente.objects.all()
+    empleados_seleccionados = proyecto.empleados.values_list('id', flat=True)
+    context = {
+        'form': form,
+        'proyecto': proyecto,
+        'empleados': empleados,
+        'clientes': clientes,
+        'PRIORIDAD_CHOICES': Proyecto.PRIORIDAD_CHOICES,
+        'ESTADOS_CHOICES': Proyecto.ESTADOS_CHOICES,
+        'TIPO_CHOICES': Proyecto.TIPO_CHOICES,
+        'empleados_seleccionados': list(empleados_seleccionados)
+    }
+    return render(request, 'core/editar_proyecto.html', context)

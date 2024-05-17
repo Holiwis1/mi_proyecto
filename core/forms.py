@@ -197,11 +197,21 @@ class ProyectoForm(forms.ModelForm):
             'fecha_inicio': forms.DateInput(attrs={'type': 'date'}),
             'fecha_fin': forms.DateInput(attrs={'type': 'date'}),
             'empleados': forms.SelectMultiple(attrs={'class': 'form-control'}),
-            'cliente': forms.Select(attrs={'class': 'form-control'})  # Asegúrate de que el campo cliente esté presente
+            'cliente': forms.Select(attrs={'class': 'form-control'})  
         }
 
     def __init__(self, *args, **kwargs):
         super(ProyectoForm, self).__init__(*args, **kwargs)
         self.fields['cliente'].queryset = Cliente.objects.all()
 
-    
+class ProyectoForm(forms.ModelForm):
+    class Meta:
+        model = Proyecto
+        fields = '__all__'
+
+        widgets = {
+            'fecha_inicio': forms.DateInput(attrs={'type': 'date'}),
+            'fecha_fin': forms.DateInput(attrs={'type': 'date'}),
+            'empleados': forms.SelectMultiple(attrs={'class': 'form-control'}),
+            'cliente': forms.Select(attrs={'class': 'form-control'})
+        }

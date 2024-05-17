@@ -108,8 +108,6 @@ class Proyecto(models.Model):
     fecha_inicio = models.DateField(null=True, blank=True)
     fecha_fin = models.DateField(null=True, blank=True)
     num_acuerdo = models.IntegerField(null=True, blank=True)
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True, blank=True)
-    empleados = models.ManyToManyField(Empleado)
     prioridad = models.CharField(max_length=120, choices=PRIORIDAD_CHOICES, default='sin_prioridad', null=True, blank=True)
     estado = models.CharField(max_length=120, choices=ESTADOS_CHOICES, default='pendiente', null=True, blank=True)
     valor = models.IntegerField(null=True, blank=True)
@@ -118,6 +116,8 @@ class Proyecto(models.Model):
     fecha_facturacion = models.DateField(null=True, blank=True)
     num_factura = models.IntegerField(null=True, blank=True)
     fecha_cobro_IVA = models.DateField(null=True, blank=True)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True, blank=True)
+    empleados = models.ManyToManyField(Empleado)
 
     def __str__(self):
         return self.nombre 
@@ -145,11 +145,11 @@ class Tareas(models.Model):
     descripcion = models.TextField(null=True, blank=True)
     fecha_inicio = models.DateField(null=True, blank=True)
     fecha_fin = models.DateField(null=True, blank=True)
-    Cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True, blank=True)
-    empleado = models.ManyToManyField(Empleado)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, null=True, blank=True)
     prioridad = models.CharField(max_length=120, choices=PRIORIDAD_CHOICES, default='sin_prioridad', null=True, blank=True)
     estado = models.CharField(max_length=120, choices=ESTADOS_CHOICES, default='pendiente', null=True, blank=True)
+    Cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True, blank=True)
+    empleado = models.ManyToManyField(Empleado)
 
     def __str__(self):
         return self.nombre
