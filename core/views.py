@@ -404,7 +404,7 @@ def crear_tabla(request):
         if form.is_valid():
             table = form.save()
             # Redirecciona al perfil del empleado después de guardar la tabla
-            return redirect('perfil_empleado', empleado_id=table.empleado.id)
+            return redirect('table_list') 
     else:
         form = TableForm()
     
