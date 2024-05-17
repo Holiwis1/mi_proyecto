@@ -527,6 +527,8 @@ def crear_etiqueta(request):
         form = EtiquetaForm()
     return render(request, 'crear_etiqueta.html', {'form': form})"""
 
+
+#*************************************************** PROYECTOS ********************************************************#
 #Crear proyectos
 @login_required
 @admin_required
@@ -559,6 +561,7 @@ def lista_proyectos(request):
     proyectos = Proyecto.objects.all()
     return render(request, 'core/proyectos.html', {'proyectos': proyectos})
 
+#Editar un proyecto
 @login_required
 @admin_required
 def editar_proyecto(request, proyecto_id):
@@ -597,3 +600,5 @@ def eliminar_proyecto(request, proyecto_id):
     proyecto = Proyecto.objects.get(pk=proyecto_id)
     proyecto.delete()
     return redirect('lista_proyectos')
+
+#*************************************************** TAREAS ********************************************************#
