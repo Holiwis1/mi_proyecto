@@ -3,9 +3,9 @@ from multiprocessing import context
 import os
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from core.forms import ClienteEditarForm, ClienteForm, EmpleadoSignUpForm, EmpleadoCambiarFoto, EmpleadoEditarForm, ProyectoForm,TicketAttachmentForm
+from core.forms import ClienteEditarForm, ClienteForm, EmpleadoSignUpForm, EmpleadoCambiarFoto, EmpleadoEditarForm, ProyectoForm,TicketAttachmentForm, TableForm, TareaForm, TicketForm
 from mi_proyecto import settings
-from .models import Empleado, Cliente, Tareas, Proyecto, Table, Ticket, Archivo,TicketAttachment
+from .models import Empleado, Cliente, Tareas, Proyecto, Table, Ticket, Archivo, TicketAttachment
 from django.contrib import messages
 from django.contrib.auth import login
 from django.shortcuts import render
@@ -19,7 +19,6 @@ from reportlab.lib.utils import ImageReader
 from reportlab.lib.units import inch
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-from .forms import TableForm, TicketAttachmentForm, TicketForm
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage
 
@@ -602,3 +601,63 @@ def eliminar_proyecto(request, proyecto_id):
     return redirect('lista_proyectos')
 
 #*************************************************** TAREAS ********************************************************#
+#Crear tareas
+@login_required
+@admin_required
+def crear_tarea(request):
+    if request.method == 'POST':
+        form = TareaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_tareas')  # Cambia 'lista_tareas' por la URL que prefieras para redirigir después de crear una tarea
+    else:
+        form = TareaForm()
+
+    context = {
+        'form': form,
+        'proyectos': Proyecto.objects.all(),
+        'empleados': Empleado.objects.all(),
+        'clientes': Cliente.objects.all(),
+        'PRIORIDAD_CHOICES': Tareas.PRIORIDAD_CHOICES,
+        'ESTADOS_CHOICES': Tareas.ESTADOS_CHOICES,
+    }
+    return render(request, 'core/crear_tarea.html', context)
+
+#Mostrar listado de tareas
+@login_required
+@admin_required
+def lista_tareas(request):
+    tareas = Tareas.objects.all()
+    return render(request, 'core/lista_tareas.html', {'tareas': tareas})
+
+
+#Editar TAREAS
+@login_required
+@admin_required
+def editar_tarea(request, tarea_id):
+    tarea = get_object_or_404(Tareas, id=tarea_id)
+    if request.method == 'POST':
+        form = TareaForm(request.POST, instance=tarea)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_tareas')
+    else:
+        form = TareaForm(instance=tarea)
+
+    context = {
+        'form': form,
+        'proyectos': Proyecto.objects.all(),
+        'empleados': Empleado.objects.all(),
+        'clientes': Cliente.objects.all(),
+        'PRIORIDAD_CHOICES': Tareas.PRIORIDAD_CHOICES,
+        'ESTADOS_CHOICES': Tareas.ESTADOS_CHOICES,
+    }
+    return render(request, 'core/editar_tarea.html', context)
+
+#Eliminar tarea
+@login_required
+@admin_required
+def eliminar_tarea(request,tarea_id):
+    tarea = Tareas.objects.get(pk=tarea_id)
+    tarea.delete()
+    return redirect('lista_tareas')

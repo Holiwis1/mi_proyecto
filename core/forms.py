@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from .models import Cliente, Table, Ticket,Empleado, TicketAttachment, Proyecto
+from .models import Cliente, Table, Ticket,Empleado, TicketAttachment, Proyecto, Tareas
 #****************************** USUARIO ******************************#
 User = get_user_model()
 #****************************** EMPLEADO ******************************#
@@ -214,4 +214,18 @@ class ProyectoForm(forms.ModelForm):
             'fecha_fin': forms.DateInput(attrs={'type': 'date'}),
             'empleados': forms.SelectMultiple(attrs={'class': 'form-control'}),
             'cliente': forms.Select(attrs={'class': 'form-control'})
+        }
+
+#Formulario Tareas
+class TareaForm(forms.ModelForm):
+    class Meta:
+        model = Tareas
+        fields = '__all__'
+        widgets = {
+            'fecha_inicio': forms.DateInput(attrs={'type': 'date'}),
+            'fecha_fin': forms.DateInput(attrs={'type': 'date'}),
+            'proyecto': forms.Select(attrs={'class': 'form-control'}),
+            'empleado': forms.Select(attrs={'class': 'form-control'}),
+            'estado': forms.Select(attrs={'class': 'form-control'}),
+            'prioridad': forms.Select(attrs={'class': 'form-control'})
         }

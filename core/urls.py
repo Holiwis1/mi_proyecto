@@ -48,5 +48,10 @@ urlpatterns = [
     path('proyectos/', lista_proyectos, name='lista_proyectos'),
     path('proyectos/<int:proyecto_id>/eliminar', views.eliminar_proyecto, name='eliminar_proyecto'),
     path('proyectos/<int:proyecto_id>/editar/', views.editar_proyecto, name='editar_proyecto'),
+
+    path('tareas/crear/', views.crear_tarea, name='crear_tarea'),
+    path('tareas/', views.lista_tareas, name='lista_tareas'),
+    path('tareas/<int:tarea_id>/editar', views.editar_tarea, name='editar_tarea'),
+    path('tareas/<int:tarea_id>/eliminar', views.eliminar_tarea, name='eliminar_tarea'),
    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

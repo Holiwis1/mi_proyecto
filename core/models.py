@@ -149,7 +149,7 @@ class Tareas(models.Model):
     prioridad = models.CharField(max_length=120, choices=PRIORIDAD_CHOICES, default='sin_prioridad', null=True, blank=True)
     estado = models.CharField(max_length=120, choices=ESTADOS_CHOICES, default='pendiente', null=True, blank=True)
     Cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True, blank=True)
-    empleado = models.ManyToManyField(Empleado)
+    empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.nombre
