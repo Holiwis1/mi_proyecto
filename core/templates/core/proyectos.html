@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
+{% block content %}
 
-{% block navegar %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+{% endblock %}
+{% block paquetes %}
+{{ block.super }}
 <style>
     /* Estilos para la tabla de empleados */
     .datagrid table {
         border-collapse: collapse;
         text-align: left;
         width: 100%;
-        max-width: 20000px;
         margin: 0 auto; /* Centrar la tabla */
         padding:0%;
     }
@@ -20,7 +21,6 @@
         overflow: hidden;
         width: 100%;
         border-radius: 10px;
-        max-width: 12000px;
         padding: 0%;
     }
     
@@ -212,11 +212,6 @@
     }
   
 </style>
-
-{% endblock %}
-
-{% block content %}
-
 <a href="{% url 'crear_proyecto' %}" class="btn btn-primary register-btn">Crear Proyecto</a>
 <h1 class="text-center">Lista de Proyectos</h1>
 <div class="proyectos-lista">
@@ -281,3 +276,7 @@
         </table>
 </div>
 {% endblock %}
+
+
+
+
