@@ -4,45 +4,162 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Project{% endblock %}</title>
-    <!-- CSS de Bootstrap CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Agrega aquí cualquier otro CSS o JS que necesites -->
-</head>
-<body>
-    <header>
-        <!-- Barra de navegación -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <a class="navbar-brand" href="/">Gestión PYMES</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+    <link rel="shortcut icon" type="image/png" href="https://th.bing.com/th/id/OIG2.v9u.CUxNytNx_Fc7wwZ4?pid=ImgGn" style="border-radius: 100%;">
 
-                    {% block navegar %}
-                    <!-- El contenido de cada página específica irá aquí -->
-                    {% endblock %}
 
-                </ul>
-            </div>
-        </nav>
-    </header>
-
+   
+    {% block paquetes %}
+        <!-- CSS de Bootstrap CDN -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <!-- Agrega aquí cualquier otro CSS o JS que necesites para el encabezado -->
+        <header>
+            <!-- Barra de navegación -->
+            <nav class="hola navbar navbar-expand-lg navbar-dark  ">
+                <a class="navbar-brand" href="/">
+                    <img src="https://navegatel.org/wp-content/uploads/2023/08/rocket-312430_1280.png" alt="Icono de Navegatel" style="height: 50px; width: auto; margin-right: 10px;">
+                    Gestión navegatel
+                </a>
+                <a class="nav-link ml-4" href="{% url 'lista_empleados' %}">Lista de Empleados</a>
+                <a class="nav-link ml-4" href="{% url 'lista_clientes' %}">Lista de Clientes</a>
+                <a class="nav-link ml-4" href="{% url 'lista_proyectos' %}">Lista Proyectos</a>
+                <a class="nav-link ml-4" href="{% url 'lista_tareas' %}">Lista Tareas</a>
+                <a class="nav-link ml-4" href="{% url 'crear_tabla' %}">TRELLO</a>
+    
+               
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        {% block navegar %}
+                        <!-- El contenido de cada página específica irá aquí -->
+                        {% endblock %}
+                    </ul>
+                </div>
+            
+                <!-- Mostrar saludo y nombre del usuario -->
+                {% if request.user.is_authenticated %}
+                <div class="user-img-login">
+                    <div class="dropdown-wrapper">
+                            {% if request.user.foto %}
+                                <img id="user-img-login" src="{{ request.user.foto.url }}" alt="Foto de perfil">
+                            {% else %}
+                                <img id="user-img-login" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s" alt="Foto de perfil predeterminada">
+                            {% endif %}
+                            <div class="dropdown-content">
+                                <a href="{% url 'perfil_empleado' empleado_id=request.user.id %}">Perfil</a>
+                                <a href="#" id="logout-link">Cerrar sesión</a>
+                                <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+                                    {% csrf_token %}
+                                </form>
+                            </div>
+                    </div>
+                    <p class="title-img-login">A trabajar, {{ request.user.username }}</p>
+                </div>
+            {% endif %}
+            </nav>
+        </header>
+        <style>
+            
+            header{
+                background-color:gray;
+            }
+            body{
+                background-color: #f8f9fa; 
+                z-index: 0;
+            }
+        
+            .user-img-login {
+                display: flex;
+                align-items: center; /* Centra verticalmente los elementos */
+               
+            }
+            
+            .user-img-login img {
+                /* Tus estilos existentes */
+                display: block;
+                margin: 1px auto;
+                width: 50px;
+                height: 50px;
+                overflow: hidden;
+                border-radius: 50%;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+                position: relative;
+                border-color: white;
+                background-color: #0079bf;
+                border: 2px solid #fff;
+            }
+            #user-img-login {
+                max-width:400px;
+                object-fit: cover;
+            }
+            
+            .title-img-login {
+                /* Centra el texto horizontalmente */
+                 /* Ajusta el margen superior según sea necesario */
+                font-size: 15px; /* Tamaño de fuente */
+                color: white; /* Color del texto */
+                /* Otros estilos que desees aplicar */
+                margin-left:10%;
+            }
+            .dropdown-wrapper {
+                position: relative;
+               /* Ajusta el valor del z-index según sea necesario */
+            }
+            
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                top: 100%; /* Posiciona el desplegable debajo del botón */
+                z-index: 999; /* Ajusta el valor del z-index según sea necesario */
+            }
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f9f9f9;
+                min-width: 110px;
+                box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);
+                z-index: 1;
+            }
+            .dropdown-content a {
+                color: black;
+                padding: 8px 12px;
+                text-decoration: none;
+                display: block;
+            }
+            
+            .dropdown-wrapper:hover .dropdown-content {
+                display: block;
+            }
+            .navbar-brand{
+                margin-right: 20%;
+            }
+            .hola{
+                background-color:#D9001D;
+                height:100px;
+                margin-
+            }
+            .nav-link{
+                color: black;
+                padding: 8px 12px;
+                text-decoration: none;
+                display: block;
+            }
+         
+        </style>  
+        <!-- JavaScript de Bootstrap y jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <!-- Agrega aquí cualquier otro JS que necesites para el encabezado -->
+        
+    {% endblock %}
     <main role="main" class="container mt-3">
         {% block content %}
         <!-- El contenido de cada página específica irá aquí -->
         {% endblock %}
     </main>
+</head>
+<body>
+   
 
-    <footer class="footer mt-auto py-3 bg-light">
-        <div class="container text-center">
-            <span class="text-muted">Derechos reservados ©2024</span>
-        </div>
-    </footer>
 
-    <!-- JavaScript de Bootstrap y jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

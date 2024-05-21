@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<title>{% block title %}Empleado-Navegatel{% endblock %}</title>
+{% block content %}
+    <div class="container">
+       
+        <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+            <div class="profile-card">
+                <a href="#" onclick="history.go(-1)" style="position: absolute; top: 10%; left: 10px; color: #333; text-decoration: none;"><i class="fas fa-arrow-left"></i> Volver</a>
+                <div class="profile-header">
+                    <label for="imagen-upload" class="profile-img">
+                        <img id="profile-img" src="{% if empleado.foto %}{{ empleado.foto.url }}{% else %}https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s{% endif %}" alt="Foto de perfil">
+                        <input type="file" id="imagen-upload" name="foto" style="display: none;">
+                        <div class="edit-profile-img">
+                            <img src="https://cdn.icon-icons.com/icons2/1518/PNG/512/pencilmono_105944.png" alt="Editar perfil">
+                        </div>
+                        <div class="edit-profile-hover">
+                            <img src="https://cdn.icon-icons.com/icons2/1518/PNG/512/pencilmono_105944.png" alt="Editar perfil" class="hover-icon">
+                        </div>
+                    </label>
+                </div>
+                <div class="profile-info">
+                    <h2 class="profile-name">{{ empleado.get_full_name }}</h2>
+                    <p class="profile-role">{{ empleado.rol }}</p>
+                    <p class="profile-email">{{ empleado.email }}</p>
+                    <p class="profile-phone">{{ empleado.telefono }}</p>
+                    <!-- Se agregaran otros campos mas adelante -->
+                </div>
+                <!-- Contenedor para cargar el perfil del empleado -->
+                <div id="perfil-empleado-container"></div>
+            </div>
+           
+        </form>
+    </div>
+
+    <style>
+        /* Estilos anteriores aquí */
+
+        /* Estilos para el contenedor del perfil del empleado */
+        #perfil-empleado-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 90%;
+            width: 900px;
+            display: none;
+        }
+
+        /* Estilos para el botón de cerrar el perfil */
+        #cerrar-perfil {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .profile-card {
+            max-width: 400px;
+            width: 100%;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .profile-header {
+            position: relative;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .profile-img {
+            display: block;
+            margin: 0 auto;
+            width: 120px;
+            height: 120px;
+            overflow: hidden;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        #profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .edit-profile-img {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 24px; /* Ancho de la imagen del ícono */
+            height: 24px; /* Altura de la imagen del ícono */
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .profile-header:hover .profile-img {
+            filter: grayscale(100%);
+        }
+
+        .profile-header:hover .edit-profile-img {
+            opacity: 1;
+        }
+
+        .profile-name {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .profile-role {
+            color: #666;
+            margin: 5px 0;
+            font-size: 16px;
+        }
+
+        .profile-email,
+        .profile-phone {
+            color: #888;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        /* Estilos para la imagen del lápiz al pasar el ratón por el contenedor */
+        .edit-profile-hover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .profile-header:hover .edit-profile-hover {
+            display: flex;
+        }
+
+        .hover-icon {
+            width: 50px; /* Tamaño de la imagen del lápiz al pasar el ratón */
+            height: 50px; /* Tamaño de la imagen del lápiz al pasar el ratón */
+        }
+    </style>
+    <script>
+        // Función para abrir el explorador de archivos al hacer clic en la imagen
+        document.getElementById('profile-img').addEventListener('click', function() {
+            document.getElementById('imagen-upload').click();
+        });
+
+        // Función para mostrar la imagen seleccionada en la vista previa
+        document.getElementById('imagen-upload').addEventListener('change', function(event) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var img = document.getElementById('profile-img');
+                img.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        });
+
+        // Función para manejar los clics en los enlaces perfil-link
+        document.querySelectorAll('.perfil-link').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const empleadoId = this.dataset.empleadoId;
+                fetch(`/perfil_empleado/${empleadoId}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        const perfilContainer = document.getElementById('perfil-empleado-container');
+                        perfilContainer.innerHTML = data;
+                        perfilContainer.style.display = 'block';
+                    });
+            });
+        });
+
+        document.getElementById('imagen-upload').addEventListener('change', function(event) {
+            var file = event.target.files[0];
+            var formData = new FormData();
+            formData.append('foto', file); // 'foto' es el nombre del campo en el modelo y en la etiqueta input arriba
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}'); // Asegúrate de incluir el token CSRF para seguridad.
+        
+            fetch(window.location.href, { //Usa la URL actual de la página
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin',
+            })
+
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Procesa la respuesta del servidor.
+                if(data.success) {
+                    var img = document.getElementById('profile-img');
+                    img.src = URL.createObjectURL(file); // Actualiza la imagen mostrada con la nueva imagen seleccionada.
+                } else {
+                    alert('Error al subir la imagen.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+        
+
+    </script>
+{% endblock %}

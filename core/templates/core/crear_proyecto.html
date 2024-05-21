@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+<title>{% block title %}Proyecto-Navegatel{% endblock %}</title>
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<div class="container">
+    <h2><i class="fas fa-tasks"></i> Detalles del Proyecto</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_nombre"><i class="fas fa-heading"></i> Nombre:</label>
+            <input type="text" class="form-control" id="id_nombre" name="nombre" value="{{ proyecto.nombre }}">
+        </div>
+        <div class="form-group">
+            <label for="id_descripcion"><i class="fas fa-file-alt"></i> Descripción:</label>
+            <textarea class="form-control" id="id_descripcion" name="descripcion">{{ proyecto.descripcion }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="id_fecha_inicio"><i class="far fa-calendar-alt"></i> Fecha de Inicio:</label>
+            <input type="date" class="form-control" id="id_fecha_inicio" name="fecha_inicio" value="{{ proyecto.fecha_inicio }}">
+        </div>
+        <div class="form-group">
+            <label for="id_fecha_fin"><i class="far fa-calendar-alt"></i> Fecha de Fin:</label>
+            <input type="date" class="form-control" id="id_fecha_fin" name="fecha_fin" value="{{ proyecto.fecha_fin }}">
+        </div>
+        <div class="form-group">
+            <label for="id_num_acuerdo"><i class="fas fa-list-ol"></i> Número de Acuerdo:</label>
+            <input type="number" class="form-control" id="id_num_acuerdo" name="num_acuerdo" value="{{ proyecto.num_acuerdo }}">
+        </div>
+        <div class="form-group">
+            <label for="id_cliente">Cliente:</label>
+            <select class="form-control" id="id_cliente" name="cliente">
+                {% for client in clientes %}
+                    <option value="{{ client.id }}" {% if form.instance.cliente and form.instance.cliente.id == client.id %}selected{% endif %}>{{ client }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="id_prioridad"><i class="fas fa-exclamation-circle"></i> Prioridad:</label>
+            <select class="form-control" id="id_prioridad" name="prioridad">
+                {% for value, label in PRIORIDAD_CHOICES %}
+                    <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="id_estado"><i class="fas fa-check-circle"></i> Estado:</label>
+            <select class="form-control" id="id_estado" name="estado">
+                {% for value, label in ESTADOS_CHOICES %}
+                    <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="id_valor"><i class="fas fa-dollar-sign"></i> Valor:</label>
+            <input type="number" class="form-control" id="id_valor" name="valor" value="{{ proyecto.valor }}">
+        </div>
+        <div class="form-group">
+            <label for="id_tipo"><i class="fas fa-tags"></i> Tipo:</label>
+            <select class="form-control" id="id_tipo" name="tipo">
+                {% for value, label in TIPO_CHOICES %}
+                    <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="id_firma_acuerdo"><i class="fas fa-pen-square"></i> Firma de Acuerdo:</label>
+            <input type="date" class="form-control" id="id_firma_acuerdo" name="firma_acuerdo" value="{{ proyecto.firma_acuerdo }}">
+        </div>
+        <div class="form-group">
+            <label for="id_fecha_facturacion"><i class="far fa-calendar-alt"></i> Fecha de Facturación:</label>
+            <input type="date" class="form-control" id="id_fecha_facturacion" name="fecha_facturacion" value="{{ proyecto.fecha_facturacion }}">
+        </div>
+        <div class="form-group">
+            <label for="id_num_factura"><i class="fas fa-file-invoice-dollar"></i> Número de Factura:</label>
+            <input type="number" class="form-control" id="id_num_factura" name="num_factura" value="{{ proyecto.num_factura }}">
+        </div>
+        <div class="form-group">
+            <label for="id_fecha_cobro_IVA"><i class="far fa-calendar-alt"></i> Fecha de Cobro IVA:</label>
+            <input type="date" class="form-control" id="id_fecha_cobro_IVA" name="fecha_cobro_IVA" value="{{ proyecto.fecha_cobro_IVA }}">
+        </div>
+        <div class="form-group">
+            <label for="id_empleados"><i class="fas fa-users"></i> Empleados:</label>
+            <select multiple class="form-control" id="id_empleados" name="empleados">
+                {% for empleado in empleados.all %}
+                    <option value="{{ empleado.id }}">{{ empleado }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div id="selectedEmployees" style="margin-top: 10px;"></div>
+        
+        <!-- Agrega más campos aquí según sea necesario -->
+        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+    </form>
+</div>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var select = document.getElementById('id_empleados');
+        var displayArea = document.getElementById('selectedEmployees');
+        var selectedValues = new Set(); // Usamos un conjunto para manejar valores únicos
+    
+        // Ajustar el evento de clic para el manejo de múltiples selecciones sin Ctrl
+        select.addEventListener('mousedown', function(e) {
+            e.preventDefault(); // Evita que la opción se seleccione de forma predeterminada
+            var clickedOption = e.target;
+    
+            if (clickedOption.tagName === 'OPTION') {
+                // Toggle de selección para simular selección múltiple sin Ctrl
+                if (selectedValues.has(clickedOption.value)) {
+                    selectedValues.delete(clickedOption.value);
+                    clickedOption.selected = false; // Visualmente deseleccionar la opción
+                } else {
+                    selectedValues.add(clickedOption.value);
+                    clickedOption.selected = true; // Visualmente seleccionar la opción
+                }
+    
+                // Asegurarse de que el select se actualice correctamente
+                clickedOption.parentElement.focus();
+                updateDisplayArea();
+            }
+        });
+    
+        function updateDisplayArea() {
+            displayArea.innerHTML = '';
+            selectedValues.forEach(value => {
+                var optionText = select.querySelector('option[value="' + value + '"]').textContent;
+                var span = document.createElement('span');
+                span.textContent = optionText + " ";
+                var removeBtn = document.createElement('button');
+                removeBtn.textContent = 'x';
+                removeBtn.addEventListener('click', function() {
+                    selectedValues.delete(value);
+                    select.querySelector('option[value="' + value + '"]').selected = false;
+                    updateDisplayArea();
+                });
+                span.appendChild(removeBtn);
+                displayArea.appendChild(span);
+            });
+        }
+    
+        // Asegurar que todos los elementos seleccionados se envíen con el formulario
+        var form = document.querySelector('form');
+        form.addEventListener('submit', function(e) {
+            Array.from(select.options).forEach(option => {
+                option.selected = selectedValues.has(option.value);
+            });
+        });
+    });
+     
+    
+</script>
+<style>
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    textarea {
+        resize: vertical;
+    }
+
+    #selectedEmployees {
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+    #selectedEmployees span {
+        padding: 5px;
+        margin-right: 5px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        display: inline-block;
+    }
+
+    #selectedEmployees button {
+        margin-left: 5px;
+        color: red;
+        border: none;
+        background: none;
+        cursor: pointer;
+    }
+</style>
+
+{% endblock %}

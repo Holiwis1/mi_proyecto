@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% load static %}
+<title>{% block title %}Cliente-Navegatel{% endblock %}</title>
+{% block content %}
+<style>
+    .register-container {
+        background-color: #ffffff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+    
+    .form-group label {
+        display: block;
+        color: #333;
+        margin-bottom: 8px;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: calc(100% - 24px);
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+    
+    .save-button {
+        width: 100%;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    .save-button:hover {
+        background-color: #0767ce;
+    }
+    .logo {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .logo img {
+        max-width: 180px;
+    }
+</style>
+
+<div class="register-container">
+    <div class="logo">
+        <img src="https://navegatel.org/wp-content/uploads/2022/08/logo-navegatel-grande.webp" alt="Logo">
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            {{ form.nombre.label_tag }}
+            {{ form.nombre }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.nombre_comercial.label_tag }}
+            {{ form.nombre_comercial }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.nif.label_tag }}
+            {{ form.nif }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.tipo.label_tag }}
+            {{ form.tipo }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.razon_social.label_tag }}
+            {{ form.razon_social }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.telefono.label_tag }}
+            {{ form.telefono }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.telefono2.label_tag }}
+            {{ form.telefono2 }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.direccion.label_tag }}
+            {{ form.direccion }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.notas.label_tag }}
+            {{ form.notas }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.descripcion.label_tag }}
+            {{ form.descripcion }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.web.label_tag }}
+            {{ form.web }}
+        </div>
+        
+        <button type="submit" class="save-button">Guardar</button>
+    </form>
+</div>
+{% endblock %}

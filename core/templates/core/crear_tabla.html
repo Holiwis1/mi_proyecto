@@ -1,0 +1,7 @@
+<h1>Crear Nueva Tabla</h1>
+<title>{% block title %}Tabla-Navegatel{% endblock %}</title>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Crear Tabla</button>
+</form>

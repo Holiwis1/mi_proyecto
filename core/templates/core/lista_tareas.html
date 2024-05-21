@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+<title>{% block title %}Tareas-Navegatel{% endblock %}</title>
+{% block content %}
+<div class="container">
+    <h2>Lista de Tareas</h2>
+    <a href="{% url 'crear_tarea' %}" class="btn btn-primary mb-3">Crear Tarea</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Fin</th>
+                <th>Proyecto</th>
+                <th>Prioridad</th>
+                <th>Estado</th>
+                <th>Cliente</th>
+                <th>Asignado a</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tarea in tareas %}
+            <tr>
+                <td>{{ tarea.nombre }}</td>
+                <td>{{ tarea.descripcion }}</td>
+                <td>{{ tarea.fecha_inicio }}</td>
+                <td>{{ tarea.fecha_fin }}</td>
+                <td>{{ tarea.proyecto.nombre }}</td>
+                <td>{{ tarea.get_prioridad_display }}</td>
+                <td>{{ tarea.get_estado_display }}</td>
+                <td>{{ tarea.cliente.nombre }}</td>
+                <td>{{ tarea.empleado.first_name }} {{ tarea.empleado.last_name }}</td>
+                <td>
+                    <a href="{% url 'editar_tarea' tarea.id %}" class="btn btn-warning btn-sm">Editar</a>
+                    <form action="{% url 'eliminar_tarea' tarea.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Está seguro de que desea eliminar esta tarea?');">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

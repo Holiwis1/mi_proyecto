@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+<title>{% block title %}Empleado-Navegatel{% endblock %}</title>
+{% load static %}
+
+{% block navegar %}
+<li class="nav-item">
+    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-link nav-link" style="border: none; padding: 0; background: none;">Cerrar sesión</button>
+    </form>
+</li>
+{% endblock %}
+
+{% block content %}
+<style>
+    .login-container {
+        background-color: #ffffff;
+        border-radius: 8px;
+        padding: 40px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    
+    .logo {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .logo img {
+        max-width: 180px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+    
+    .form-group label {
+        display: block;
+        color: #333;
+        margin-bottom: 8px;
+    }
+    
+    .form-group input,
+    .form-group select {
+        width: calc(100% - 24px);
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+    
+    .login-button {
+        margin: 12px;
+        width: calc(100% - 24px);
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    .login-button:hover {
+        background-color: #0767ce;
+    }
+    
+    .cancel-button {
+        margin: 12px;
+        width: calc(100% - 24px);
+        background-color: #ccc;
+        color: #fff;
+        border: none;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    .cancel-button:hover {
+        background-color: #999;
+    }
+</style>
+
+<div class="login-container">
+    <div class="logo">
+        <img src="https://navegatel.org/wp-content/uploads/2022/08/logo-navegatel-grande.webp" alt="Logo">
+    </div>
+   
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            {{ form.first_name.label_tag }}
+            {{ form.first_name }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.last_name.label_tag }}
+            {{ form.last_name }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.rol.label_tag }}
+            {{ form.rol }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.telefono.label_tag }}
+            {{ form.telefono }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.telefono2.label_tag }}
+            {{ form.telefono2 }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.fecha_nacimiento.label_tag }}
+            {{ form.fecha_nacimiento }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.direccion.label_tag }}
+            {{ form.direccion }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.num_seguridad_social.label_tag }}
+            {{ form.num_seguridad_social }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.foto_dni.label_tag }}
+            {{ form.foto_dni }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.foto_dni2.label_tag }}
+            {{ form.foto_dni2 }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.fecha_alta.label_tag }}
+            {{ form.fecha_alta }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.new_password.label_tag }}
+            {{ form.new_password }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.new_password2.label_tag }}
+            {{ form.new_password2 }}
+        </div>
+        
+        <button type="submit" class="login-button">Confirmar cambios</button>
+        <a href="{% url 'lista_empleados' %}" class="cancel-button">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

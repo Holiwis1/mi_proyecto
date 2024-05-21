@@ -1,0 +1,69 @@
+<!-- templates/core/editar_tarea.html -->
+
+{% extends 'base.html' %}
+<title>{% block title %}Tarea-Navegatel{% endblock %}</title>
+{% block content %}
+<div class="container">
+    <h2>Editar Tarea</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_nombre">Nombre:</label>
+            <input type="text" class="form-control" id="id_nombre" name="nombre" value="{{ form.instance.nombre }}">
+        </div>
+        <div class="form-group">
+            <label for="id_descripcion">Descripción:</label>
+            <textarea class="form-control" id="id_descripcion" name="descripcion">{{ form.instance.descripcion }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="id_fecha_inicio">Fecha de Inicio:</label>
+            <input type="date" class="form-control" id="id_fecha_inicio" name="fecha_inicio" value="{{ form.instance.fecha_inicio }}">
+        </div>
+        <div class="form-group">
+            <label for="id_fecha_fin">Fecha de Fin:</label>
+            <input type="date" class="form-control" id="id_fecha_fin" name="fecha_fin" value="{{ form.instance.fecha_fin }}">
+        </div>
+        <div class="form-group">
+            <label for="id_proyecto">Proyecto:</label>
+            <select class="form-control" id="id_proyecto" name="proyecto">
+                {% for proyecto in proyectos %}
+                    <option value="{{ proyecto.id }}" {% if form.instance.proyecto.id == proyecto.id %}selected{% endif %}>{{ proyecto.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="id_prioridad">Prioridad:</label>
+            <select class="form-control" id="id_prioridad" name="prioridad">
+                {% for value, label in PRIORIDAD_CHOICES %}
+                    <option value="{{ value }}" {% if form.instance.prioridad == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="id_estado">Estado:</label>
+            <select class="form-control" id="id_estado" name="estado">
+                {% for value, label in ESTADOS_CHOICES %}
+                    <option value="{{ value }}" {% if form.instance.estado == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="id_cliente">Cliente:</label>
+            <select class="form-control" id="id_cliente" name="cliente">
+                {% for cliente in clientes %}
+                    <option value="{{ cliente.id }}" {% if form.instance.cliente.id == cliente.id %}selected{% endif %}>{{ cliente.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="id_empleado">Empleado:</label>
+            <select class="form-control" id="id_empleado" name="empleado">
+                {% for empleado in empleados %}
+                    <option value="{{ empleado.id }}" {% if form.instance.empleado.id == empleado.id %}selected{% endif %}>{{ empleado.first_name }} {{ empleado.last_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+</div>
+{% endblock %}
