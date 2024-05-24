@@ -109,15 +109,13 @@ def handler404(request, exception):
 
 
 #registro de usuario/empleados
-@login_required
 def registro_empleado(request):
     if request.method == 'POST':
         form = EmpleadoSignUpForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, '¡Registro exitoso!')
-            return redirect('lista_empleados')
+            return redirect('table_list')
         else:
             messages.error(request, 'Error al registrar el usuario')
     else:
