@@ -139,6 +139,8 @@
                     background-color: rgba(0,0,0,0.3); /* Modifica el valor de la opacidad según lo necesites */
                 }
         
+                /* Estilo para el modal */
+                /* Estilo para el modal */
                 .modal-confirm {
                     display: none;
                     position: fixed;
@@ -149,32 +151,74 @@
                     width: 100%;
                     height: 100%;
                     overflow: auto;
-                    background-color: rgba(0, 0, 0, 0.4);
+                    background-color: rgba(0, 0, 0, 0.6); /* Fondo más oscuro para mayor contraste */
                 }
+                
+                /* Contenido del modal */
                 .modal-content-confirm {
-                    background-color: #fefefe;
+                    background-color: #fff;
                     margin: auto;
                     padding: 20px;
-                    border: 1px solid #888;
+                    border: 1px solid #ccc;
+                    border-radius: 8px; /* Bordes redondeados */
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para mayor profundidad */
                     width: 80%;
-                    max-width: 300px;
+                    max-width: 400px; /* Más ancho y limitado a 400px */
+                    text-align: center; /* Centrar el texto */
+                    font-family: 'Arial', sans-serif; /* Fuente más moderna */
                 }
+                
+                /* Botón de cierre */
                 .close-confirm {
                     color: #aaa;
                     float: right;
-                    font-size: 28px;
+                    font-size: 24px; /* Tamaño de fuente más pequeño para mayor elegancia */
                     font-weight: bold;
+                    margin-top: -10px; /* Mejor alineación vertical */
                 }
+                
                 .close-confirm:hover,
                 .close-confirm:focus {
-                    color: black;
+                    color: #333;
                     text-decoration: none;
                     cursor: pointer;
                 }
+                
+                /* Footer del modal */
                 .modal-footer {
                     display: flex;
-                    justify-content: space-between;
-                    padding-top: 10px;
+                    justify-content: flex-end; /* Alinear el contenido al final */
+                    padding-top: 20px; /* Más espaciado para mayor claridad */
+                }
+                
+                /* Botones */
+                .btn {
+                    padding: 10px 20px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
+                    flex: 1; /* Asegurar que ambos botones ocupen el mismo espacio */
+                    margin: 0 5px; /* Espaciado entre botones */
+                }
+                
+                .btn.btn-danger {
+                    background-color: #d9534f; /* Rojo estándar de bootstrap */
+                    color: #fff;
+                    border: none;
+                }
+                
+                .btn.btn-danger:hover {
+                    background-color: #c9302c; /* Color más oscuro al pasar el ratón */
+                }
+                
+                .btn.btn-secondary {
+                    background-color: #6c757d; /* Gris estándar de bootstrap */
+                    color: #fff;
+                    border: none;
+                }
+                
+                .btn.btn-secondary:hover {
+                    background-color: #5a6268; /* Color más oscuro al pasar el ratón */
                 }
 
 /* Estilo para el contenido del modal */
@@ -720,8 +764,8 @@
         <span class="close-confirm">&times;</span>
         <p>¿Estás seguro de que quieres eliminar esta tabla?</p>
         <div class="modal-footer">
-            <button id="confirmDeleteBtn" class="btn btn-danger">Eliminar</button>
             <button class="btn btn-secondary close-confirm">Cancelar</button>
+            <button id="confirmDeleteBtn" class="btn btn-danger">Eliminar</button>
         </div>
     </div>
 </div>
