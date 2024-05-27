@@ -19,10 +19,12 @@
                     <img src="https://navegatel.org/wp-content/uploads/2023/08/rocket-312430_1280.png" alt="Icono de Navegatel" style="height: 50px; width: auto; margin-right: 10px;">
                     Gestión navegatel
                 </a>
+                {% if request.user.rol == 'admin' %}
                 <a class="nav-link ml-4" href="{% url 'lista_empleados' %}">Lista de Empleados</a>
                 <a class="nav-link ml-4" href="{% url 'lista_clientes' %}">Lista de Clientes</a>
                 <a class="nav-link ml-4" href="{% url 'lista_proyectos' %}">Lista Proyectos</a>
                 <a class="nav-link ml-4" href="{% url 'lista_tareas' %}">Lista Tareas</a>
+                {% endif %}
                 <a class="nav-link ml-4" href="{% url 'crear_tabla' %}">TRELLO</a>
     
                
