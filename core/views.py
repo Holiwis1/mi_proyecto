@@ -557,8 +557,18 @@ def crear_proyecto(request):
 @login_required
 @admin_required
 def lista_proyectos(request):
-    proyectos = Proyecto.objects.all()
-    return render(request, 'core/proyectos.html', {'proyectos': proyectos})
+    proyecto_list = Proyecto.objects.all()
+    paginator = Paginator(proyecto_list, 10)  # Mostrar 10 proyectos por página
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    for proyecto in page_obj:
+        empleados = proyecto.empleados.all()
+        proyecto.quinto_empleado = len(empleados) >= 5
+
+    return render(request, 'core/proyectos.html', {'page_obj': page_obj, 'proyectos': page_obj.object_list})
+
 
 #Editar un proyecto
 @login_required
