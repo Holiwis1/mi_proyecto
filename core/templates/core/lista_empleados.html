@@ -219,7 +219,7 @@
                             <img src="https://cdn-icons-png.flaticon.com/512/2767/2767162.png" alt="Icon" class="dropdown-icon">
                             <div class="dropdown-content">
                                 <a href="{% url 'perfil_empleado' empleado.id %}">Perfil</a>
-                                <a href="#">Mensajes</a>
+                                <a href="#" class="slack-link">Mensajes</a>
                                 <a href="{% url 'editar_empleado' empleado.id %}">Editar</a>
                                 <a href="{% url 'eliminar_empleado' empleado.id %}">Eliminar</a>
                             </div>
@@ -259,6 +259,15 @@
                     document.querySelector('.empleados-lista').innerHTML = newBody.innerHTML;
                 })
                 .catch(error => console.error('Error al cargar los empleados:', error));
+        });
+    </script>
+
+    <script>
+        document.querySelectorAll('.slack-link').forEach(function(link) {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                window.location.href = "slack://";
+            });
         });
     </script>
     
