@@ -82,7 +82,7 @@ DATABASES = {
         'NAME': 'crmnavegatel_',  # Nombre de tu base de datos
         'USER': 'crmnavegatelBD',  # Usuario de la base de datos
         'PASSWORD': 'kcP8q2$91',  # Contraseña de la base de datos
-        'HOST': 'localhost:3306',  # Dirección IP del servidor de la base de datos
+        'HOST': '185.226.232.163',  # Dirección IP del servidor de la base de datos
         'PORT': '3306',  # Puerto del servidor de la base de datos
     }
 }
