@@ -165,16 +165,8 @@
             {{ form.fecha_alta }}
         </div>
         
-        <div class="form-group">
-            {{ form.new_password.label_tag }}
-            {{ form.new_password }}
-        </div>
-        
-        <div class="form-group">
-            {{ form.new_password2.label_tag }}
-            {{ form.new_password2 }}
-        </div>
-        
+          
+    
         <button type="submit" class="login-button">Confirmar cambios</button>
         <a href="{% url 'lista_empleados' %}" class="cancel-button">Cancelar</a>
     </form>

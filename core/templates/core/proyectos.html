@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 <title>{% block title %}Proyecto-Navegatel{% endblock %}</title>
-
 {% endblock %}
+
 {% block paquetes %}
 {{ block.super }}
 <style>
@@ -12,21 +12,13 @@
         text-align: left;
         width: 100%;
         margin: 0 auto; /* Centrar la tabla */
-        padding:0%;
-    }
-    
-    .datagrid {
-        font: normal 12px/150% Arial, Helvetica, sans-serif;
-        background: #fff;
-        overflow: hidden;
-        width: 100%;
-        border-radius: 10px;
         padding: 0%;
     }
     
     .datagrid table td,
     .datagrid table th {
         padding: 3px 10px;
+        text-align: center;
     }
     
     .datagrid table thead th {
@@ -38,7 +30,7 @@
         font-size: 15px;
         font-weight: bold;
         border-left: 1px solid #B01C26;
-        padding:0%;
+        padding: 0%;
     }
     
     .datagrid table thead th:first-child {
@@ -60,29 +52,29 @@
     
     .datagrid table tbody td:first-child {
         border-left: none;
-        padding:0%;
+        padding: 0%;
+        
     }
     
-    .datagrid table tbody tr:last-child td {
-        border-bottom: none;
-        padding:0%;
+  
+    .datagrid table tbody tr:last-child {
+        text-align: center; /* Centra el contenido de la última fila */
     }
     
     .datagrid table tfoot td div {
-        padding:0%;
-        
+        padding: 0%;
         background: #F7CDCD;
     }
     
     .datagrid table tfoot td {
         padding: 0;
         font-size: 12px;
-        padding:0%;
+        padding: 0%;
     }
     
     .datagrid table tfoot td div {
         padding: 2px;
-        padding:0%;
+        padding: 0%;
     }
     
     .datagrid table tfoot td ul {
@@ -90,12 +82,12 @@
         padding: 0;
         list-style: none;
         text-align: right;
-        padding:0%;
+        padding: 0%;
     }
     
     .datagrid table tfoot li {
         display: inline;
-        padding:0%;
+        padding: 0%;
     }
 
     
@@ -111,8 +103,17 @@
         background: -moz-linear-gradient(center top, #991821 5%, #80141C 100%);
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#991821', endColorstr='#80141C');
         background-color: #991821;
-        padding:0%;
+        padding: 0%;
     }
+    .foto-empleado-modal {
+        width: 50px; /* Tamaño deseado para las imágenes */
+        height: 50px; /* Tamaño deseado para las imágenes */
+        border-radius: 50%; /* Hace que las imágenes sean redondas */
+        object-fit: cover; /* Ajusta la imagen dentro del contenedor */
+        margin-right: 5px; /* Espacio entre las imágenes */
+        margin-bottom: 5px; /* Espacio entre las imágenes */
+    }
+    
     
     .datagrid table tfoot ul.active,
     .datagrid table tfoot ul a:hover {
@@ -121,10 +122,10 @@
         color: #FFFFFF;
         background: none;
         background-color: #991821;
-        padding:0%;
-
+        padding: 0%;
     }
     /* Estilos para el menú desplegable */
+ 
     .dropdown {
         position: relative;
         display: inline-block;
@@ -134,7 +135,7 @@
         display: none;
         position: absolute;
         background-color: #f9f9f9;
-        min-width: 120px;
+        min-width:90px;
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
         z-index: 1;
     }
@@ -155,11 +156,13 @@
     }
 
     .dropdown-icon {
+        vertical-align: middle;
         width: 24px;
         height: 24px;
         margin-right: 5px;
         cursor: pointer;
     }
+
     .datagrid table tfoot .pagination {
         text-align: center;
     }
@@ -176,42 +179,63 @@
         background: -moz-linear-gradient(center top, #991821 5%, #80141C 100%);
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#991821', endColorstr='#80141C');
         background-color: #991821;
-        padding:0%;
+        padding: 0%;
     }
     
     .datagrid table tfoot .pagination a.active,
     .datagrid table tfoot .pagination a:hover {
         background: none;
         background-color: #80141C;
-        padding:0%;
+        padding: 0%;
     }
     .datagrid table tbody tr {
         color: #80141C;
         border-left: 1px solid #F7CDCD;
         font-size: 12px;
         font-weight: normal;
-        padding:0%;
+        padding: 0%;
     }
     
     .datagrid table tbody tr.alt {
         background: #F7CDCD; /* Color de fondo para números impares */
     }
-    .foto-empleado {
-        width: 50px; /* Ancho deseado para las fotos */
-        height: 50px; /* Altura deseada para las fotos */
-        border-radius: 50%; /* Establecer bordes redondeados para que las fotos sean circulares */
-        object-fit: cover; /* Ajustar la imagen para que cubra el contenedor manteniendo su relación de aspecto */
-        margin-bottom: 5px; /* Agregar un margen inferior para separar las imágenes */
-        border-bottom: 1px solid #ccc; /* Agregar un borde inferior */
-        padding:0%;
-
+    .foto-empleado-container {
+        position: relative;
+        display: flex; /* Añade flex para alinear las imágenes horizontalmente */
+        flex-wrap: nowrap; /* Evita que las imágenes se envuelvan a la siguiente línea */
     }
+    
+    .foto-empleado {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        object-fit: cover;
+        position: relative; /* Cambia a relative para permitir el ajuste con flex */
+        margin-right: -20px; /* Ajusta el margen derecho para superponer las imágenes */
+        border: 2px solid gray;
+    }
+    .contador-empleados {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background-color: #f2f2f2;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        position: relative;
+        margin-right: -20px;
+        border: 2px solid gray;
+    }
+    
     .proyectos-lista .datagrid table {
         max-width: 90%; /* Cambia este valor según tus necesidades */
         margin: 0 auto; /* Centra la tabla horizontalmente */
     }
   
 </style>
+
 <a href="{% url 'crear_proyecto' %}" class="btn btn-primary register-btn">Crear Proyecto</a>
 <h1 class="text-center">Lista de Proyectos</h1>
 <div class="proyectos-lista">
@@ -233,6 +257,7 @@
                     <th>Número de Factura</th>
                     <th>Fecha de Cobro IVA</th>
                     <th>Asignado a</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -251,32 +276,111 @@
                     <td>{{ proyecto.fecha_facturacion }}</td>
                     <td>{{ proyecto.num_factura }}</td>
                     <td>{{ proyecto.fecha_cobro_IVA }}</td>
-                    <td>
+                    <td class="foto-empleado-container" data-toggle="modal" data-target="#modal-empleados">
                         {% for empleado in proyecto.empleados.all %}
-                            {% if empleado.foto %}
-                                <img class="foto-empleado" src="{{ empleado.foto.url }}" alt="Foto de perfil">
-                            {% else %}
-                                <img class="foto-empleado" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s" alt="Foto de perfil predeterminada">
+                        <div class="modal fade" id="modal-empleados" tabindex="-1" role="dialog" aria-labelledby="modal-empleados-label" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modal-empleados-label">Empleados</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" id="lista-empleados">
+                                        <!-- Contenido del modal se agregará dinámicamente con JavaScript -->
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            {% if forloop.counter <= 4 %}
+                                {% if empleado.foto %}
+                                    <img class="foto-empleado" src="{{ empleado.foto.url }}" alt="Foto de perfil">
+                                {% else %}
+                                    <img class="foto-empleado" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s" alt="Foto de perfil predeterminada">
+                                {% endif %}
+                                
                             {% endif %}
                         {% endfor %}
+                        {% if proyecto.empleados.count > 4 %}
+                            <span class="contador-empleados">+{{ proyecto.empleados.count|add:"-4" }}</span>
+                        {% endif %}
                     </td>
                     <td>
-                        
                         <div class="dropdown">
                             <img src="https://cdn-icons-png.flaticon.com/512/2767/2767162.png" alt="Icon" class="dropdown-icon">
                             <div class="dropdown-content">
-                                <a href={% url 'editar_proyecto' proyecto.id %}>Editar</a>
-                                <a href={% url 'eliminar_proyecto' proyecto.id %}>Eliminar</a>
+                                <a href="{% url 'editar_proyecto' proyecto.id %}">Editar</a>
+                                <a href="{% url 'eliminar_proyecto' proyecto.id %}">Eliminar</a>
                             </div>
                         </div>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="15">
+                        <div class="pagination">
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if num == page_obj.number %}
+                                    <a href="?page={{ num }}" class="active">{{ num }}</a>
+                                {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:"3" %}
+                                    <a href="?page={{ num }}">{{ num }}</a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
+    </div>
 </div>
+<!-- Modal de empleados -->
+
+
+
+<!-- Agrega el script aquí -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const empleadosContainer = document.querySelectorAll(".foto-empleado-container");
+
+        empleadosContainer.forEach(container => {
+            container.addEventListener("click", function() {
+                const imagenesEmpleados = container.querySelectorAll(".foto-empleado");
+                const hiddenEmployeesCount = container.getAttribute("data-hidden-employees"); // Obtener el número de empleados ocultos
+                const modalBody = document.getElementById("lista-empleados");
+
+                // Limpiar el contenido anterior antes de agregar las nuevas imágenes
+                modalBody.innerHTML = '';
+
+                // Iterar sobre todas las imágenes de los empleados y agregarlas al modal
+                imagenesEmpleados.forEach(imagen => {
+                    const imgElement = document.createElement("img");
+                    imgElement.src = imagen.src;
+                    imgElement.alt = imagen.alt;
+                    imgElement.className = "foto-empleado-modal";
+                    modalBody.appendChild(imgElement);
+                });
+
+                // Si hay empleados ocultos, agregar sus imágenes al modal
+                for (let i = 0; i < hiddenEmployeesCount; i++) {
+                    const hiddenEmployee = document.querySelector(`.foto-empleado-hidden[data-index="${i}"]`);
+                    if (hiddenEmployee) {
+                        const imgElement = document.createElement("img");
+                        imgElement.src = hiddenEmployee.src;
+                        imgElement.alt = hiddenEmployee.alt;
+                        imgElement.className = "foto-empleado-modal";
+                        modalBody.appendChild(imgElement);
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+
 {% endblock %}
-
-
-
-

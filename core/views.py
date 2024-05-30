@@ -109,15 +109,13 @@ def handler404(request, exception):
 
 
 #registro de usuario/empleados
-@login_required
 def registro_empleado(request):
     if request.method == 'POST':
         form = EmpleadoSignUpForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, '¡Registro exitoso!')
-            return redirect('lista_empleados')
+            return redirect('table_list')
         else:
             messages.error(request, 'Error al registrar el usuario')
     else:
@@ -556,9 +554,21 @@ def crear_proyecto(request):
     context['form'] = form
     return render(request, 'core/crear_proyecto.html', context)
 
+@login_required
+@admin_required
 def lista_proyectos(request):
-    proyectos = Proyecto.objects.all()
-    return render(request, 'core/proyectos.html', {'proyectos': proyectos})
+    proyecto_list = Proyecto.objects.all()
+    paginator = Paginator(proyecto_list, 10)  # Mostrar 10 proyectos por página
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    for proyecto in page_obj:
+        empleados = proyecto.empleados.all()
+        proyecto.quinto_empleado = len(empleados) >= 5
+
+    return render(request, 'core/proyectos.html', {'page_obj': page_obj, 'proyectos': page_obj.object_list})
+
 
 #Editar un proyecto
 @login_required
