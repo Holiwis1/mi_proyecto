@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^x-_^33b%!1ua8*&(74t30n+p!+z1^gngxx1t&mz%9%eng2rf8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['crm.navegatel.info']
 
 
 # Application definition
@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'mi_proyecto.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'crmnavegatel_',  # Nombre de tu base de datos
+        'USER': 'crmnavegatelBD',  # Usuario de la base de datos
+        'PASSWORD': 'kcP8q2$91',  # Contraseña de la base de datos
+        'HOST': '185.226.232.163',  # Dirección IP del servidor de la base de datos
+        'PORT': '3306',  # Puerto del servidor de la base de datos
     }
 }
 
