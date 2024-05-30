@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from .models import Cliente, Table, Ticket,Empleado, TicketAttachment, Proyecto, Tareas
+from .models import Cliente, Table, Ticket, Empleado, TicketAttachment, Proyecto, Tareas, Etiqueta
 #****************************** USUARIO ******************************#
 User = get_user_model()
 #****************************** EMPLEADO ******************************#
@@ -107,8 +107,6 @@ class ClienteForm(forms.ModelForm):
         model = Cliente
         fields = '__all__'  #O lista los campos que deseas incluir en el formulario
 
-
-
     def clean(self):
         cleaned_data = super().clean()
         password1 = cleaned_data.get("new_password1")
@@ -180,10 +178,13 @@ class TicketAttachmentForm(forms.ModelForm):
         model = TicketAttachment
         fields = ['file']
 
-"""class EtiquetaForm(forms.ModelForm):
+class EtiquetaForm(forms.ModelForm):
     class Meta:
         model = Etiqueta
-        fields = ['nombre']"""
+        fields = ['name', 'color']
+        widgets = {
+            'color': forms.TextInput(attrs={'type': 'color'}),
+        }
         
 
 

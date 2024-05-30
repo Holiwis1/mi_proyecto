@@ -209,8 +209,9 @@ class Archivo(models.Model):
 
 
 #****************************** MODELO ETIQUETAS ******************************#
-""""class Etiqueta(models.Model):
+class Etiqueta(models.Model):
     name = models.CharField(max_length=100)
+    color = models.CharField(max_length=7, default='#007bff')
 
     def __str__(self):
-        return self.name"""
+        return self.name
