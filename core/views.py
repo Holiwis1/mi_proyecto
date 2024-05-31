@@ -96,13 +96,6 @@ def lista_clientes(request):
     return render(request, 'core/lista_clientes.html', {'page_obj': page_obj})
 
 
-
-#mostrar pagina indice
-@login_required
-def indice(request):
-    return render(request, 'table_list')
-
-
 #ruta no encontrada errores
 def handler404(request, exception):
     return render(request, 'core/error.html')
@@ -115,7 +108,7 @@ def registro_empleado(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('table_list')
+            return redirect('index')
         else:
             messages.error(request, 'Error al registrar el usuario')
     else:
@@ -401,19 +394,19 @@ def crear_tabla(request):
         if form.is_valid():
             table = form.save()
             # Redirecciona al perfil del empleado después de guardar la tabla
-            return redirect('table_list') 
+            return redirect('index') 
     else:
         form = TableForm()
     
     tables = Table.objects.all()
-    return render(request, 'core/table_list.html', {'form': form, 'tables': tables})
+    return render(request, 'core/index.html', {'form': form, 'tables': tables})
 
 @login_required
-def table_list(request):
+def index(request):
     tables = Table.objects.all()
     tickets = Ticket.objects.all()  # Obtener todos los tickets
     
-    return render(request, 'core/table_list.html', {'tables': tables, 'tickets': tickets})
+    return render(request, 'core/index.html', {'tables': tables, 'tickets': tickets})
 
 @login_required
 def table_detail(request, table_id):
@@ -440,7 +433,7 @@ def ticket_create(request, table_id):
             attachment.ticket = ticket  # Asociar el archivo adjunto con el ticket
             attachment.save()
 
-            return redirect('table_list') 
+            return redirect('index') 
     else:
         ticket_form = TicketForm()
         attachment_form = TicketAttachmentForm()
@@ -453,7 +446,7 @@ def upload_attachment(request):
         form = TicketAttachmentForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('table_list')  # Redirige a donde desees después de cargar el archivo
+            return redirect('index')  # Redirige a donde desees después de cargar el archivo
     else:
         form = TicketAttachmentForm()
     return render(request, 'upload_attachment.html', {'form': form})
@@ -467,7 +460,7 @@ def ticket_update(request, ticket_id):
         form = TicketForm(request.POST, instance=ticket)
         if form.is_valid():
             form.save()
-            return redirect('table_list')
+            return redirect('index')
     else:
         # Aquí, asegúrate de pasar el ticket existente al formulario
         form = TicketForm(instance=ticket)
@@ -492,7 +485,7 @@ def ticket_update(request, ticket_id):
             attachment.save()
            
 
-            return redirect('table_list')
+            return redirect('index')
     else:
         ticket_form = TicketForm(instance=ticket)  # Pasar la instancia del ticket al formulario
         attachments = TicketAttachment.objects.filter(ticket=ticket)
@@ -505,7 +498,7 @@ def ticket_update(request, ticket_id):
 def ticket_delete(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     ticket.delete()
-    return redirect('table_list')
+    return redirect('index')
 
 @login_required
 def eliminar_tabla(request, table_id):

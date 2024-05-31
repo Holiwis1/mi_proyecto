@@ -11,8 +11,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import pymysql
 import os
 import pymysql
+
+pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,9 +28,9 @@ pymysql.install_as_MySQLdb()
 SECRET_KEY = 'django-insecure-^x-_^33b%!1ua8*&(74t30n+p!+z1^gngxx1t&mz%9%eng2rf8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['crm.navegatel.info']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -131,7 +134,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configuración de la autentificacion
-LOGIN_REDIRECT_URL = 'table_list'
+LOGIN_REDIRECT_URL = 'index'
 LOGIN_URL = '/iniciar-sesion/'
 LOGOUT_REDIRECT_URL = '/iniciar-sesion/'
 LOGOUT_URL = 'logout'
