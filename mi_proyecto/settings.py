@@ -133,7 +133,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configuración de la autentificacion
-LOGIN_REDIRECT_URL = 'table_list'
+LOGIN_REDIRECT_URL = 'index'
 LOGIN_URL = '/iniciar-sesion/'
 LOGOUT_REDIRECT_URL = '/iniciar-sesion/'
 LOGOUT_URL = 'logout'
