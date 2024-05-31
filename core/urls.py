@@ -8,7 +8,7 @@ from . import views
 
 urlpatterns = [
     #***************************************La página de inicio será el TRELLO**************************************************
-    path('', views.table_list, name='table_list'), 
+    path('', views.index, name='index'), 
     
 #****************************** LOGIN ******************************#
     path('iniciar-sesion/', LoginView.as_view(template_name='core/login.html'), name='login'), #http://127.0.0.1:8000/iniciar-sesion/
@@ -36,7 +36,6 @@ urlpatterns = [
    
 #****************************** TRELLO ******************************#
     path('eliminar_tabla/<int:table_id>/', views.eliminar_tabla, name='eliminar_tabla'),#Eliminar tabla
-    path('table_list/', views.table_list, name='table_list'),#Trello
     path('crear-tabla/', views.crear_tabla, name='crear_tabla'),#Crear tabla
     path('table/<int:table_id>/', views.table_detail, name='table_detail'),#Id de la tabla en especifico
     path('table/<int:table_id>/ticket/create/', views.ticket_create, name='ticket_create'),#Crear tickets
