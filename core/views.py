@@ -1,4 +1,5 @@
 from functools import wraps
+import json
 from multiprocessing import context
 import os
 from django.http import HttpResponse, JsonResponse
@@ -433,7 +434,7 @@ def ticket_create(request, table_id):
             attachment.ticket = ticket  # Asociar el archivo adjunto con el ticket
             attachment.save()
 
-            return redirect('index') 
+            return redirect('index')
     else:
         ticket_form = TicketForm()
         attachment_form = TicketAttachmentForm()
@@ -516,6 +517,25 @@ def crear_etiqueta(request):
     else:
         form = EtiquetaForm()
     return render(request, 'crear_etiqueta.html', {'form': form})"""
+@login_required
+def mover_ticket(request, ticket_id, table_id):
+    ticket = get_object_or_404(Ticket, pk=ticket_id)
+    nueva_tabla = get_object_or_404(Table, pk=table_id)
+    
+    if request.method == 'POST':
+        ticket.table = nueva_tabla
+        ticket.save()
+        return JsonResponse({'status': 'ok'})
+    
+    return JsonResponse({'status': 'error'}, status=400)
+def update_table_color(request, table_id):
+    if request.method == 'POST':
+        table = get_object_or_404(Table, id=table_id)
+        data = json.loads(request.body)
+        table.header_color = data.get('color', '#ffffff')
+        table.save()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'failed'}, status=400)
 
 
 #*************************************************** PROYECTOS ********************************************************#

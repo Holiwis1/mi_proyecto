@@ -169,7 +169,7 @@ class Notas(models.Model):
 #****************************** MODELO TABLA ******************************#
 class Table(models.Model):
     name = models.CharField(max_length=100)
-
+    header_color = models.CharField(max_length=7, default='#ffffff')
     def __str__(self):
         return self.name
 
@@ -179,7 +179,7 @@ class Ticket(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)  # Campo auto-completado
-
+    
     def __str__(self):
         return self.title
 

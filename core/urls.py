@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import crear_proyecto, lista_empleados, lista_proyectos, registro_cliente, registro_empleado
+from .views import crear_proyecto, lista_empleados, lista_proyectos, registro_cliente, registro_empleado, mover_ticket, update_table_color
 from django.contrib.auth.views import LoginView, LogoutView
 from . import views
 
@@ -52,5 +52,6 @@ urlpatterns = [
     path('tareas/', views.lista_tareas, name='lista_tareas'),
     path('tareas/<int:tarea_id>/editar', views.editar_tarea, name='editar_tarea'),
     path('tareas/<int:tarea_id>/eliminar', views.eliminar_tarea, name='eliminar_tarea'),
-   
+    path('mover_ticket/<int:ticket_id>/a_tabla/<int:table_id>/', mover_ticket, name='mover_ticket'),
+    path('update_table_color/<int:table_id>/', update_table_color, name='update_table_color'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
