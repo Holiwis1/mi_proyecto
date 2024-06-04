@@ -140,9 +140,6 @@ def perfil_empleado(request, empleado_id):
     return render(request, 'core/perfil_empleado.html', context={'empleado': empleado, 'form': form, 'profile_image_url': profile_image_url})
 
 
-
-
-
 #Registrar un cliente
 @login_required
 @admin_required
@@ -353,39 +350,6 @@ def eliminar_archivo(request, archivo_id):
     return HttpResponse("Método no permitido", status=405)
 
 
-#TICKET_FORM
-@login_required
-def crear_actualizar_ticket(request):
-    if request.method == 'POST':
-        # Lógica para manejar los datos del formulario
-        form = TicketForm(request.POST, request.FILES)
-        if form.is_valid():
-            # Procesar el formulario aquí
-            
-            # Manejar archivo adjunto si está presente
-            archivo_adjunto = request.FILES.get('archivo_adjunto')
-            if archivo_adjunto:
-                fs = FileSystemStorage()
-                filename = fs.save(archivo_adjunto.name, archivo_adjunto)
-                # Puedes almacenar el nombre del archivo en la base de datos si es necesario
-
-            # Cambiar el nombre del archivo si se proporciona uno nuevo
-            nuevo_nombre_archivo = request.POST.get('nuevo_nombre_archivo')
-            if nuevo_nombre_archivo and archivo_adjunto:
-                # Lógica para cambiar el nombre del archivo adjunto
-                old_path = fs.path(filename)
-                new_path = fs.path(nuevo_nombre_archivo)
-                os.rename(old_path, new_path)
-
-            # Redirigir a alguna página de éxito o renderizar otro template
-            return redirect('pagina_exito')
-
-    else:
-        form = TicketForm()
-    
-    return render(request, 'ticket_form.html', {'form': form})
-
-
 #TRELLO
 @login_required
 def crear_tabla(request):
@@ -453,38 +417,21 @@ def upload_attachment(request):
     return render(request, 'upload_attachment.html', {'form': form})
 
 #Actualizar ticket 
-"""@login_required
-def ticket_update(request, ticket_id):
-    attachment_form = TicketAttachmentForm(request.POST, request.FILES)
-    ticket = get_object_or_404(Ticket, pk=ticket_id)
-    if request.method == 'POST':
-        form = TicketForm(request.POST, instance=ticket)
-        if form.is_valid():
-            form.save()
-            return redirect('index')
-    else:
-        # Aquí, asegúrate de pasar el ticket existente al formulario
-        form = TicketForm(instance=ticket)
-    return render(request, 'core/ticket_form.html', {'form': form})"""
-
-
-
 @login_required
 def ticket_update(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
 
     if request.method == 'POST':
         ticket_form = TicketForm(request.POST, instance=ticket)
-        attachment_form = TicketAttachmentForm(request.POST, request.FILES)
-        if ticket_form.is_valid() and attachment_form.is_valid():
+        if ticket_form.is_valid():
             # Guardar el formulario del ticket actualizado
             ticket = ticket_form.save()
 
-            # Guardar el formulario del archivo adjunto
-            attachment = attachment_form.save(commit=False)
-            attachment.ticket = ticket  # Asociar el archivo adjunto con el ticket
-            attachment.save()
-           
+            # Guardar los archivos adjuntos
+            files = request.FILES.getlist('file')
+            for file in files:
+                attachment = TicketAttachment(ticket=ticket, file=file)
+                attachment.save()
 
             return redirect('index')
     else:
@@ -492,7 +439,11 @@ def ticket_update(request, ticket_id):
         attachments = TicketAttachment.objects.filter(ticket=ticket)
         attachment_form = TicketAttachmentForm()  # Formulario para nuevos archivos adjuntos
 
-    return render(request, 'core/ticket_form.html', {'ticket_form': ticket_form, 'attachment_form': attachment_form, 'attachments': attachments})
+    return render(request, 'core/ticket_form.html', {
+        'ticket_form': ticket_form,
+        'attachment_form': attachment_form,
+        'attachments': attachments
+    })
 
 
 @login_required
