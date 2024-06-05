@@ -430,8 +430,10 @@ def ticket_update(request, ticket_id):
             # Guardar los archivos adjuntos
             files = request.FILES.getlist('file')
             for file in files:
-                attachment = TicketAttachment(ticket=ticket, file=file)
-                attachment.save()
+                # Verificar si el archivo ya existe en la base de datos para evitar duplicados
+                if not TicketAttachment.objects.filter(ticket=ticket, file=file.name).exists():
+                    attachment = TicketAttachment(ticket=ticket, file=file)
+                    attachment.save()
 
             return redirect('index')
     else:

@@ -106,17 +106,18 @@
                 <textarea name="description" id="id_description" class="form-control" rows="4" placeholder="Descripción del ticket">{{ ticket_form.instance.description }}</textarea>
             </div>
             <div class="form-group">
-                <label for="id_file">Archivo adjunto:</label>
+                <label for="id_file">Archivos adjuntos:</label>
                 <div class="drop-area" id="drop-area">
                     Arrastra y suelta tus archivos aquí o haz clic para seleccionar
                     <input type="file" name="file" id="id_file" class="form-control" multiple style="display: none;">
                 </div>
-                <div class="preview-container" id="preview-container"></div>
+                <div class="preview-container" id="preview-container">
+                    <!-- Mostrar imágenes ya cargadas -->
+                    {% for attachment in attachments %}
+                        <img src="{{ attachment.file.url }}" alt="Archivo adjunto" class="preview-image existing-image">
+                    {% endfor %}
+                </div>
             </div>
-            <!-- Mostrar imágenes ya cargadas -->
-            {% for attachment in attachments %}
-                <img src="{{ attachment.file.url }}" alt="Archivo adjunto" class="preview-image">
-            {% endfor %}
             <button type="submit" class="btn btn-primary">Guardar</button>
         </form>
     </div>
@@ -151,18 +152,19 @@
             });
 
             function handleFiles(files) {
-                allFiles = [...allFiles, ...files];
+                const newFiles = [...files];
+                allFiles.push(...newFiles);
                 updatePreview();
             }
 
             function updatePreview() {
-                previewContainer.innerHTML = '';
+                previewContainer.querySelectorAll('.new-preview').forEach(element => element.remove());
                 allFiles.forEach(file => {
                     const reader = new FileReader();
                     reader.onload = (e) => {
                         const img = document.createElement('img');
                         img.src = e.target.result;
-                        img.classList.add('preview-image');
+                        img.classList.add('preview-image', 'new-preview');
                         previewContainer.appendChild(img);
                     };
                     reader.readAsDataURL(file);
