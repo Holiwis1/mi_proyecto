@@ -212,6 +212,7 @@ class Archivo(models.Model):
 class Etiqueta(models.Model):
     name = models.CharField(max_length=100)
     color = models.CharField(max_length=7, default='#007bff')
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
