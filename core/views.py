@@ -23,87 +23,45 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage
 
-
+# ********************************************** EMPLEADOS****************************************************
 # Mostrar la lista de empleados
 @login_required
 @admin_required
 def lista_empleados(request):
-    # Obtener todos los empleados y ordenarlos por un campo (por ejemplo, id)
+    """
+    Muestra una lista de empleados con opciones de búsqueda y paginación.
+    """
     empleados = Empleado.objects.order_by('id')
-
-    # Obtener el nombre ingresado en el formulario de búsqueda
     nombre_busqueda = request.GET.get('search')
 
-    # Filtrar empleados por nombre si se ingresó un valor en el formulario
+    # Filtrar empleados por el término de búsqueda
     if nombre_busqueda:
-        # Utilizando Q para hacer la consulta con OR lógico
         empleados = empleados.filter(
-            Q(first_name__icontains=nombre_busqueda) |  # Buscar por primer nombre
-            Q(last_name__icontains=nombre_busqueda) |   # Buscar por apellido
-            Q(rol__icontains=nombre_busqueda) |         # Buscar por rol
-            Q(telefono__icontains=nombre_busqueda) |    # Buscar por teléfono
-            Q(fecha_nacimiento__icontains=nombre_busqueda) |  # Buscar por fecha de nacimiento
-            Q(direccion__icontains=nombre_busqueda) |   # Buscar por dirección
-            Q(num_seguridad_social__icontains=nombre_busqueda) | # Buscar por número de seguridad social
-            Q(fecha_alta__icontains=nombre_busqueda) | # Buscar por fecha de alta
-            Q(email__icontains=nombre_busqueda) | # Buscar por email
-            Q(username__icontains=nombre_busqueda)  # Buscar por nombre completo (primer nombre + apellido)
+            Q(first_name__icontains=nombre_busqueda) |  # Primer nombre
+            Q(last_name__icontains=nombre_busqueda) |   # Apellido
+            Q(rol__icontains=nombre_busqueda) |         # Rol
+            Q(telefono__icontains=nombre_busqueda) |    # Teléfono
+            Q(fecha_nacimiento__icontains=nombre_busqueda) |  # Fecha de nacimiento
+            Q(direccion__icontains=nombre_busqueda) |   # Dirección
+            Q(num_seguridad_social__icontains=nombre_busqueda) | # Número de seguridad social
+            Q(fecha_alta__icontains=nombre_busqueda) | # Fecha de alta
+            Q(email__icontains=nombre_busqueda) |      # Email
+            Q(username__icontains=nombre_busqueda)     # Nombre de usuario
         )
 
-    # Crear un objeto Paginator con los empleados y mostrar 10 por página
     paginator = Paginator(empleados, 10)
-    
-    # Obtener el número de página desde la URL, por defecto es 1
     page_number = request.GET.get('page', 1)
-
-    # Obtener la página actual
     page_obj = paginator.get_page(page_number)
 
-    # Renderizar la plantilla con la página actual de empleados
     return render(request, 'core/lista_empleados.html', {'page_obj': page_obj})
 
 
 
-#listado de clientes ordenado por id
-@login_required
-@admin_required
-def lista_clientes(request):
-    #Ordenar clientes por id
-    clientes = Cliente.objects.all().order_by('id')
-    
-    #Obtener el nombre ingresado en el formulario de búsqueda
-    cliente_busqueda = request.GET.get('search')
-    
-    #Filtracion de clientes por lo que se ingrese
-    if cliente_busqueda:
-        clientes = clientes.filter(
-            Q(nombre__icontains=cliente_busqueda) |  # Buscar por nombre
-            Q(nombre_comercial__icontains=cliente_busqueda) |   # Buscar por nombre comercial
-            Q(nif__icontains=cliente_busqueda) |   # Buscar por NIF
-            Q(razon_social__icontains=cliente_busqueda) |   # Buscar por razón social
-            Q(tipo__icontains=cliente_busqueda) |   # Buscar por tipo
-            Q(telefono__icontains=cliente_busqueda) |   # Buscar por teléfono
-            Q(direccion__icontains=cliente_busqueda) |   # Buscar por dirección
-            Q(email__icontains=cliente_busqueda) |   # Buscar por email
-            Q(notas__icontains=cliente_busqueda) |   # Buscar por notas
-            Q(descripcion__icontains=cliente_busqueda) |   # Buscar por descripción
-            Q(web__icontains=cliente_busqueda) |  # Buscar por web
-            Q(telefono2__icontains=cliente_busqueda)  # Buscar por segundo teléfono
-        )
-
-    paginator = Paginator(clientes, 20)
-    page_number = request.GET.get('page', 1)
-    page_obj = paginator.get_page(page_number)
-    return render(request, 'core/lista_clientes.html', {'page_obj': page_obj})
-
-
-#ruta no encontrada errores
-def handler404(request, exception):
-    return render(request, 'core/error.html')
-
-
 #registro de usuario/empleados
 def registro_empleado(request):
+    """
+    Registra un nuevo empleado.
+    """
     if request.method == 'POST':
         form = EmpleadoSignUpForm(request.POST, request.FILES)
         if form.is_valid():
@@ -118,32 +76,140 @@ def registro_empleado(request):
 
 
 
-
 #mostrar el perfil de un empleado, con informacion como imagen, nombre, apellido, email, etc
 @login_required
 def perfil_empleado(request, empleado_id):
+    """
+    Muestra el perfil de un empleado con opción de cambiar la foto.
+    """
     empleado = get_object_or_404(Empleado, pk=empleado_id)
 
     if request.method == 'POST':
         form = EmpleadoCambiarFoto(request.POST, request.FILES, instance=empleado)
         if form.is_valid():
             form.save()
-            # Aquí, puedes redirigir a alguna página, por ejemplo, la página de perfil del empleado.
             return redirect('perfil_empleado', empleado_id=empleado.id)
     else:
-        # Inicializa el formulario con la instancia de 'empleado' para los casos GET.
         form = EmpleadoCambiarFoto(instance=empleado)
 
-    # Obtener la URL de la imagen del perfil del empleado
     profile_image_url = empleado.foto.url if empleado.foto else None
 
     return render(request, 'core/perfil_empleado.html', context={'empleado': empleado, 'form': form, 'profile_image_url': profile_image_url})
+
+#Descargar PDF con la foto del DNI de un empleado
+@login_required
+def descargar_pdf(request, empleado_id):
+    """
+    Descarga un PDF con la foto del DNI de un empleado.
+    """
+    empleado = Empleado.objects.get(pk=empleado_id)
+    buffer = io.BytesIO()
+    pdf = canvas.Canvas(buffer, pagesize=letter)
+
+    # Agregar imagen en el header
+    header_image_path = 'https://navegatel.org/wp-content/uploads/2022/08/logo-navegatel-grande.webp'
+    pdf.drawImage(header_image_path, 0, letter[1] - (0.5 * inch), width=letter[0], height=0.5 * inch, preserveAspectRatio=True, anchor='sw')
+
+    # Agregar imágenes del DNI al PDF
+    if empleado.foto_dni:
+        image_data = ImageReader(empleado.foto_dni.path)
+        pdf.drawImage(image_data, 150, 400, width=300, height=250)
+    if empleado.foto_dni2:
+        image_data2 = ImageReader(empleado.foto_dni2.path)
+        pdf.drawImage(image_data2, 150, 100, width=300, height=250)
+
+    pdf.setTitle(f"Foto DNI - {empleado.get_full_name()}")
+    pdf.showPage()
+    pdf.save()
+
+    buffer.seek(0)
+    response = FileResponse(buffer, as_attachment=True, filename=f"foto_dni_{empleado.get_full_name()}.pdf")
+    return response
+
+#Eliminar empleado, recibo su id, elimino y refresco pagina
+@login_required
+@admin_required
+def eliminar_empleado(request, empleado_id):
+    """
+    Elimina un empleado.
+    """
+    empleado = Empleado.objects.get(pk=empleado_id)
+    empleado.delete()
+    return redirect('lista_empleados')
+
+
+#Editar información de empleado
+@login_required
+@admin_required
+def editar_empleado(request, empleado_id):
+    """
+    Edita la información de un empleado.
+    """
+    empleado = get_object_or_404(Empleado, pk=empleado_id)
+    if request.method == 'POST':
+        form = EmpleadoEditarForm(request.POST, request.FILES, instance=empleado)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_empleados')
+    else:
+        form = EmpleadoEditarForm(instance=empleado)
+    
+    return render(request, 'core/editar_empleado.html', {'form': form})
+
+
+
+
+
+#listado de clientes ordenado por id
+@login_required
+@admin_required
+def lista_clientes(request):
+    """
+    Muestra una lista de clientes con opciones de búsqueda y paginación.
+    """
+    clientes = Cliente.objects.order_by('id')
+    cliente_busqueda = request.GET.get('search')
+
+    if cliente_busqueda:
+        clientes = clientes.filter(
+            Q(nombre__icontains=cliente_busqueda) |          # Nombre
+            Q(nombre_comercial__icontains=cliente_busqueda) | # Nombre comercial
+            Q(nif__icontains=cliente_busqueda) |             # NIF
+            Q(razon_social__icontains=cliente_busqueda) |    # Razón social
+            Q(tipo__icontains=cliente_busqueda) |            # Tipo
+            Q(telefono__icontains=cliente_busqueda) |        # Teléfono
+            Q(direccion__icontains=cliente_busqueda) |       # Dirección
+            Q(email__icontains=cliente_busqueda) |           # Email
+            Q(notas__icontains=cliente_busqueda) |           # Notas
+            Q(descripcion__icontains=cliente_busqueda) |     # Descripción
+            Q(web__icontains=cliente_busqueda) |             # Web
+            Q(telefono2__icontains=cliente_busqueda)         # Segundo teléfono
+        )
+
+    paginator = Paginator(clientes, 20)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'core/lista_clientes.html', {'page_obj': page_obj})
+
+
+#*************************************ERRORES*****************************
+#ruta no encontrada errores
+def handler404(request, exception):
+    """
+    Muestra una página de error personalizada.
+    """
+    return render(request, 'core/error.html')
+
 
 
 #Registrar un cliente
 @login_required
 @admin_required
 def registro_cliente(request):
+    """
+    Registra un nuevo cliente.
+    """
     if request.method == 'POST':
         form = ClienteForm(request.POST)
         if form.is_valid():
@@ -155,77 +221,22 @@ def registro_cliente(request):
     return render(request, 'core/registro_cliente.html', {'form': form})
     
 
-
-#Descargar PDF con la foto del DNI de un empleado
-@login_required
-def descargar_pdf(request, empleado_id):
-    empleado = Empleado.objects.get(pk=empleado_id)
-
-    # Crear un archivo PDF en memoria
-    buffer = io.BytesIO()
-    pdf = canvas.Canvas(buffer, pagesize=letter)
-
-    # Agregar imagen en el header
-    header_image_path = 'https://navegatel.org/wp-content/uploads/2022/08/logo-navegatel-grande.webp'
-    pdf.drawImage(header_image_path, 0, letter[1] - (0.5 * inch), width=letter[0], height=0.5 * inch, preserveAspectRatio=True, anchor='sw')
-
-    # Agregar la primera imagen al PDF
-    if empleado.foto_dni:
-        image_data = ImageReader(empleado.foto_dni.path)
-        pdf.drawImage(image_data, 150, 400, width=300, height=250)
-
-    # Agregar la segunda imagen al PDF
-    if empleado.foto_dni2:
-        image_data2 = ImageReader(empleado.foto_dni2.path)
-        pdf.drawImage(image_data2, 150, 100, width=300, height=250)
-
-    pdf.setTitle(f"Foto DNI - {empleado.get_full_name()}")
-    pdf.showPage()
-    pdf.save()
-
-    # Configurar la respuesta para descargar el PDF
-    buffer.seek(0)
-    response = FileResponse(buffer, as_attachment=True, filename=f"foto_dni_{empleado.get_full_name()}.pdf")
-    return response
-
-
-
-#Eliminar empleado, recibo su id, elimino y refresco pagina
-@login_required
-@admin_required
-def eliminar_empleado(request, empleado_id):
-    empleado = Empleado.objects.get(pk=empleado_id)
-    empleado.delete()
-    return redirect('lista_empleados')
-
-
-#Editar información de empleado
-@login_required
-@admin_required
-def editar_empleado(request, empleado_id):
-    empleado = get_object_or_404(Empleado, pk=empleado_id)
-    if request.method == 'POST':
-        form = EmpleadoEditarForm(request.POST, request.FILES, instance=empleado)
-        if form.is_valid():
-            form.save()
-            return redirect('lista_empleados')  # Asume que tienes una URL nombrada 'lista_empleados'
-    else:
-        form = EmpleadoEditarForm(instance=empleado)
-    
-    return render(request, 'core/editar_empleado.html', {'form': form})
-
+# ********************************************** CLIENTES****************************************************
 
 #Editar información de cliente
 @login_required
 @admin_required
 def editar_cliente(request, cliente_id):
+    """
+    Edita la información de un cliente.
+    """
     cliente = get_object_or_404(Cliente, pk=cliente_id)
     if request.method == 'POST':
         form = ClienteEditarForm(request.POST, instance=cliente)
         if form.is_valid():
             form.save()
             messages.success(request, 'Cliente actualizado con éxito.')
-            return redirect('lista_clientes')  
+            return redirect('lista_clientes')
     else:
         form = ClienteEditarForm(instance=cliente)
     
@@ -237,6 +248,9 @@ def editar_cliente(request, cliente_id):
 @login_required
 @admin_required
 def eliminar_cliente(request, cliente_id):
+    """
+    Elimina un cliente.
+    """
     cliente = Cliente.objects.get(pk=cliente_id)
     cliente.delete()
     return redirect('lista_clientes')
@@ -246,12 +260,18 @@ def eliminar_cliente(request, cliente_id):
 @login_required
 @admin_required
 def perfil_cliente(request, cliente_id):
+    """
+    Muestra el perfil de un cliente.
+    """
     cliente = get_object_or_404(Cliente, id=cliente_id)
     return render(request, 'core/perfil_cliente.html', {'cliente': cliente})
 
 #Descargar archivos
 @login_required
 def descargar_archivos(request, archivo_id):
+    """
+    Descarga un archivo asociado a un cliente.
+    """
     archivo = get_object_or_404(Archivo, id=archivo_id)
     file_path = archivo.archivo.path
     return FileResponse(open(file_path, 'rb'))
@@ -259,6 +279,9 @@ def descargar_archivos(request, archivo_id):
 #guardar archivos
 @login_required
 def guardar_archivos(request):
+    """
+    Guarda archivos asociados a un cliente.
+    """
     if request.method == 'POST':
         cliente_id = request.POST.get('cliente_id')
         files = request.FILES.getlist('files[]')
@@ -269,24 +292,16 @@ def guardar_archivos(request):
             return JsonResponse({'error': 'Cliente no encontrado'}, status=404)
 
         for file in files:
-            fs = FileSystemStorage()  # usar el sistema de almacenamiento de archivos de Django
-            filename = fs.save(file.name, file)  # guardar el archivo
-            file_url = fs.url(filename)  # obtener la URL del archivo
-
-            # Crear y guardar la instancia del modelo Archivo
+            fs = FileSystemStorage()
+            filename = fs.save(file.name, file)
             Archivo.objects.create(cliente=cliente, archivo=filename)
 
-        # Obtener todos los archivos para el cliente y devolverlos
         archivos_cliente = cliente.archivos.all()
-        archivos_info = [{
-            'name': archivo.archivo.name, 
-            'url': archivo.archivo.url
-        } for archivo in archivos_cliente]
+        archivos_info = [{'name': archivo.archivo.name, 'url': archivo.archivo.url} for archivo in archivos_cliente]
 
         return JsonResponse({'files': archivos_info})
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
-
 
 #Editar nombre archivo
 @login_required
@@ -350,7 +365,7 @@ def eliminar_archivo(request, archivo_id):
     return HttpResponse("Método no permitido", status=405)
 
 
-#TRELLO
+# ********************************************** TRELLO ****************************************************
 @login_required
 def crear_tabla(request):
     if request.method == 'POST':
@@ -490,8 +505,10 @@ def update_table_color(request, table_id):
         return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'failed'}, status=400)
 
+def my_view(request):
+    return render(request, 'core/index.html')
 
-#*************************************************** PROYECTOS ********************************************************#
+# ********************************************** PROYECTOS****************************************************
 #Crear proyectos
 @login_required
 @admin_required
