@@ -2,6 +2,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <title>{% block title %}Empleado-Navegatel{% endblock %}</title>
 {% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css\perfil_empleado.css' %}">
     <div class="container">
        
         <form action="" method="post" enctype="multipart/form-data">
@@ -34,134 +36,7 @@
         </form>
     </div>
 
-    <style>
-        /* Estilos anteriores aquí */
-
-        /* Estilos para el contenedor del perfil del empleado */
-        #perfil-empleado-container {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 9999;
-            background: #fff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            max-width: 90%;
-            width: 900px;
-            display: none;
-        }
-
-        /* Estilos para el botón de cerrar el perfil */
-        #cerrar-perfil {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-        }
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .profile-card {
-            max-width: 400px;
-            width: 100%;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            text-align: center;
-        }
-
-        .profile-header {
-            position: relative;
-            margin-bottom: 20px;
-            overflow: hidden;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-
-        .profile-img {
-            display: block;
-            margin: 0 auto;
-            width: 120px;
-            height: 120px;
-            overflow: hidden;
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        #profile-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .edit-profile-img {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            width: 24px; /* Ancho de la imagen del ícono */
-            height: 24px; /* Altura de la imagen del ícono */
-            cursor: pointer;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .profile-header:hover .profile-img {
-            filter: grayscale(100%);
-        }
-
-        .profile-header:hover .edit-profile-img {
-            opacity: 1;
-        }
-
-        .profile-name {
-            margin: 0;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .profile-role {
-            color: #666;
-            margin: 5px 0;
-            font-size: 16px;
-        }
-
-        .profile-email,
-        .profile-phone {
-            color: #888;
-            margin: 5px 0;
-            font-size: 14px;
-        }
-
-        /* Estilos para la imagen del lápiz al pasar el ratón por el contenedor */
-        .edit-profile-hover {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            background-color: rgba(255, 255, 255, 0.8);
-        }
-
-        .profile-header:hover .edit-profile-hover {
-            display: flex;
-        }
-
-        .hover-icon {
-            width: 50px; /* Tamaño de la imagen del lápiz al pasar el ratón */
-            height: 50px; /* Tamaño de la imagen del lápiz al pasar el ratón */
-        }
-    </style>
+  
     <script>
         // Función para abrir el explorador de archivos al hacer clic en la imagen
         document.getElementById('profile-img').addEventListener('click', function() {

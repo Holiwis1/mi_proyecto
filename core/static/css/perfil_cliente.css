@@ -1,0 +1,80 @@
+  /* Estilos para el área de soltar archivos */
+  #drop-area {
+    border: 2px dashed #007bff;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#drop-area.highlight {
+    background-color: #f0f0f0;
+}
+
+/* Estilos para el botón de seleccionar archivos */
+.button {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Estilos para la tarjeta */
+.card-header {
+    background-color: #007bff;
+    color: white;
+}
+
+.card {
+    border: none;
+}
+
+/* Estilos para la lista de archivos */
+#file-list {
+    margin-top: 10px;
+}
+
+.file-item a {
+    display: inline-block; /* Asegura que el ancho máximo se aplique correctamente */
+    max-width: 310px; /* Ajusta esto según el ancho deseado */
+    text-overflow: ellipsis; /* Añade puntos suspensivos al texto que desborde */
+    white-space: normal; /* Permite que el texto envuelva en múltiples líneas */
+    overflow: hidden; /* Oculta el texto que desborde */
+    margin-right: 10px; /* Añade espacio entre el enlace y los botones */
+}
+
+.file-item p {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.file-item button {
+    margin-left: 10px;
+}
+
+.file-item {
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    background-color: #f0f0f0; /* Color de fondo */
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.file-item:hover {
+    background-color: #e0e0e0; /* Color de fondo al pasar el mouse */
+}
+
+.botones {
+    display: flex;
+    justify-content: flex-end;  
+    gap: 10px; 
+}
+
+
