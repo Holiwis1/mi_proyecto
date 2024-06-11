@@ -366,6 +366,30 @@ def eliminar_archivo(request, archivo_id):
 
 
 # ********************************************** TRELLO ****************************************************
+@csrf_exempt
+def mover_tabla(request, table_id):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        new_position = data.get('new_position')
+
+        table = get_object_or_404(Table, id=table_id)
+        tables = list(Table.objects.all())
+
+        # Remove the table from its current position
+        tables.remove(table)
+        # Insert the table at the new position
+        tables.insert(new_position, table)
+
+        # Update the position for each table in the new list
+        for index, table in enumerate(tables):
+            table.position = index
+            table.save()
+
+        return JsonResponse({'status': 'success'})
+
+    return JsonResponse({'status': 'fail'}, status=400)
+
+
 @login_required
 def crear_tabla(request):
     if request.method == 'POST':

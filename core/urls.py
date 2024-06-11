@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import crear_proyecto, lista_empleados, lista_proyectos, registro_cliente, registro_empleado, mover_ticket, update_table_color
+from .views import crear_proyecto, lista_empleados, lista_proyectos, mover_tabla, registro_cliente, registro_empleado, mover_ticket, update_table_color
 from django.contrib.auth.views import LoginView, LogoutView
 from . import views
 
@@ -41,6 +41,7 @@ urlpatterns = [
     path('table/<int:table_id>/ticket/create/', views.ticket_create, name='ticket_create'),#Crear tickets
     path('ticket/<int:ticket_id>/update/', views.ticket_update, name='ticket_update'),#actualizar tickets
     path('ticket/<int:ticket_id>/delete/', views.ticket_delete, name='ticket_delete'),#eliminar tickets
+    path('mover_tabla/<int:table_id>/', mover_tabla, name='mover_tabla'),
 
 #****************************** PROYECTOS Y TAREAS ******************************#
     path('proyectos/crear/', views.crear_proyecto, name='crear_proyecto'),
