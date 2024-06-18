@@ -9,6 +9,7 @@
 
 <div class="container">
     <h2><i class="fas fa-tasks"></i> Detalles del Proyecto</h2>
+    
     <form method="post">
         {% csrf_token %}
         <div class="form-group">
@@ -31,14 +32,7 @@
             <label for="id_num_acuerdo"><i class="fas fa-list-ol"></i> Número de Acuerdo:</label>
             <input type="number" class="form-control" id="id_num_acuerdo" name="num_acuerdo" value="{{ proyecto.num_acuerdo }}">
         </div>
-        <div class="form-group">
-            <label for="id_cliente">Cliente:</label>
-            <select class="form-control" id="id_cliente" name="cliente">
-                {% for client in clientes %}
-                    <option value="{{ client.id }}" {% if form.instance.cliente and form.instance.cliente.id == client.id %}selected{% endif %}>{{ client }}</option>
-                {% endfor %}
-            </select>
-        </div>
+       
         <div class="form-group">
             <label for="id_prioridad"><i class="fas fa-exclamation-circle"></i> Prioridad:</label>
             <select class="form-control" id="id_prioridad" name="prioridad">

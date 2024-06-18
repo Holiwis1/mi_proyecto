@@ -10,6 +10,13 @@
 <link rel="stylesheet" href="{% static 'css\proyecto.css' %}">
 <a href="{% url 'crear_proyecto' %}" class="btn btn-primary register-btn">Crear Proyecto</a>
 <h1 class="text-center">Lista de Proyectos</h1>
+<form method="GET" class="mb-4">
+    <div class="form-group">
+        <label for="search">Buscar en proyectos:</label>
+        <input type="text" class="form-control" id="search" name="search" placeholder="Nombre, Descripción, Fechas, ...">
+    </div>
+    <button type="submit" class="btn btn-primary">Buscar</button>
+    <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'lista_clientes' %}'">Limpiar</button>
 <div class="proyectos-lista">
     <div class="datagrid">
         <table class="proyectos-table">
