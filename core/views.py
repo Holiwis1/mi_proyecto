@@ -565,17 +565,26 @@ def crear_proyecto(request):
 @login_required
 @admin_required
 def lista_proyectos(request):
+    """
+    Muestra una lista de proyectos con opciones de búsqueda y paginación.
+    """
     proyecto_list = Proyecto.objects.all()
-    paginator = Paginator(proyecto_list, 10)  # Mostrar 10 proyectos por página
+    proyecto_busqueda = request.GET.get('search')
 
-    page_number = request.GET.get('page')
+    if proyecto_busqueda:
+        proyecto_list = proyecto_list.filter(
+            Q(nombre__icontains=proyecto_busqueda) |
+            Q(descripcion__icontains=proyecto_busqueda) |
+            Q(cliente__nombre__icontains=proyecto_busqueda) |
+            Q(tipo__icontains=proyecto_busqueda)
+        )
+
+    paginator = Paginator(proyecto_list, 10)  # Mostrar 10 proyectos por página
+    page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
 
-    for proyecto in page_obj:
-        empleados = proyecto.empleados.all()
-        proyecto.quinto_empleado = len(empleados) >= 5
-
     return render(request, 'core/proyectos.html', {'page_obj': page_obj, 'proyectos': page_obj.object_list})
+   
 
 
 #Editar un proyecto

@@ -15,8 +15,8 @@
         <label for="search">Buscar en proyectos:</label>
         <input type="text" class="form-control" id="search" name="search" placeholder="Nombre, Descripción, Fechas, ...">
     </div>
-    <button type="submit" class="btn btn-primary">Buscar</button>
-    <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'lista_clientes' %}'">Limpiar</button>
+    <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'lista_proyectos' %}'">Limpiar</button>
+</form>
 <div class="proyectos-lista">
     <div class="datagrid">
         <table class="proyectos-table">
@@ -160,6 +160,21 @@
         });
     });
 </script>
+<script>
+    document.getElementById('search').addEventListener('keyup', function() {
+        const searchValue = this.value;
 
+        // Realizar una solicitud AJAX al servidor
+        fetch(`{% url 'lista_proyectos' %}?search=${searchValue}`)
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newTable = doc.querySelector('.proyectos-container').innerHTML;
+                document.querySelector('.proyectos-container').innerHTML = newTable;
+            })
+            .catch(error => console.error('Error al cargar los proyectos:', error));
+    });
+</script>
 
 {% endblock %}
