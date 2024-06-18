@@ -193,6 +193,7 @@ def lista_clientes(request):
     return render(request, 'core/lista_clientes.html', {'page_obj': page_obj})
 
 
+
 #*************************************ERRORES*****************************
 #ruta no encontrada errores
 def handler404(request, exception):
@@ -644,12 +645,27 @@ def crear_tarea(request):
 @login_required
 @admin_required
 def lista_tareas(request):
+    """
+    Muestra una lista de tareas con opciones de búsqueda y paginación.
+    """
     tareas = Tareas.objects.order_by('id')
-    paginator = Paginator(tareas, 5)
+    tarea_busqueda = request.GET.get('search')
+
+    if tarea_busqueda:
+        tareas = tareas.filter(
+            Q(nombre__icontains=tarea_busqueda) |
+            Q(descripcion__icontains=tarea_busqueda) |
+            Q(proyecto__nombre__icontains=tarea_busqueda) |
+            Q(cliente__nombre__icontains=tarea_busqueda) |
+            Q(empleado__first_name__icontains=tarea_busqueda) |
+            Q(empleado__last_name__icontains=tarea_busqueda)
+        )
+
+    paginator = Paginator(tareas, 10)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
-    return render(request, 'core/lista_tareas.html', {'page_obj': page_obj})
 
+    return render(request, 'core/lista_tareas.html', {'page_obj': page_obj})
 
 #Editar TAREAS
 @login_required

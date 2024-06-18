@@ -148,7 +148,7 @@ class Tareas(models.Model):
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, null=True, blank=True)
     prioridad = models.CharField(max_length=120, choices=PRIORIDAD_CHOICES, default='sin_prioridad', null=True, blank=True)
     estado = models.CharField(max_length=120, choices=ESTADOS_CHOICES, default='pendiente', null=True, blank=True)
-    Cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True, blank=True)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, default=1)
     empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
