@@ -14,12 +14,36 @@
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-      
     />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    {% block content %}
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css\index.css' %}">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    {% block content %} {% load static %}
+    <style>
+      body {
+        font-family: "Lucida Console", "Courier New", monospace;
+        background-color: #0079bf;
+        font-size: 80%;
+        margin: 0;
+        height: 100vh;
+        overflow-y: hidden;
+      }
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("{% static 'css/logo-navegatel-grande-black-Photoroom.png' %}")
+          no-repeat center center;
+        background-size: contain;
+        opacity: 0.6;
+        z-index: -1;
+      }
+    </style>
+    <link rel="stylesheet" href="{% static 'css\index.css' %}" />
   </head>
   <body>
     <header class="masthead">
@@ -45,7 +69,6 @@
             </h1>
           </div>
         </div>
-
         <div class="user-settings">
           <button
             id="crear-tabla-btn"
@@ -112,21 +135,33 @@
         ondrop="dropTable(event)"
         data-table-id="{{ table.id }}"
       >
-        <div class="card-header" style="background-color: {{ table.header_color }};">
+        <div
+          class="card-header"
+          style="background-color: {{ table.header_color }};"
+        >
           <span>{{ table.name }}</span>
           <a href="#" class="delete-table" data-table-id="{{ table.id }}">
             <div class="dropdown">
               <i class="fas fa-list"></i>
               <div class="dropdown-content">
                 <i class="desple_tabla">ELIMINAR</i>
-                <a href="#" class="change-color" data-table-id="{{ table.id }}" onclick="openColorModal(event, {{ table.id }})">
+                <a
+                  href="#"
+                  class="change-color"
+                  data-table-id="{{ table.id }}"
+                  onclick="openColorModal(event, {{ table.id }})"
+                >
                   <i class="fa-solid fa-palette"></i>
                 </a>
               </div>
             </div>
           </a>
         </div>
-        <div class="card-body" ondragover="allowDrop(event)" ondrop="drop(event, {{ table.id }})">
+        <div
+          class="card-body"
+          ondragover="allowDrop(event)"
+          ondrop="drop(event, {{ table.id }})"
+        >
           <ul class="list-group">
             {% for ticket in table.tickets.all %}
             <li
@@ -165,11 +200,15 @@
                 >
                   <i class="fas fa-trash-alt"></i>
                 </a>
-                <button onclick="openEtiquetaModal({{ ticket.id }})" class="btn btn-primary">Añadir Etiqueta</button>
+                <button
+                  onclick="openEtiquetaModal({{ ticket.id }})"
+                  class="btn btn-primary"
+                >
+                  Añadir Etiqueta
+                </button>
               </div>
             </li>
-            {% empty %}
-            {% endfor %}
+            {% empty %} {% endfor %}
           </ul>
           <form method="post" action="{% url 'ticket_create' table.id %}">
             {% csrf_token %} {{ ticket_form.as_p }}
@@ -178,12 +217,16 @@
         </div>
       </div>
       {% endfor %}
-      <div class="mb-3 card" style="background-color: transparent; border: none">
-        <button id="crear-tabla-btn-2" type="button" class="add-list-btn btn">Crear Tabla</button>
+      <div
+        class="mb-3 card"
+        style="background-color: transparent; border: none"
+      >
+        <button id="crear-tabla-btn-2" type="button" class="add-list-btn btn">
+          Crear Tabla
+        </button>
       </div>
     </section>
-    
-    
+
     <!-- Botón de redirección -->
     <div class="redirect-button-container">
       <button
@@ -194,7 +237,7 @@
         Página de inicio
       </button>
     </div>
-    
+
     <!-- Modal para crear tabla -->
     <div id="crear-tabla-modal" class="modal">
       <div class="modal-content">
@@ -205,7 +248,6 @@
           action="{% url 'crear_tabla' %}"
         >
           {% csrf_token %}
-    
           <input
             type="text"
             name="name"
@@ -214,30 +256,39 @@
             id="id_name"
             placeholder="Escriba el nombre de la tabla"
           />
-    
           <button type="submit" class="btn btn-primary">Crear</button>
         </form>
       </div>
     </div>
-    
+
     <div id="ticketModal" class="modal">
       <div class="modal-content">
-          <div id="ticketContent">
-              <div class="description-row">
-                  <img src="https://cdn-icons-png.flaticon.com/128/5956/5956597.png" alt="Icono de descripción" width="48" height="48" style="float: left; margin-right: 10px" />
-                  <h4>Descripción:</h4>
-              </div>
-              <div id="ticketDescription"></div>
-              <div id="ticketAttachments">
-                <button onclick="addAttachment()">Añadir</button>
-                <input type="text" id="newAttachment" placeholder="Escribe algo...">
-                <button onclick="addAttachment()">Añadir</button>
-                <ul id="attachmentList"></ul>
-            </div>
+        <div id="ticketContent">
+          <div class="description-row">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/5956/5956597.png"
+              alt="Icono de descripción"
+              width="48"
+              height="48"
+              style="float: left; margin-right: 10px"
+            />
+            <h4>Descripción:</h4>
           </div>
+          <div id="ticketDescription"></div>
+          <div id="ticketAttachments">
+            <button onclick="addAttachment()">Añadir</button>
+            <input
+              type="text"
+              id="newAttachment"
+              placeholder="Escribe algo..."
+            />
+            <button onclick="addAttachment()">Añadir</button>
+            <ul id="attachmentList"></ul>
+          </div>
+        </div>
       </div>
-  </div>
-    
+    </div>
+
     <!-- Modal para confirmación de eliminación -->
     <div id="confirmModal" class="modal-confirm">
       <div class="modal-content-confirm">
@@ -250,13 +301,15 @@
       </div>
     </div>
     <div id="colorModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeColorModal()">&times;</span>
-            <h3>Selecciona un color</h3>
-            <input type="color" id="colorPicker">
-            <button class="btn btn-primary" onclick="changeHeaderColor()">Cambiar Color</button>
-        </div>
-    </div> 
+      <div class="modal-content">
+        <span class="close" onclick="closeColorModal()">&times;</span>
+        <h3>Selecciona un color</h3>
+        <input type="color" id="colorPicker" />
+        <button class="btn btn-primary" onclick="changeHeaderColor()">
+          Cambiar Color
+        </button>
+      </div>
+    </div>
     <!-- Modal para añadir etiqueta -->
     <div id="añadir-etiqueta-modal" class="modal">
       <div class="modal-content">
@@ -275,215 +328,228 @@
             class="form-control my-custom-class"
             required
           />
-          <button type="button" onclick="añadirEtiqueta()" class="btn btn-primary">Añadir</button>
+          <button
+            type="button"
+            onclick="añadirEtiqueta()"
+            class="btn btn-primary"
+          >
+            Añadir
+          </button>
         </form>
       </div>
     </div>
-    
+
     <!-- Enlaza Bootstrap JS y Popper.js (para algunos componentes de Bootstrap) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!--Funciones para rotar los tickets y las tablas de posición-->
     <script>
-      
- // Manejo de arrastrar y soltar para tickets
-let draggedTicket = null;
+      // Manejo de arrastrar y soltar para tickets
+      let draggedTicket = null;
 
-function drag(event) {
-    draggedTicket = event.target;
-    event.dataTransfer.effectAllowed = 'move';
-    event.dataTransfer.setData('text/html', draggedTicket.innerHTML);
-    event.dataTransfer.setDragImage(event.target, 20, 20);
-}
+      function drag(event) {
+        draggedTicket = event.target;
+        event.dataTransfer.effectAllowed = "move";
+        event.dataTransfer.setData("text/html", draggedTicket.innerHTML);
+        event.dataTransfer.setDragImage(event.target, 20, 20);
+      }
 
-function allowDrop(event) {
-    event.preventDefault();
-}
+      function allowDrop(event) {
+        event.preventDefault();
+      }
 
-function drop(event, tableId) {
-    event.preventDefault();
-    event.stopPropagation();
-    if (draggedTicket) {
-        const ticketId = draggedTicket.getAttribute('data-ticket-id');
+      function drop(event, tableId) {
+        event.preventDefault();
+        event.stopPropagation();
+        if (draggedTicket) {
+          const ticketId = draggedTicket.getAttribute("data-ticket-id");
 
-        // Hacer una solicitud AJA X para actualizar la tabla del ticket
-        fetch(`/mover_ticket/${ticketId}/a_tabla/${tableId}/`, {
-            method: 'POST',
+          // Hacer una solicitud AJA X para actualizar la tabla del ticket
+          fetch(`/mover_ticket/${ticketId}/a_tabla/${tableId}/`, {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken')
-            }
-        }).then(response => {
-            if (response.ok) {
+              "Content-Type": "application/json",
+              "X-CSRFToken": getCookie("csrftoken"),
+            },
+          })
+            .then((response) => {
+              if (response.ok) {
                 // Mover el ticket en el DOM
-                const targetList = event.target.closest('.card-body').querySelector('.list-group');
+                const targetList = event.target
+                  .closest(".card-body")
+                  .querySelector(".list-group");
                 targetList.appendChild(draggedTicket);
 
                 // Añadir la clase de animación
-                draggedTicket.classList.add('drop-animate');
+                draggedTicket.classList.add("drop-animate");
 
                 // Eliminar la clase de animación después de que termine la animación
                 setTimeout(() => {
-                    draggedTicket.classList.remove('drop-animate');
+                  draggedTicket.classList.remove("drop-animate");
                 }, 500); // Duración de la animación en milisegundos
-            } else {
-                console.error('Error al mover el ticket.');
-            }
-        }).catch(error => {
-            console.error('Error:', error);
-        });
-    }
-}
+              } else {
+                console.error("Error al mover el ticket.");
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        }
+      }
 
-// Manejo de arrastrar y soltar para tablas
-let draggedCard = null;
+      // Manejo de arrastrar y soltar para tablas
+      let draggedCard = null;
+      function dragTable(event) {
+        draggedCard = event.target;
+        event.dataTransfer.setData("text/html", event.target.outerHTML);
+        event.dataTransfer.effectAllowed = "move";
+      }
 
-function dragTable(event) {
-    draggedCard = event.target;
-    event.dataTransfer.setData('text/html', event.target.outerHTML);
-    event.dataTransfer.effectAllowed = 'move';
-}
+      function allowDrop(event) {
+        event.preventDefault();
+      }
 
-function allowDrop(event) {
-    event.preventDefault();
-}
+      function dropTable(event) {
+        event.preventDefault();
+        event.stopPropagation();
 
-function dropTable(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    
-    if (!draggedCard) return;
+        if (!draggedCard) return;
 
-    const targetCard = event.target.closest('.card');
-    const scrollingWrapper = event.target.closest('.scrolling-wrapper');
+        const targetCard = event.target.closest(".card");
+        const scrollingWrapper = event.target.closest(".scrolling-wrapper");
 
-    if (targetCard && targetCard !== draggedCard) {
-        scrollingWrapper.insertBefore(draggedCard, targetCard);
-    } else {
-        scrollingWrapper.appendChild(draggedCard);
-    }
+        if (targetCard && targetCard !== draggedCard) {
+          scrollingWrapper.insertBefore(draggedCard, targetCard);
+        } else {
+          scrollingWrapper.appendChild(draggedCard);
+        }
 
-    draggedCard = null;
-}
+        draggedCard = null;
+      }
 
-// Función para obtener la cookie CSRF
-function getCookie(name) {
-    let cookieValue = null;
-    
-}
+      // Función para obtener la cookie CSRF
+      function getCookie(name) {
+        let cookieValue = null;
+      }
     </script>
-
-
 
     <script>
       function addAttachment() {
         var newAttachment = document.getElementById("newAttachment").value;
         if (newAttachment.trim() === "") {
-            return;
+          return;
         }
         var attachmentList = document.getElementById("attachmentList");
         var li = document.createElement("li");
         li.textContent = newAttachment;
-        li.onclick = function() {
-            this.parentNode.removeChild(this);
+        li.onclick = function () {
+          this.parentNode.removeChild(this);
         };
         attachmentList.appendChild(li);
         document.getElementById("newAttachment").value = "";
-    }
+      }
     </script>
-<!--funcion para crear etiquetas pero aun si BD-->
+    <!--funcion para crear etiquetas pero aun si BD-->
     <script>
       function añadirEtiqueta() {
-        var nombre = document.getElementById('nombre-etiqueta').value;
-        var color = document.getElementById('color-etiqueta').value;
-      
-        var etiqueta = document.createElement('span');
+        var nombre = document.getElementById("nombre-etiqueta").value;
+        var color = document.getElementById("color-etiqueta").value;
+
+        var etiqueta = document.createElement("span");
         etiqueta.style.backgroundColor = color;
         etiqueta.textContent = nombre;
-      
-        var modal = document.getElementById('añadir-etiqueta-modal');
-        var ticketId = modal.getAttribute('data-ticket-id'); // Obtén el ID del ticket almacenado en el modal
-      
-        var ticket = document.querySelector(`[data-ticket-id='${ticketId}'] .ticket-content`); // Encuentra el ticket correcto usando el ID
-        var etiquetasContainer = ticket.querySelector('.etiquetas-container'); // Encuentra el contenedor de etiquetas dentro del ticket
+
+        var modal = document.getElementById("añadir-etiqueta-modal");
+        var ticketId = modal.getAttribute("data-ticket-id"); // Obtén el ID del ticket almacenado en el modal
+
+        var ticket = document.querySelector(
+          `[data-ticket-id='${ticketId}'] .ticket-content`
+        ); // Encuentra el ticket correcto usando el ID
+        var etiquetasContainer = ticket.querySelector(".etiquetas-container"); // Encuentra el contenedor de etiquetas dentro del ticket
         etiquetasContainer.appendChild(etiqueta); // Añade la etiqueta al contenedor de etiquetas
-      
+
         // Cierra el modal después de añadir la etiqueta
         modal.style.display = "none";
       }
-      
+
       function openEtiquetaModal(ticketId) {
-        var modal = document.getElementById('añadir-etiqueta-modal');
-        modal.setAttribute('data-ticket-id', ticketId); // Guarda el ID del ticket en el modal
+        var modal = document.getElementById("añadir-etiqueta-modal");
+        modal.setAttribute("data-ticket-id", ticketId); // Guarda el ID del ticket en el modal
         modal.style.display = "block";
       }
-      
-      document.querySelector('#añadir-etiqueta-modal .close').addEventListener('click', function() {
-        document.getElementById('añadir-etiqueta-modal').style.display = "none";
-      });
-      
+
+      document
+        .querySelector("#añadir-etiqueta-modal .close")
+        .addEventListener("click", function () {
+          document.getElementById("añadir-etiqueta-modal").style.display =
+            "none";
+        });
     </script>
 
     <script>
-        // Variables para almacenar el ID de la tabla y el encabezado seleccionado
-// Variables para almacenar el ID de la tabla y el encabezado seleccionado
-let selectedTableId;
-let selectedHeader;
+      // Variables para almacenar el ID de la tabla y el encabezado seleccionado
+      // Variables para almacenar el ID de la tabla y el encabezado seleccionado
+      let selectedTableId;
+      let selectedHeader;
+      // Función para abrir el modal de color
+      function openColorModal(event, tableId) {
+        event.preventDefault();
+        selectedTableId = tableId;
+        selectedHeader = event.target
+          .closest(".card")
+          .querySelector(".card-header");
+        document.getElementById("colorModal").style.display = "block";
+      }
 
-// Función para abrir el modal de color
-function openColorModal(event, tableId) {
-    event.preventDefault();
-    selectedTableId = tableId;
-    selectedHeader = event.target.closest('.card').querySelector('.card-header');
-    document.getElementById('colorModal').style.display = 'block';
-}
+      // Función para cerrar el modal de color
+      function closeColorModal() {
+        document.getElementById("colorModal").style.display = "none";
+      }
 
-// Función para cerrar el modal de color
-function closeColorModal() {
-    document.getElementById('colorModal').style.display = 'none';
-}
+      // Función para cambiar el color del encabezado
+      function changeHeaderColor() {
+        const color = document.getElementById("colorPicker").value;
+        selectedHeader.style.backgroundColor = color;
+        closeColorModal();
 
-// Función para cambiar el color del encabezado
-function changeHeaderColor() {
-    const color = document.getElementById('colorPicker').value;
-    selectedHeader.style.backgroundColor = color;
-    closeColorModal();
-
-    // Enviar solicitud para actualizar el color en la base de datos
-    fetch(`/update_table_color/${selectedTableId}/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
-        },
-        body: JSON.stringify({ color: color })
-    }).then(response => {
-        if (!response.ok) {
-            console.error('Error al actualizar el color de la tabla.');
-        }
-    }).catch(error => {
-        console.error('Error:', error);
-    });
-}
-
-// Función para obtener la cookie CSRF
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
+        // Enviar solicitud para actualizar el color en la base de datos
+        fetch(`/update_table_color/${selectedTableId}/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie("csrftoken"),
+          },
+          body: JSON.stringify({ color: color }),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              console.error("Error al actualizar el color de la tabla.");
             }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+
+      // Función para obtener la cookie CSRF
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+          const cookies = document.cookie.split(";");
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+              cookieValue = decodeURIComponent(
+                cookie.substring(name.length + 1)
+              );
+              break;
+            }
+          }
         }
-    }
-    return cookieValue;
-}
+        return cookieValue;
+      }
     </script>
 
- 
     <script>
       // Código para manejar la confirmación de eliminación
       document.addEventListener("DOMContentLoaded", function () {
@@ -581,9 +647,6 @@ function getCookie(name) {
       });
     </script>
 
-  
-    
-
     <script>
       document.querySelectorAll(".ticket-title").forEach(function (title) {
         title.addEventListener("click", function () {
@@ -611,33 +674,33 @@ function getCookie(name) {
       const MAX_CHARACTERS_PER_LINE = 100;
       ticketTitles.forEach((title) => {
         title.addEventListener("click", function () {
-            const description = this.nextElementSibling.innerHTML;
-            const title_description = "Descripción: ";
-            let formattedDescription =
-                "<div class='description-container'><div class='title'>" +
-                title_description +
-                "</div>";
-    
-            // Agregar saltos de línea cada MAX_CHARACTERS_PER_LINE caracteres
-            for (
-                let i = 0;
-                i < description.length;
-                i += MAX_CHARACTERS_PER_LINE
-            ) {
-                formattedDescription +=
-                    description.substring(i, i + MAX_CHARACTERS_PER_LINE) + "<br>";
-            }
-    
-            formattedDescription += "</div>"; // Cerrar el contenedor de descripción
-            modalContent.innerHTML = formattedDescription;
-            modal.style.display = "block";
-    
-            // Aquí puedes agregar cualquier otra funcionalidad relacionada con el modal, como agregar el checklist
-            const attachmentList = document.getElementById("attachmentList");
-            attachmentList.innerHTML = ""; // Limpiar la lista al abrir el modal
+          const description = this.nextElementSibling.innerHTML;
+          const title_description = "Descripción: ";
+          let formattedDescription =
+            "<div class='description-container'><div class='title'>" +
+            title_description +
+            "</div>";
+
+          // Agregar saltos de línea cada MAX_CHARACTERS_PER_LINE caracteres
+          for (
+            let i = 0;
+            i < description.length;
+            i += MAX_CHARACTERS_PER_LINE
+          ) {
+            formattedDescription +=
+              description.substring(i, i + MAX_CHARACTERS_PER_LINE) + "<br>";
+          }
+
+          formattedDescription += "</div>"; // Cerrar el contenedor de descripción
+          modalContent.innerHTML = formattedDescription;
+          modal.style.display = "block";
+
+          // Aquí puedes agregar cualquier otra funcionalidad relacionada con el modal, como agregar el checklist
+          const attachmentList = document.getElementById("attachmentList");
+          attachmentList.innerHTML = ""; // Limpiar la lista al abrir el modal
         });
-    });
-    
+      });
+
       closeBtn.addEventListener("click", function () {
         modal.style.display = "none";
       });

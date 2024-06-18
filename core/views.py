@@ -186,7 +186,7 @@ def lista_clientes(request):
             Q(telefono2__icontains=cliente_busqueda)         # Segundo teléfono
         )
 
-    paginator = Paginator(clientes, 20)
+    paginator = Paginator(clientes, 5)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
 
