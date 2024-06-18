@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% block content %}
 <title>{% block title %}Proyecto-Navegatel{% endblock %}</title>
 {% endblock %}
@@ -7,7 +8,7 @@
 {{ block.super }}
 
 {% load static %}
-<link rel="stylesheet" href="{% static 'css\proyecto.css' %}">
+<link rel="stylesheet" href="{% static 'css/proyecto.css' %}">
 <a href="{% url 'crear_proyecto' %}" class="btn btn-primary register-btn">Crear Proyecto</a>
 <h1 class="text-center">Lista de Proyectos</h1>
 <form method="GET" class="mb-4">
@@ -18,7 +19,7 @@
     <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'lista_proyectos' %}'">Limpiar</button>
 </form>
 <div class="proyectos-lista">
-    <div class="datagrid">
+    <div class="datagrid proyectos-container">
         <table class="proyectos-table">
             <thead>
                 <tr>
@@ -118,48 +119,7 @@
         </table>
     </div>
 </div>
-<!-- Modal de empleados -->
 
-
-
-<!-- Agrega el script aquí -->
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const empleadosContainer = document.querySelectorAll(".foto-empleado-container");
-
-        empleadosContainer.forEach(container => {
-            container.addEventListener("click", function() {
-                const imagenesEmpleados = container.querySelectorAll(".foto-empleado");
-                const hiddenEmployeesCount = container.getAttribute("data-hidden-employees"); // Obtener el número de empleados ocultos
-                const modalBody = document.getElementById("lista-empleados");
-
-                // Limpiar el contenido anterior antes de agregar las nuevas imágenes
-                modalBody.innerHTML = '';
-
-                // Iterar sobre todas las imágenes de los empleados y agregarlas al modal
-                imagenesEmpleados.forEach(imagen => {
-                    const imgElement = document.createElement("img");
-                    imgElement.src = imagen.src;
-                    imgElement.alt = imagen.alt;
-                    imgElement.className = "foto-empleado-modal";
-                    modalBody.appendChild(imgElement);
-                });
-
-                // Si hay empleados ocultos, agregar sus imágenes al modal
-                for (let i = 0; i < hiddenEmployeesCount; i++) {
-                    const hiddenEmployee = document.querySelector(`.foto-empleado-hidden[data-index="${i}"]`);
-                    if (hiddenEmployee) {
-                        const imgElement = document.createElement("img");
-                        imgElement.src = hiddenEmployee.src;
-                        imgElement.alt = hiddenEmployee.alt;
-                        imgElement.className = "foto-empleado-modal";
-                        modalBody.appendChild(imgElement);
-                    }
-                }
-            });
-        });
-    });
-</script>
 <script>
     document.getElementById('search').addEventListener('keyup', function() {
         const searchValue = this.value;
