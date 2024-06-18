@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 <title>{% block title %}Tareas-Navegatel{% endblock %}</title>
 {% block content %}
 <div class="container">
@@ -20,7 +21,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for tarea in tareas %}
+            {% for tarea in page_obj %}
             <tr>
                 <td>{{ tarea.nombre }}</td>
                 <td>{{ tarea.descripcion }}</td>
@@ -41,6 +42,21 @@
             </tr>
             {% endfor %}
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="10">
+                    <div class="pagination">
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if num == page_obj.number %}
+                                <a href="?page={{ num }}" class="active">{{ num }}</a>
+                            {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:"3" %}
+                                <a href="?page={{ num }}">{{ num }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
     </table>
 </div>
 {% endblock %}

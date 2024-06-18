@@ -644,8 +644,11 @@ def crear_tarea(request):
 @login_required
 @admin_required
 def lista_tareas(request):
-    tareas = Tareas.objects.all()
-    return render(request, 'core/lista_tareas.html', {'tareas': tareas})
+    tareas = Tareas.objects.order_by('id')
+    paginator = Paginator(tareas, 5)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'core/lista_tareas.html', {'page_obj': page_obj})
 
 
 #Editar TAREAS
