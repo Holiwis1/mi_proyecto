@@ -60,7 +60,10 @@ class Cliente(models.Model):
     web = models.URLField(null=True, blank=True)
 
     def __str__(self):
-        return self.nombre + ' ' + self.nif
+        nombre = self.nombre or ''
+        nif = self.nif or ''
+        return f"{nombre} {nif}".strip()
+
         
 
 
