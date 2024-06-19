@@ -1,18 +1,14 @@
 /* Estilos para la tabla de empleados */
 .datagrid table {
-    border-collapse: collapse;
-    text-align: left;
     width: 100%;
-    margin: 20px auto; /* Espacio superior e inferior */
-    background-color: #f9f9f9; /* Color de fondo más claro */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra para darle profundidad */
+    border-collapse: collapse;
 }
 
 .datagrid table td,
 .datagrid table th {
-    padding: 12px 15px;
-    text-align: center;
-    border-bottom: 1px solid #ddd; /* Líneas divisorias más sutiles */
+    padding: 10px 15px;
+    text-align: left;
+    border-bottom: 3px solid #ddd; /* Líneas divisorias más sutiles */
 }
 
 .datagrid table thead th {
@@ -32,7 +28,7 @@
 }
 
 .datagrid table tbody tr:hover {
-    background-color: #f1f1f1; /* Color de fondo al pasar el cursor */
+    background-color: #d2424249; /* Color de fondo al pasar el cursor */
 }
 
 .datagrid table tbody td {
@@ -41,12 +37,6 @@
     vertical-align: middle; /* Alineación vertical */
 }
 
-.datagrid table tfoot td {
-    padding: 10px 15px;
-    background-color: #f1f1f1;
-    border-top: 2px solid #991821; /* Línea superior destacada */
-    text-align: right;
-}
 
 .datagrid table tfoot .pagination {
     display: flex;
@@ -75,14 +65,7 @@
     background-color: #9918219c;
 }
 
-.foto-empleado-modal {
-    width: 50px; /* Tamaño deseado para las imágenes */
-    height: 50px; /* Tamaño deseado para las imágenes */
-    border-radius: 50%; /* Hace que las imágenes sean redondas */
-    object-fit: cover; /* Ajusta la imagen dentro del contenedor */
-    margin-right: 5px; /* Espacio entre las imágenes */
-    margin-bottom: 5px; /* Espacio entre las imágenes */
-}
+
 
 .dropdown {
     position: relative;
@@ -103,14 +86,6 @@
     display: block;
 }
 
-.dropdown-content a {
-    color: #333;
-    padding: 10px 15px;
-    text-decoration: none;
-    display: block;
-    transition: background-color 0.3s;
-    border-bottom: 1px solid #ddd;
-}
 
 .dropdown-content a:last-child {
     border-bottom: none;
@@ -134,7 +109,7 @@
 
 .foto-empleado-container {
     position: relative;
-    display: flex; /* Añade flex para alinear las imágenes horizontalmente */
+    
     flex-wrap: nowrap; /* Evita que las imágenes se envuelvan a la siguiente línea */
 }
 

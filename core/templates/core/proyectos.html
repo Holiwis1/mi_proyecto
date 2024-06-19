@@ -56,15 +56,16 @@
                     <td>{{ proyecto.fecha_facturacion }}</td>
                     <td>{{ proyecto.num_factura }}</td>
                     <td>{{ proyecto.fecha_cobro_IVA }}</td>
-                    <td class="foto-empleado-container" data-toggle="modal" data-target="#modal-empleados">
+                    <td class="foto-empleado-container" data-toggle="modal" data-target="#modal-empleados"
+                        data-empleados='[{% for empleado in proyecto.empleados.all %}{"foto": "{% if empleado.foto %}{{ empleado.foto.url }}{% else %}https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s{% endif %}", "nombre": "{{ empleado.first_name }}"}{% if not forloop.last %},{% endif %}{% endfor %}]'>
                         {% for empleado in proyecto.empleados.all %}
-                        {% if forloop.counter <= 4 %}
-                            {% if empleado.foto %}
-                                <img class="foto-empleado" src="{{ empleado.foto.url }}" alt="Foto de perfil" data-id="{{ empleado.id }}" data-nombre="{{ empleado.nombre }}">
-                            {% else %}
-                                <img class="foto-empleado" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s" alt="Foto de perfil predeterminada" data-id="{{ empleado.id }}" data-nombre="{{ empleado.nombre }}">
+                            {% if forloop.counter <= 4 %}
+                                {% if empleado.foto %}
+                                    <img class="foto-empleado" src="{{ empleado.foto.url }}" alt="Foto de perfil" data-id="{{ empleado.id }}" data-nombre="{{ empleado.first_name }}">
+                                {% else %}
+                                    <img class="foto-empleado" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s" alt="Foto de perfil predeterminada" data-id="{{ empleado.id }}" data-nombre="{{ empleado.first_name }}">
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
                         {% endfor %}
                         {% if proyecto.empleados.count > 4 %}
                             <span class="contador-empleados">+{{ proyecto.empleados.count|add:"-4" }}</span>
@@ -102,7 +103,6 @@
 </div>
 
 <!-- Modal para empleados -->
-<!-- Modal para empleados -->
 <div class="modal fade" id="modal-empleados" tabindex="-1" role="dialog" aria-labelledby="modal-empleados-label" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -122,19 +122,18 @@
     </div>
 </div>
 
-
 <script>
     document.querySelectorAll('.foto-empleado-container').forEach(container => {
         container.addEventListener('click', function() {
-            const empleadoImgs = container.querySelectorAll('.foto-empleado');
+            const empleadosData = JSON.parse(container.getAttribute('data-empleados'));
             
             // Actualiza el contenido del modal
             const modalBody = document.getElementById('lista-empleados');
             modalBody.innerHTML = '';  // Limpia el contenido anterior
     
-            empleadoImgs.forEach(img => {
-                const empleadoFoto = img.src;
-                const empleadoNombre = img.getAttribute('data-nombre');
+            empleadosData.forEach(empleado => {
+                const empleadoFoto = empleado.foto;
+                const empleadoNombre = empleado.nombre;
     
                 // Crea un contenedor para cada imagen con nombre
                 const empleadoDiv = document.createElement('div');
@@ -145,7 +144,7 @@
                 empleadoImg.alt = `Foto de ${empleadoNombre}`;
                 empleadoImg.classList.add('img-fluid', 'empleado-img');
     
-                const empleadoName = document.createElement('p');
+                const empleadoName = document.createElement('div');
                 empleadoName.textContent = empleadoNombre;
     
                 empleadoDiv.appendChild(empleadoImg);
@@ -158,6 +157,7 @@
         });
     });
     
+    // Escucha el evento de teclado para la búsqueda
     document.getElementById('search').addEventListener('keyup', function() {
         const searchValue = this.value;
     
@@ -170,36 +170,36 @@
                 const newTable = doc.querySelector('.proyectos-container').innerHTML;
                 document.querySelector('.proyectos-container').innerHTML = newTable;
     
-                // Re-asignar eventos de clic a las nuevas imágenes de empleados
+                // Reasignar eventos de clic a las nuevas imágenes de empleados
                 document.querySelectorAll('.foto-empleado-container').forEach(container => {
                     container.addEventListener('click', function() {
-                        const empleadoImgs = container.querySelectorAll('.foto-empleado');
+                        const empleadosData = JSON.parse(container.getAttribute('data-empleados'));
                         
                         // Actualiza el contenido del modal
                         const modalBody = document.getElementById('lista-empleados');
                         modalBody.innerHTML = '';  // Limpia el contenido anterior
-    
-                        empleadoImgs.forEach(img => {
-                            const empleadoFoto = img.src;
-                            const empleadoNombre = img.getAttribute('data-nombre');
-    
+        
+                        empleadosData.forEach(empleado => {
+                            const empleadoFoto = empleado.foto;
+                            const empleadoNombre = empleado.nombre;
+        
                             // Crea un contenedor para cada imagen con nombre
                             const empleadoDiv = document.createElement('div');
                             empleadoDiv.classList.add('empleado-item');
-    
+        
                             const empleadoImg = document.createElement('img');
                             empleadoImg.src = empleadoFoto;
                             empleadoImg.alt = `Foto de ${empleadoNombre}`;
                             empleadoImg.classList.add('img-fluid', 'empleado-img');
-    
+        
                             const empleadoName = document.createElement('p');
                             empleadoName.textContent = empleadoNombre;
-    
+        
                             empleadoDiv.appendChild(empleadoImg);
                             empleadoDiv.appendChild(empleadoName);
                             modalBody.appendChild(empleadoDiv);
                         });
-    
+        
                         // Muestra el modal
                         $('#modal-empleados').modal('show');
                     });
@@ -207,7 +207,6 @@
             })
             .catch(error => console.error('Error al cargar los proyectos:', error));
     });
-    
 </script>
 
 {% endblock %}
