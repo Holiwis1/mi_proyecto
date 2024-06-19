@@ -7,9 +7,8 @@ User = get_user_model()
 #****************************** EMPLEADO ******************************#
 class EmpleadoSignUpForm(UserCreationForm):
     class Meta:
-        model = User
-        fields = UserCreationForm.Meta.fields + ('first_name', 'last_name', 'email', 'rol', 'telefono', 'telefono2', 'fecha_nacimiento', 'direccion', 'num_seguridad_social', 'foto', 'foto_dni','foto_dni', 'foto_dni2', 'fecha_alta')
-
+        model = Empleado
+        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'rol', 'telefono', 'telefono2', 'fecha_nacimiento', 'direccion', 'num_seguridad_social', 'foto', 'foto_dni', 'foto_dni2', 'fecha_alta')
         labels = {
             'username': 'Nombre de usuario',
             'first_name': 'Nombre',
@@ -22,8 +21,8 @@ class EmpleadoSignUpForm(UserCreationForm):
             'direccion': 'Dirección',
             'num_seguridad_social': 'Número de seguridad social',
             'foto': 'Foto',
-            'foto_dni': 'Foto del por delante',
-            'foto_dni2': 'Foto del dni por detras',
+            'foto_dni': 'Foto del DNI por delante',
+            'foto_dni2': 'Foto del DNI por detrás',
             'fecha_alta': 'Fecha de alta'
         }
         error_messages = {
@@ -37,17 +36,17 @@ class EmpleadoSignUpForm(UserCreationForm):
             'username': None,
         }
 
-        def __init__(self, *args, **kwargs):
-            super(EmpleadoSignUpForm, self).__init__(*args, **kwargs)
-            self.fields['email'].required = False
-            self.fields['rol'].required = False
-            self.fields['telefono'].required = False
-            self.fields['fecha_nacimiento'].required = False
-            self.fields['direccion'].required = False
-            self.fields['num_seguridad_social'].required = False
-            self.fields['foto'].required = False
-            self.fields['foto_dni'].required = False
-            self.fields['fecha_alta'].required = False
+    def __init__(self, *args, **kwargs):
+        super(EmpleadoSignUpForm, self).__init__(*args, **kwargs)
+        self.fields['email'].required = False
+        self.fields['rol'].required = False
+        self.fields['telefono'].required = False
+        self.fields['fecha_nacimiento'].required = False
+        self.fields['direccion'].required = False
+        self.fields['num_seguridad_social'].required = False
+        self.fields['foto'].required = False
+        self.fields['foto_dni'].required = False
+        self.fields['fecha_alta'].required = False
 
 
 

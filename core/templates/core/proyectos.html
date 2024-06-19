@@ -58,32 +58,13 @@
                     <td>{{ proyecto.fecha_cobro_IVA }}</td>
                     <td class="foto-empleado-container" data-toggle="modal" data-target="#modal-empleados">
                         {% for empleado in proyecto.empleados.all %}
-                        <div class="modal fade" id="modal-empleados" tabindex="-1" role="dialog" aria-labelledby="modal-empleados-label" aria-hidden="true">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="modal-empleados-label">Empleados</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body" id="lista-empleados">
-                                        <!-- Contenido del modal se agregará dinámicamente con JavaScript -->
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                            {% if forloop.counter <= 4 %}
-                                {% if empleado.foto %}
-                                    <img class="foto-empleado" src="{{ empleado.foto.url }}" alt="Foto de perfil">
-                                {% else %}
-                                    <img class="foto-empleado" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s" alt="Foto de perfil predeterminada">
-                                {% endif %}
-                                
+                        {% if forloop.counter <= 4 %}
+                            {% if empleado.foto %}
+                                <img class="foto-empleado" src="{{ empleado.foto.url }}" alt="Foto de perfil" data-id="{{ empleado.id }}" data-nombre="{{ empleado.nombre }}">
+                            {% else %}
+                                <img class="foto-empleado" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s" alt="Foto de perfil predeterminada" data-id="{{ empleado.id }}" data-nombre="{{ empleado.nombre }}">
                             {% endif %}
+                        {% endif %}
                         {% endfor %}
                         {% if proyecto.empleados.count > 4 %}
                             <span class="contador-empleados">+{{ proyecto.empleados.count|add:"-4" }}</span>
@@ -120,10 +101,66 @@
     </div>
 </div>
 
+<!-- Modal para empleados -->
+<!-- Modal para empleados -->
+<div class="modal fade" id="modal-empleados" tabindex="-1" role="dialog" aria-labelledby="modal-empleados-label" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-empleados-label">Empleados</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="lista-empleados">
+                <!-- Contenido del modal se agregará dinámicamente con JavaScript -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
+    document.querySelectorAll('.foto-empleado-container').forEach(container => {
+        container.addEventListener('click', function() {
+            const empleadoImgs = container.querySelectorAll('.foto-empleado');
+            
+            // Actualiza el contenido del modal
+            const modalBody = document.getElementById('lista-empleados');
+            modalBody.innerHTML = '';  // Limpia el contenido anterior
+    
+            empleadoImgs.forEach(img => {
+                const empleadoFoto = img.src;
+                const empleadoNombre = img.getAttribute('data-nombre');
+    
+                // Crea un contenedor para cada imagen con nombre
+                const empleadoDiv = document.createElement('div');
+                empleadoDiv.classList.add('empleado-item');
+    
+                const empleadoImg = document.createElement('img');
+                empleadoImg.src = empleadoFoto;
+                empleadoImg.alt = `Foto de ${empleadoNombre}`;
+                empleadoImg.classList.add('img-fluid', 'empleado-img');
+    
+                const empleadoName = document.createElement('p');
+                empleadoName.textContent = empleadoNombre;
+    
+                empleadoDiv.appendChild(empleadoImg);
+                empleadoDiv.appendChild(empleadoName);
+                modalBody.appendChild(empleadoDiv);
+            });
+    
+            // Muestra el modal
+            $('#modal-empleados').modal('show');
+        });
+    });
+    
     document.getElementById('search').addEventListener('keyup', function() {
         const searchValue = this.value;
-
+    
         // Realizar una solicitud AJAX al servidor
         fetch(`{% url 'lista_proyectos' %}?search=${searchValue}`)
             .then(response => response.text())
@@ -132,9 +169,45 @@
                 const doc = parser.parseFromString(html, 'text/html');
                 const newTable = doc.querySelector('.proyectos-container').innerHTML;
                 document.querySelector('.proyectos-container').innerHTML = newTable;
+    
+                // Re-asignar eventos de clic a las nuevas imágenes de empleados
+                document.querySelectorAll('.foto-empleado-container').forEach(container => {
+                    container.addEventListener('click', function() {
+                        const empleadoImgs = container.querySelectorAll('.foto-empleado');
+                        
+                        // Actualiza el contenido del modal
+                        const modalBody = document.getElementById('lista-empleados');
+                        modalBody.innerHTML = '';  // Limpia el contenido anterior
+    
+                        empleadoImgs.forEach(img => {
+                            const empleadoFoto = img.src;
+                            const empleadoNombre = img.getAttribute('data-nombre');
+    
+                            // Crea un contenedor para cada imagen con nombre
+                            const empleadoDiv = document.createElement('div');
+                            empleadoDiv.classList.add('empleado-item');
+    
+                            const empleadoImg = document.createElement('img');
+                            empleadoImg.src = empleadoFoto;
+                            empleadoImg.alt = `Foto de ${empleadoNombre}`;
+                            empleadoImg.classList.add('img-fluid', 'empleado-img');
+    
+                            const empleadoName = document.createElement('p');
+                            empleadoName.textContent = empleadoNombre;
+    
+                            empleadoDiv.appendChild(empleadoImg);
+                            empleadoDiv.appendChild(empleadoName);
+                            modalBody.appendChild(empleadoDiv);
+                        });
+    
+                        // Muestra el modal
+                        $('#modal-empleados').modal('show');
+                    });
+                });
             })
             .catch(error => console.error('Error al cargar los proyectos:', error));
     });
+    
 </script>
 
 {% endblock %}

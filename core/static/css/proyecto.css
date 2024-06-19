@@ -167,3 +167,22 @@
     max-width: 90%; /* Cambia este valor según tus necesidades */
     margin: 20px auto; /* Centra la tabla horizontalmente */
 }
+.empleado-item {
+    display: inline-block;
+    text-align: center;
+    margin: 10px;
+}
+
+.empleado-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#lista-empleados {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+

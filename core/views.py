@@ -59,19 +59,21 @@ def lista_empleados(request):
 
 #registro de usuario/empleados
 def registro_empleado(request):
-    """
-    Registra un nuevo empleado.
-    """
     if request.method == 'POST':
         form = EmpleadoSignUpForm(request.POST, request.FILES)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('index')
+            try:
+                user = form.save()
+                login(request, user)
+                messages.success(request, 'Empleado registrado exitosamente.')
+                return redirect('index')
+            except Exception as e:
+                messages.error(request, f'Error al registrar el usuario: {e}')
         else:
-            messages.error(request, 'Error al registrar el usuario')
+            messages.error(request, f'Error en el formulario: {form.errors}')
     else:
         form = EmpleadoSignUpForm()
+        messages.info(request, 'Formulario inicializado.')
     return render(request, 'core/registro_empleado.html', {'form': form})
 
 

@@ -8,8 +8,10 @@ from django.utils import timezone
 #****************************** EMPLEADO ******************************#
 
 #****************************** MODELO EMPLEADO ******************************#
+from django.contrib.auth.models import AbstractUser
+from django.db import models
+
 class Empleado(AbstractUser):
-    #Opciones de roles
     ROL_CHOICES = [
         ('admin', 'Administrador'),
         ('empleado', 'Empleado'),
