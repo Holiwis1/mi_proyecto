@@ -1,0 +1,37 @@
+/* Estilos para la tabla de empleados y modal */
+.empleado-item {
+    display: inline-block;
+    text-align: center;
+    margin: 10px;
+}
+
+.empleado-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white; /* Borde blanco */
+}
+
+#lista-empleados {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Estilos personalizados */
+.datagrid table tbody tr:hover .foto-empleado {
+    border-color: #ddd; /* Cambia el color del borde al pasar el cursor */
+}
+
+.datagrid table tbody .contador-empleados {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.datagrid table tbody .contador-empleados:hover {
+    background-color: #4CAF509c; /* Color de fondo al pasar el cursor */
+}
+.modal-body .empleado-item {
+    margin: 5px; /* Reducir el margen para imágenes en el modal */
+}

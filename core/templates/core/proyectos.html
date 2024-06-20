@@ -57,7 +57,7 @@
                     <td>{{ proyecto.num_factura }}</td>
                     <td>{{ proyecto.fecha_cobro_IVA }}</td>
                     <td class="foto-empleado-container" data-toggle="modal" data-target="#modal-empleados"
-                        data-empleados='[{% for empleado in proyecto.empleados.all %}{"foto": "{% if empleado.foto %}{{ empleado.foto.url }}{% else %}https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s{% endif %}", "nombre": "{{ empleado.first_name }}"}{% if not forloop.last %},{% endif %}{% endfor %}]'>
+                    data-empleados='[{% for empleado in proyecto.empleados.all %}{"foto": "{% if empleado.foto %}{{ empleado.foto.url }}{% else %}https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm_dZsN8bn3WWbdZwDETNzxrfISm5YtAklrSYlSunDsg&s{% endif %}", "nombre": "{{ empleado.first_name }}"}{% if not forloop.last %},{% endif %}{% endfor %}]'>
                         {% for empleado in proyecto.empleados.all %}
                             {% if forloop.counter <= 4 %}
                                 {% if empleado.foto %}

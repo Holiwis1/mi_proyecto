@@ -6,6 +6,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from . import views
 
 
+
 urlpatterns = [
     #***************************************La página de inicio será el TRELLO**************************************************
     path('', views.index, name='index'), 
