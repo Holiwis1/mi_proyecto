@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from .models import Cliente, Table, Ticket, Empleado, TicketAttachment, Proyecto, Tareas, Etiqueta
+from .models import Cliente, Table, Ticket, Empleado, TicketAttachment, Proyecto, Tareas, Tag
 #****************************** USUARIO ******************************#
 User = get_user_model()
 #****************************** EMPLEADO ******************************#
@@ -179,7 +179,7 @@ class TicketAttachmentForm(forms.ModelForm):
 
 class EtiquetaForm(forms.ModelForm):
     class Meta:
-        model = Etiqueta
+        model = Tag
         fields = ['name', 'color']
         widgets = {
             'color': forms.TextInput(attrs={'type': 'color'}),

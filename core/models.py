@@ -214,7 +214,7 @@ class Archivo(models.Model):
 
 
 #****************************** MODELO ETIQUETAS ******************************#
-class Etiqueta(models.Model):
+class Tag (models.Model):
     name = models.CharField(max_length=100)
     color = models.CharField(max_length=7, default='#007bff')
     created_at = models.DateTimeField(auto_now_add=True)
